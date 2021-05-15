@@ -15,9 +15,10 @@ import { ColorModeSwitcher } from './ColorModeSwitcher';
 function App() {
   useEffect(() => {
     const socket = io('http://localhost:5000');
+
     socket.on('server-client', msg => {
       alert(msg);
-      socket.emit('client-server', 'Client says hello!');
+      socket.emit('client-server', 'Client: Message received!');
     });
   }, []);
 
