@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { io } from 'socket.io-client';
 import {
   ChakraProvider,
   Box,
@@ -12,6 +13,14 @@ import {
 import { ColorModeSwitcher } from './ColorModeSwitcher';
 
 function App() {
+  useEffect(() => {
+    const socket = io('http://localhost:5000');
+    socket.on('server-client', msg => {
+      alert(msg);
+      socket.emit('client-server', 'Client says hello!');
+    });
+  }, []);
+
   return (
     <ChakraProvider theme={theme}>
       <Box textAlign="center" fontSize="xl">
