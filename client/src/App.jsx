@@ -16,9 +16,9 @@ function App() {
   useEffect(() => {
     const socket = io('http://localhost:5000');
 
-    socket.on('server-client', msg => {
+    socket.on('server_client', msg => {
+      socket.emit('client_server', { hello: 'world', json: 123 });
       alert(msg);
-      socket.emit('client-server', 'Client: Message received!');
     });
   }, []);
 
