@@ -36,4 +36,4 @@ def client_server(json_obj):
 
 
 if __name__ == '__main__':
-  socketio.run(app, host='localhost', port=os.environ.get('PORT'))
+  socketio.run(app, host='0.0.0.0', port=os.environ.get('PORT'))
