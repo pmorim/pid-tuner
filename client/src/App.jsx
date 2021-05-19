@@ -1,7 +1,18 @@
 import React, { useEffect } from 'react';
 import { io } from 'socket.io-client';
-import { ChakraProvider, Box, theme } from '@chakra-ui/react';
+
 import { Stepper, Step } from './components';
+import steps from './steps';
+
+import {
+  ChakraProvider,
+  Box,
+  theme,
+  Heading,
+  Text,
+  VStack,
+  Center,
+} from '@chakra-ui/react';
 
 function App() {
   useEffect(() => {
@@ -15,28 +26,26 @@ function App() {
 
   return (
     <ChakraProvider theme={theme}>
-      <Box textAlign="center" fontSize="xl" p={20}>
-        <Stepper>
-          <Step
-            title="Step 1"
-            desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget libero quis metus ullamcorper convallis. Integer bibendum erat tellus. Phasellus suscipit leo eget lectus sodales, in efficitur mauris fermentum. Donec gravida bibendum lorem."
-          >
-            <Box>test1</Box>
-          </Step>
-          <Step
-            title="Step 2"
-            desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget libero quis metus ullamcorper convallis. Integer bibendum erat tellus. Phasellus suscipit leo eget lectus sodales, in efficitur mauris fermentum. Donec gravida bibendum lorem."
-          >
-            <Box>test2</Box>
-          </Step>
-          <Step
-            title="Step 3"
-            desc="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget libero quis metus ullamcorper convallis. Integer bibendum erat tellus. Phasellus suscipit leo eget lectus sodales, in efficitur mauris fermentum. Donec gravida bibendum lorem."
-          >
-            <Box>test3</Box>
-          </Step>
-        </Stepper>
-      </Box>
+      <Center p={10}>
+        <VStack>
+          <Box mb={10}>
+            <Heading color="teal.200" as="h1" size="3xl">
+              PID Tuner
+            </Heading>
+            <Text color="gray.400" fontSize="3xl">
+              A simple way to tune your PID system
+            </Text>
+          </Box>
+
+          <Stepper>
+            {steps.map((step, idx) => (
+              <Step key={idx} title={step.title} desc={step.desc}>
+                {step.body}
+              </Step>
+            ))}
+          </Stepper>
+        </VStack>
+      </Center>
     </ChakraProvider>
   );
 }
