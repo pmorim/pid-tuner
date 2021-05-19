@@ -1,22 +1,30 @@
 import React from 'react';
 
-import { Heading, HStack, StackDivider, Text, VStack } from '@chakra-ui/layout';
+import {
+  Box,
+  Heading,
+  HStack,
+  Stack,
+  StackDivider,
+  Text,
+  VStack,
+} from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
 import { ArrowUpIcon } from '@chakra-ui/icons';
 
-const StepBody = ({ title, desc }) => (
-  <VStack w="50%" p={10}>
+const StepHeader = ({ title, desc }) => (
+  <Box w={{ base: '100%', lg: '35%' }} p={10}>
     <Heading as="h2" size="2xl" pb={5}>
       {title}
     </Heading>
     <Text align="left" fontSize="2xl">
       {desc}
     </Text>
-  </VStack>
+  </Box>
 );
 
 const StepNav = ({ buttonData }) => (
-  <HStack pt={20} align="flex-start">
+  <HStack pt={10} align="flex-start">
     {buttonData.canBack && (
       <Button colorScheme="teal" variant="ghost" onClick={buttonData.onBack}>
         Back
@@ -43,11 +51,9 @@ const StepNav = ({ buttonData }) => (
 
 function Step(props) {
   return (
-    <HStack
-      divider={<StackDivider borderColor="gray.200" borderWidth="0.1rem" />}
-    >
-      <StepBody title={props.title} desc={props.desc} />
-      <VStack w="50%" align="left" p={10}>
+    <Stack direction={{ base: 'column', lg: 'row' }} divider={<StackDivider />}>
+      <StepHeader title={props.title} desc={props.desc} />
+      <VStack align="left" p={10}>
         {props.children}
         <StepNav
           buttonData={{
@@ -58,7 +64,7 @@ function Step(props) {
           }}
         />
       </VStack>
-    </HStack>
+    </Stack>
   );
 }
 
