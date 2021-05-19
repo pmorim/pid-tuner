@@ -12,17 +12,6 @@ import {
 import { Button } from '@chakra-ui/button';
 import { ArrowUpIcon } from '@chakra-ui/icons';
 
-const StepHeader = ({ title, desc }) => (
-  <Box w={{ base: '100%', lg: '35%' }} p={10}>
-    <Heading as="h2" size="2xl" pb={5}>
-      {title}
-    </Heading>
-    <Text align="left" fontSize="2xl">
-      {desc}
-    </Text>
-  </Box>
-);
-
 const StepNav = ({ buttonData }) => (
   <HStack pt={10} align="flex-start">
     {buttonData.canBack && (
@@ -51,8 +40,17 @@ const StepNav = ({ buttonData }) => (
 
 function Step(props) {
   return (
-    <Stack direction={{ base: 'column', lg: 'row' }} divider={<StackDivider />}>
-      <StepHeader title={props.title} desc={props.desc} />
+    <Stack
+      w="75%"
+      direction={{ base: 'column', lg: 'row' }}
+      divider={<StackDivider />}
+    >
+      <Box w={{ base: '100%', lg: '50%' }} p={10}>
+        <Heading as="h2" size="xl" pb={5}>
+          {React.createElement(props.title)}
+        </Heading>
+        <Text fontSize="xl">{React.createElement(props.desc)}</Text>
+      </Box>
       <VStack align="left" p={10}>
         {props.children}
         <StepNav

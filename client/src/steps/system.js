@@ -1,3 +1,4 @@
+import MathJax from 'react-mathjax-preview';
 import { Center, HStack, VStack } from '@chakra-ui/layout';
 import { FormControl, FormLabel } from '@chakra-ui/form-control';
 import { Input, InputGroup, InputLeftAddon } from '@chakra-ui/input';
@@ -24,8 +25,16 @@ const ConstInput = ({ label }) => (
 );
 
 const system = {
-  title: "System's Model",
-  desc: "To be able to properly control the system, we need to know how the system behaves. Therefore we need to know the system's analytical model.",
+  title: () => "System's Model",
+  desc: () => (
+    <>
+      To be able to properly control the system, we need to know how the system
+      behaves. Therefore we need to know the system's analytical model. We
+      assume that it's a <b>first degree system with delay</b>, so we calculate
+      the model though the following formula:
+      <MathJax math={String.raw`$$G(s) = \frac{K}{\tau s+1} e^{-\tau_D s}$$`} />
+    </>
+  ),
 
   body: (
     <VStack spacing={10}>
