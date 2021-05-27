@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { io } from 'socket.io-client';
 
-import { Stepper, Step } from './components';
-import steps from './steps';
+// Custom components
+import { Stepper } from './components/Stepper';
+import { SystemStep, ControlStep, TuningStep } from './components/Steps';
 
+// Chakra-UI components
 import {
   ChakraProvider,
   Box,
@@ -14,6 +16,9 @@ import {
 } from '@chakra-ui/react';
 
 function App() {
+  /**
+   * Socket IO test
+   */
   useEffect(() => {
     const socket = io('http://localhost:5000');
 
@@ -25,8 +30,8 @@ function App() {
 
   return (
     <ChakraProvider theme={theme}>
-      <Flex direction="column" alignItems="center" w="100%" pt={10}>
-        <Box mb={10}>
+      <Flex direction="column" alignItems="center" w="100%">
+        <Box mb={10} mt={10}>
           <Heading color="teal.200" as="h1" size="3xl">
             PID Tuner
           </Heading>
@@ -36,11 +41,9 @@ function App() {
         </Box>
 
         <Stepper>
-          {steps.map((step, idx) => (
-            <Step key={idx} title={step.title} desc={step.desc}>
-              {step.body}
-            </Step>
-          ))}
+          <SystemStep />
+          <ControlStep />
+          <TuningStep />
         </Stepper>
       </Flex>
     </ChakraProvider>
