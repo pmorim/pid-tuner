@@ -14,9 +14,8 @@ load_dotenv(find_dotenv())
 
 # Utilities
 import numpy as np
-#import json
 
-# User Libraries
+# Custom Modules
 import server_funcs as servf
 
 # Server initialization
@@ -26,20 +25,23 @@ app.config['SECRET_KEY'] = os.environ.get('SECRET')
 socketio = SocketIO(app, cors_allowed_origins='*')
 CORS(app)
 
+
 @socketio.event
 def connect():
+  """Establishes a connection with the client."""
+
   print('\nConnection established with client')
   emit('server_client', "le test message")
 
 
 @socketio.event
-def client_server(data):
-  print("Received client_server event")
-  print(data)
-
-
-@socketio.event
 def system_model(data):
+  """Receives the data about the system's model
+
+  Args:
+    data (any): The constants that describe the system.
+  """
+
   print("\nReceived system_model event")
   print(data)
   global sys_model
@@ -49,6 +51,12 @@ def system_model(data):
 
 @socketio.event
 def controller_type(data):
+  """[summary]
+
+  Args:
+    data (any): [description]
+  """
+
   print("\nReceived controller_type")
   print(data)
   global contr_type
@@ -58,6 +66,12 @@ def controller_type(data):
 
 @socketio.event
 def sintony_method(data):
+  """[summary]
+
+  Args:
+    data (any): [description]
+  """
+
   print("\nReceived sintony_method event")
   print(data)
   global synt_met
@@ -67,6 +81,12 @@ def sintony_method(data):
 
 @socketio.event
 def k_consts(data):
+  """[summary]
+
+  Args:
+    data (any): [description]
+  """
+
   print("\nReceived k_consts event (pid_consts)")
   print(data)
   global pid_consts
@@ -74,7 +94,7 @@ def k_consts(data):
   k_consts_func()
 
 
-# Server functions # will go to seperate fille later
+# Server functions # will go to separate fille later
 
 # def system_model_func(sys_model): Already in server_funcs.py
 #   pass
