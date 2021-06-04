@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { io } from 'socket.io-client';
 
 // Custom components
