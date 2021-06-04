@@ -8,7 +8,7 @@ import { NextBtn, BackBtn } from '../Buttons';
 // Chakra-UI components
 import { Text } from '@chakra-ui/layout';
 
-export const ControlStep = ({ ...rest }) => {
+export const ControlStep = ({ socket, ...rest }) => {
   return (
     <Step {...rest}>
       <StepTitle>Control type</StepTitle>

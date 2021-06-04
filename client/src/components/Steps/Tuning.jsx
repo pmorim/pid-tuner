@@ -7,7 +7,7 @@ import { BackBtn, SubmitBtn } from '../Buttons';
 // Chakra-UI components
 import { Text } from '@chakra-ui/layout';
 
-export const TuningStep = ({ ...rest }) => {
+export const TuningStep = ({ socket, ...rest }) => {
   return (
     <Step {...rest}>
       <StepTitle>Tuning algorithm</StepTitle>

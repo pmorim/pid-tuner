@@ -16,17 +16,7 @@ import {
 } from '@chakra-ui/react';
 
 function App() {
-  /**
-   * Socket IO test
-   */
-  useEffect(() => {
-    const socket = io('http://localhost:5000');
-
-    socket.on('server_client', msg => {
-      socket.emit('client_server', { hello: 'world', json: 123 });
-      alert(msg);
-    });
-  }, []);
+  const socket = io('http://localhost:5000');
 
   return (
     <ChakraProvider theme={theme}>
@@ -41,9 +31,9 @@ function App() {
         </Box>
 
         <Stepper>
-          <SystemStep />
-          <ControlStep />
-          <TuningStep />
+          <SystemStep socket={socket} />
+          <ControlStep socket={socket} />
+          <TuningStep socket={socket} />
         </Stepper>
       </Flex>
     </ChakraProvider>
