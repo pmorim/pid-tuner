@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import MathJax from 'react-mathjax-preview';
+import { KInfo, tauInfo, tauDInfo } from './data/system';
 
 // Custom components
 import { Step, StepBody, StepDesc, StepNav, StepTitle } from '../Stepper';
@@ -10,30 +11,6 @@ import { SliderInput } from '../SliderInput';
 import { Center, Text } from '@chakra-ui/layout';
 import { FormControl, FormLabel } from '@chakra-ui/form-control';
 import { Button } from '@chakra-ui/button';
-
-const KInfo = {
-  label: 'K',
-  min: 0,
-  max: 100,
-  step: 1,
-  defaultValue: 50,
-};
-
-const tauInfo = {
-  label: 'τ',
-  min: 0,
-  max: 100,
-  step: 1,
-  defaultValue: 50,
-};
-
-const tauDInfo = {
-  label: 'τD',
-  min: 0,
-  max: 100,
-  step: 1,
-  defaultValue: 50,
-};
 
 export const SystemStep = ({ socket, ...rest }) => {
   const [k, setK] = useState(KInfo.defaultValue);
