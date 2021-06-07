@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { io } from 'socket.io-client';
 
 // Custom components
@@ -18,6 +18,9 @@ import {
 function App() {
   const socket = io('http://localhost:5000');
 
+  const [control, setControl] = useState('PID');
+  const [algorithm, setAlgorithm] = useState('Ziegler-Nichols');
+
   return (
     <ChakraProvider theme={theme}>
       <Flex direction="column" alignItems="center" w="100%">
@@ -32,8 +35,12 @@ function App() {
 
         <Stepper>
           <SystemStep socket={socket} />
-          <ControlStep socket={socket} />
-          <TuningStep socket={socket} />
+          <ControlStep socket={socket} state={{ control, setControl }} />
+          <TuningStep
+            socket={socket}
+            state={{ algorithm, setAlgorithm }}
+            control={control}
+          />
         </Stepper>
       </Flex>
     </ChakraProvider>

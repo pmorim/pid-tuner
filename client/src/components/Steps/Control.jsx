@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import MathJax from 'react-mathjax-preview';
 import { controlTypes } from './data/control';
 
@@ -24,8 +24,8 @@ import {
   Tr,
 } from '@chakra-ui/table';
 
-export const ControlStep = ({ socket, ...rest }) => {
-  const [control, setControl] = useState('PID');
+export const ControlStep = ({ socket, state, ...rest }) => {
+  const { control, setControl } = state;
 
   return (
     <Step {...rest}>
@@ -90,7 +90,7 @@ export const ControlStep = ({ socket, ...rest }) => {
 
       <StepNav>
         <BackBtn />
-        <NextBtn />
+        <NextBtn isDisabled={!control} />
       </StepNav>
     </Step>
   );
