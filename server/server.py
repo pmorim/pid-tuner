@@ -35,86 +35,34 @@ def connect():
 
 
 @socketio.event
-def system_model(data):
+def model(data):
   """Receives the data about the system's model
 
   Args:
     data (any): The constants that describe the system.
+    format: data = {"k": %f, "tau": %f, "tauD": %f}
   """
 
-  print("\nReceived system_model event")
+  print("\nReceived model event")
   print(data)
-  global sys_model
-  sys_model.update(data)
-  emit('system_model_response', servf.system_model_func(sys_model))
+  emit('model_response', servf.model_func(data))
 
 
 @socketio.event
-def controller_type(data):
+def control(data):
   """[summary]
 
   Args:
-    data (any): [description]
+    data (any): The constants that describe the system,
+                controller type and sintony method.
+    format: data = {"k": %f, "tau": %f, "tauD": %f,
+                    "type": %s, "method": %s}
   """
 
-  print("\nReceived controller_type")
+  print("\nReceived control event")
   print(data)
-  global contr_type
-  contr_type.update(data)
-  controller_type_func()
+  emit('control_response', servf.control_func(data))
 
-
-@socketio.event
-def sintony_method(data):
-  """[summary]
-
-  Args:
-    data (any): [description]
-  """
-
-  print("\nReceived sintony_method event")
-  print(data)
-  global synt_met
-  synt_met.update(data)
-  sintony_method_func()
-
-
-@socketio.event
-def k_consts(data):
-  """[summary]
-
-  Args:
-    data (any): [description]
-  """
-
-  print("\nReceived k_consts event (pid_consts)")
-  print(data)
-  global pid_consts
-  pid_consts.update(data)
-  k_consts_func()
-
-
-# Server functions # will go to separate fille later
-
-# def system_model_func(sys_model): Already in server_funcs.py
-#   pass
-
-def controller_type_func():
-  global contr_type
-
-def sintony_method_func():
-  global synt_met
-
-def k_consts_func():
-  global pid_consts
-  print(pid_consts)
-
-
-# Global variables by default
-sys_model = {"k": 1, "tau": 1, "tauD": 0, "A": 1, "t_max": 50, "res": 0.5}
-contr_type = {"type": "P"}
-synt_met = {"method": "name in string or val"}
-pid_consts = {"kp": 0, "kd": 0, "ki": 0}
 
 if __name__ == '__main__':
   socketio.run(app, host='0.0.0.0', port=os.environ.get('PORT'))
