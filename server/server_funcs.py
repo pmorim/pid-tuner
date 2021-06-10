@@ -15,14 +15,11 @@ def model_func(sys_model):
   k = float(sys_model["k"])
   tau = float(sys_model["tau"])
   tauD = float(sys_model["tauD"])
-
-  t_max = float(sys_model.get("t_max")) or 5*tau + tauD
-  res = float(sys_model.get("res")) or 0.5
-  A = float(sys_model.get("A")) or 1
+  t_max = float(sys_model.get("t_max") or 5*tau + tauD)
+  res = float(sys_model.get("res") or 0.5)
+  A = float(sys_model.get("A") or 1)
   
-
   size = int(t_max/res)
-  print(size)
 
 # only appending to data values >= 0, format = [{"x": x, "y", y}, ... ]
   data = []
