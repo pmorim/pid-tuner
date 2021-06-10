@@ -10,7 +10,7 @@ export const tauInfo = {
   label: 'τ',
   min: 0,
   max: 200,
-  step: 1,
+  step: 0.1,
   defaultValue: 100,
 };
 
