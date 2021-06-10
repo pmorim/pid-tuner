@@ -8,12 +8,19 @@ import { SystemStep, ControlStep, TuningStep } from './components/Steps';
 // Chakra-UI components
 import {
   ChakraProvider,
+  extendTheme,
   Box,
-  theme,
   Heading,
   Text,
   Flex,
 } from '@chakra-ui/react';
+
+const theme = extendTheme({
+  config: {
+    useSystemColorMode: false,
+    initialColorMode: 'dark',
+  },
+});
 
 function App() {
   const socket = io('http://localhost:5000');
