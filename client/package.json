@@ -7,17 +7,13 @@
     "@chakra-ui/react": "^1.6.1",
     "@emotion/react": "^11.4.0",
     "@emotion/styled": "^11.3.0",
-    "@testing-library/jest-dom": "^5.12.0",
-    "@testing-library/react": "^10.4.9",
-    "@testing-library/user-event": "^12.8.3",
     "framer-motion": "^4.1.16",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^3.11.0",
     "react-mathjax-preview": "^2.2.3",
     "react-scripts": "4.0.3",
-    "socket.io-client": "^4.1.1",
-    "web-vitals": "^0.2.4"
+    "socket.io-client": "^4.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
