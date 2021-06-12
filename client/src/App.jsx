@@ -1,19 +1,13 @@
 import React, { useState } from 'react';
-import { io } from 'socket.io-client';
+import { KInfo, tauInfo, tauDInfo } from './components/Steps/data/system';
 
 // Custom components
-import { Stepper } from './components/Stepper';
 import { SystemStep, ControlStep, TuningStep } from './components/Steps';
+import { Nav } from './components/Nav';
+import { Footer } from './components/Footer';
 
 // Chakra-UI components
-import {
-  ChakraProvider,
-  extendTheme,
-  Box,
-  Heading,
-  Text,
-  Flex,
-} from '@chakra-ui/react';
+import { ChakraProvider, extendTheme, Flex } from '@chakra-ui/react';
 
 const theme = extendTheme({
   config: {
@@ -23,32 +17,27 @@ const theme = extendTheme({
 });
 
 function App() {
-  const socket = io('http://localhost:5000');
-
+  // Control Type
   const [control, setControl] = useState('PID');
-  const [algorithm, setAlgorithm] = useState('Ziegler-Nichols');
+
+  // System Parameters
+  const [system, setSystem] = useState({
+    K: KInfo.defaultValue,
+    tau: tauInfo.defaultValue,
+    tauD: tauDInfo.defaultValue,
+  });
+  const updateSystem = param => setSystem({ ...system, ...param });
 
   return (
     <ChakraProvider theme={theme}>
-      <Flex direction="column" alignItems="center" w="100%">
-        <Box mb={10} mt={10}>
-          <Heading color="teal.200" as="h1" size="3xl">
-            PID Tuner
-          </Heading>
-          <Text color="gray.400" fontSize="3xl">
-            A simple way to tune your PID system
-          </Text>
-        </Box>
+      <Flex direction="column" alignItems="center">
+        <Nav />
 
-        <Stepper>
-          <SystemStep socket={socket} />
-          <ControlStep socket={socket} state={{ control, setControl }} />
-          <TuningStep
-            socket={socket}
-            state={{ algorithm, setAlgorithm }}
-            control={control}
-          />
-        </Stepper>
+        <SystemStep state={{ system, updateSystem }} />
+        <ControlStep state={{ control, setControl }} bgColor="gray.900" />
+        <TuningStep />
+
+        <Footer />
       </Flex>
     </ChakraProvider>
   );

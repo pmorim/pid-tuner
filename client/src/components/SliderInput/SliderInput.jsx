@@ -36,9 +36,9 @@ export const SliderInput = ({
       value={value}
       onChange={val => setValue(val)}
       focusThumbOnChange={false}
-      colorScheme="teal"
+      colorScheme="none"
     >
-      <SliderTrack>
+      <SliderTrack bgGradient="linear(to-r, cyan.700, purple.500)">
         <SliderFilledTrack />
       </SliderTrack>
       <SliderThumb />

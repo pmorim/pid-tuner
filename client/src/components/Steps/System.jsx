@@ -1,21 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import MathJax from 'react-mathjax-preview';
 import { KInfo, tauInfo, tauDInfo } from './data/system';
 
 // Custom components
-import { Step, StepBody, StepDesc, StepNav, StepTitle } from '../Stepper';
-import { NextBtn } from '../Buttons';
+import { Step, StepBody, StepDesc, StepTitle } from '../Step';
 import { SliderInput } from '../SliderInput';
 
 // Chakra-UI components
 import { Center, Text } from '@chakra-ui/layout';
 import { FormControl, FormLabel } from '@chakra-ui/form-control';
-import { Button } from '@chakra-ui/button';
 
-export const SystemStep = ({ socket, ...rest }) => {
-  const [k, setK] = useState(KInfo.defaultValue);
-  const [tau, setTau] = useState(tauInfo.defaultValue);
-  const [tauD, setTauD] = useState(tauDInfo.defaultValue);
+export const SystemStep = ({ state, ...rest }) => {
+  const { system, updateSystem } = state;
 
   return (
     <Step {...rest}>
@@ -37,36 +33,34 @@ export const SystemStep = ({ socket, ...rest }) => {
       </StepDesc>
 
       <StepBody>
-        <FormControl w="500px">
+        <FormControl w="100%">
           <FormLabel>System's Constants</FormLabel>
-          <SliderInput {...KInfo} value={k} setValue={setK} />
-          <SliderInput {...tauInfo} value={tau} setValue={setTau} />
-          <SliderInput {...tauDInfo} value={tauD} setValue={setTauD} />
+          <SliderInput
+            {...KInfo}
+            value={system.K}
+            setValue={x => updateSystem({ K: x })}
+          />
+          <SliderInput
+            {...tauInfo}
+            value={system.tau}
+            setValue={x => updateSystem({ tau: x })}
+          />
+          <SliderInput
+            {...tauDInfo}
+            value={system.tauD}
+            setValue={x => updateSystem({ tauD: x })}
+          />
         </FormControl>
 
         <Center
-          position="relative"
           w="100%"
           h="300px"
-          bg="teal.700"
+          bgGradient="linear(to-br, cyan.700, purple.500)"
           fontSize="4xl"
         >
           Graph
-          <Button
-            size="sm"
-            position="absolute"
-            right={2}
-            bottom={2}
-            //onClick={sendData}
-          >
-            Visualize
-          </Button>
         </Center>
       </StepBody>
-
-      <StepNav>
-        <NextBtn />
-      </StepNav>
     </Step>
   );
 };

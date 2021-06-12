@@ -3,7 +3,7 @@ export const KInfo = {
   min: 0,
   max: 20,
   step: 0.1,
-  defaultValue: 2,
+  defaultValue: 2.5,
 };
 
 export const tauInfo = {
