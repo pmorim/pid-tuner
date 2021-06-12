@@ -3,13 +3,12 @@ import MathJax from 'react-mathjax-preview';
 import { KInfo, tauInfo, tauDInfo } from './data/system';
 
 // Custom components
-import { Step, StepBody, StepDesc, StepTitle } from '../Stepper';
+import { Step, StepBody, StepDesc, StepTitle } from '../Step';
 import { SliderInput } from '../SliderInput';
 
 // Chakra-UI components
 import { Center, Text } from '@chakra-ui/layout';
 import { FormControl, FormLabel } from '@chakra-ui/form-control';
-import { Button } from '@chakra-ui/button';
 
 export const SystemStep = ({ ...rest }) => {
   const [k, setK] = useState(KInfo.defaultValue);
@@ -36,7 +35,7 @@ export const SystemStep = ({ ...rest }) => {
       </StepDesc>
 
       <StepBody>
-        <FormControl w="500px">
+        <FormControl w="100%">
           <FormLabel>System's Constants</FormLabel>
           <SliderInput {...KInfo} value={k} setValue={setK} />
           <SliderInput {...tauInfo} value={tau} setValue={setTau} />
@@ -44,22 +43,12 @@ export const SystemStep = ({ ...rest }) => {
         </FormControl>
 
         <Center
-          position="relative"
           w="100%"
           h="300px"
-          bg="teal.700"
+          bgGradient="linear(to-br, cyan.700, purple.500)"
           fontSize="4xl"
         >
           Graph
-          <Button
-            size="sm"
-            position="absolute"
-            right={2}
-            bottom={2}
-            //onClick={sendData}
-          >
-            Visualize
-          </Button>
         </Center>
       </StepBody>
     </Step>

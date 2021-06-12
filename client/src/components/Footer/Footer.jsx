@@ -1,26 +1,37 @@
 import React from 'react';
 
+// Chakra-UI components
 import {
+  Box,
+  Container,
   Heading,
   HStack,
-  ListItem,
   Text,
-  UnorderedList,
   VStack,
 } from '@chakra-ui/layout';
 
 export const Footer = ({ ...rest }) => {
   return (
-    <VStack width="100%" pt="50px" pb="100px" bgColor="gray.900" {...rest}>
-      <Heading size="md" mb="10px">
-        Proudly created by
-      </Heading>
+    <Box width="100%" bgColor="gray.900" py="25px" {...rest}>
+      <Container maxW="container.xl">
+        <VStack spacing="20px">
+          <Heading size="md">Proudly created by</Heading>
 
-      <HStack spacing="20px">
-        <Text>1180798 Pedro Morim</Text>
-        <Text>1180799 Rui Sargo</Text>
-        <Text>1180872 Miguel Santos</Text>
-      </HStack>
-    </VStack>
+          <HStack spacing="20px">
+            <Text>
+              1180798 <b>Pedro Morim</b>
+            </Text>
+            <Text>
+              1180799 <b>Rui Sargo</b>
+            </Text>
+            <Text>
+              1180872 <b>Miguel Santos</b>
+            </Text>
+          </HStack>
+
+          <Text>@CONDIG - ISEP 2021</Text>
+        </VStack>
+      </Container>
+    </Box>
   );
 };

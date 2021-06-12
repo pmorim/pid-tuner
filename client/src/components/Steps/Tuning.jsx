@@ -1,49 +1,21 @@
-import React, { useEffect } from 'react';
-import { algos } from './data/tuning';
+import React from 'react';
 
 // Custom components
-import { Step, StepBody, StepDesc, StepTitle } from '../Stepper';
+import { Step, StepBody, StepDesc, StepTitle } from '../Step';
 
 // Chakra-UI components
-import { WarningIcon } from '@chakra-ui/icons';
-import { Radio, RadioGroup } from '@chakra-ui/radio';
-import { HStack, Text } from '@chakra-ui/layout';
-import {
-  FormControl,
-  FormHelperText,
-  FormLabel,
-} from '@chakra-ui/form-control';
-import {
-  Table,
-  TableCaption,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from '@chakra-ui/table';
+import { Center, Text } from '@chakra-ui/layout';
+import { Button } from '@chakra-ui/button';
+import { GiGears } from 'react-icons/gi';
 
-function isAlgoAllowed(algo, control) {
-  return !(
-    (algo === 'ITAE' && control === 'PID') ||
-    (algo === 'IMC' && control === 'P')
-  );
-}
-
-export const TuningStep = ({ socket, state, control, ...rest }) => {
-  const { algorithm, setAlgorithm } = state;
-
-  useEffect(() => {
-    if (!isAlgoAllowed(algorithm, control)) setAlgorithm('');
-  }, [control, algorithm, setAlgorithm]);
-
+export const TuningStep = ({ ...rest }) => {
   return (
     <Step {...rest}>
-      <StepTitle>Tuning algorithm</StepTitle>
+      <StepTitle>Tuning simulation</StepTitle>
       <StepDesc>
-        <Text>
-          There are many algorithms to calculate the constants of your
-          controller.Each one of them has their own set of advantages and
+        <Text pb="20px">
+          There are many algorithms to calculate the parameters of your
+          controller. Each one of them has their own set of advantages and
           disadvantages. Therefore, pick the one that fits your application the
           best.
         </Text>
@@ -55,58 +27,23 @@ export const TuningStep = ({ socket, state, control, ...rest }) => {
       </StepDesc>
 
       <StepBody>
-        <FormControl>
-          <FormLabel>Choose the tuning algorithm</FormLabel>
-          <RadioGroup value={algorithm} onChange={setAlgorithm}>
-            <HStack spacing={5}>
-              {algos.map(algo => (
-                <Radio
-                  key={algo.name}
-                  colorScheme="teal"
-                  size="lg"
-                  value={algo.name}
-                  isDisabled={!isAlgoAllowed(algo.name, control)}
-                >
-                  {algo.name}
-                </Radio>
-              ))}
-            </HStack>
-          </RadioGroup>
-          <FormHelperText>
-            You can only choose the ones that support {control} control
-          </FormHelperText>
-        </FormControl>
-
-        {algos
-          .filter(algo => algo.name === algorithm)
-          .map(algo => (
-            <Table key={algo.name} variant="simple">
-              <TableCaption>
-                Pros and Cons of the {algo.name} algorithm
-              </TableCaption>
-              <Thead>
-                <Tr>
-                  <Th>Pros</Th>
-                  <Th>Cons</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {algo.info.map((row, i) => (
-                  <Tr key={i}>
-                    <Td>{row.pro ?? '-'}</Td>
-                    <Td>{row.con ?? '-'}</Td>
-                  </Tr>
-                ))}
-              </Tbody>
-            </Table>
-          ))}
-
-        {!algorithm && (
-          <Text pos="relative" left={0}>
-            <WarningIcon color="red.500" mr={3} />
-            The algorithm you chose does not support {control} control
-          </Text>
-        )}
+        <Center
+          w="100%"
+          h="300px"
+          bgGradient="linear(to-br, cyan.700, purple.500)"
+          fontSize="4xl"
+        >
+          Graph
+        </Center>
+        <Button
+          size="lg"
+          variant="outline"
+          leftIcon={<GiGears />}
+          loadingText="Submitting"
+          isLoading={false}
+        >
+          Simulate
+        </Button>
       </StepBody>
     </Step>
   );
