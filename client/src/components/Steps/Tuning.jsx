@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { algos } from './data/tuning';
 
 // Custom components
-import { Step, StepBody, StepDesc, StepNav, StepTitle } from '../Stepper';
-import { BackBtn, SubmitBtn } from '../Buttons';
+import { Step, StepBody, StepDesc, StepTitle } from '../Stepper';
 
 // Chakra-UI components
 import { WarningIcon } from '@chakra-ui/icons';
@@ -109,11 +108,6 @@ export const TuningStep = ({ socket, state, control, ...rest }) => {
           </Text>
         )}
       </StepBody>
-
-      <StepNav>
-        <BackBtn />
-        <SubmitBtn isDisabled={!algorithm} />
-      </StepNav>
     </Step>
   );
 };

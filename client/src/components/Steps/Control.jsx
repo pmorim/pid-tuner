@@ -3,8 +3,7 @@ import MathJax from 'react-mathjax-preview';
 import { controlTypes } from './data/control';
 
 // Custom components
-import { Step, StepBody, StepDesc, StepNav, StepTitle } from '../Stepper';
-import { NextBtn, BackBtn } from '../Buttons';
+import { Step, StepBody, StepDesc, StepTitle } from '../Stepper';
 
 // Chakra-UI components
 import { HStack, Text } from '@chakra-ui/layout';
@@ -87,11 +86,6 @@ export const ControlStep = ({ socket, state, ...rest }) => {
             </Table>
           ))}
       </StepBody>
-
-      <StepNav>
-        <BackBtn />
-        <NextBtn isDisabled={!control} />
-      </StepNav>
     </Step>
   );
 };

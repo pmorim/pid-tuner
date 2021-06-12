@@ -1,14 +1,14 @@
 import React from 'react';
-import { Box, Stack, StackDivider, VStack } from '@chakra-ui/layout';
+import { Box, Stack, VStack } from '@chakra-ui/layout';
 
-export const Step = ({ children, onNext, onBack, ...rest }) => {
-  const [StepTitle, StepDesc, StepBody, StepNav] = children;
+export const Step = ({ children, ...rest }) => {
+  const [StepTitle, StepDesc, StepBody] = children;
 
   return (
     <Stack
-      w="75%"
+      px="200px"
+      py="50px"
       direction={{ base: 'column', lg: 'row' }}
-      divider={<StackDivider />}
       {...rest}
     >
       <Box w={{ base: '100%', lg: '50%' }} p={10}>
@@ -17,7 +17,6 @@ export const Step = ({ children, onNext, onBack, ...rest }) => {
       </Box>
       <VStack align="left" p={10}>
         {StepBody}
-        {React.cloneElement(StepNav, { onNext, onBack })}
       </VStack>
     </Stack>
   );

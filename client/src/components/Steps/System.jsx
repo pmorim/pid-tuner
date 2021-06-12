@@ -3,8 +3,7 @@ import MathJax from 'react-mathjax-preview';
 import { KInfo, tauInfo, tauDInfo } from './data/system';
 
 // Custom components
-import { Step, StepBody, StepDesc, StepNav, StepTitle } from '../Stepper';
-import { NextBtn } from '../Buttons';
+import { Step, StepBody, StepDesc, StepTitle } from '../Stepper';
 import { SliderInput } from '../SliderInput';
 
 // Chakra-UI components
@@ -12,7 +11,7 @@ import { Center, Text } from '@chakra-ui/layout';
 import { FormControl, FormLabel } from '@chakra-ui/form-control';
 import { Button } from '@chakra-ui/button';
 
-export const SystemStep = ({ socket, ...rest }) => {
+export const SystemStep = ({ ...rest }) => {
   const [k, setK] = useState(KInfo.defaultValue);
   const [tau, setTau] = useState(tauInfo.defaultValue);
   const [tauD, setTauD] = useState(tauDInfo.defaultValue);
@@ -63,10 +62,6 @@ export const SystemStep = ({ socket, ...rest }) => {
           </Button>
         </Center>
       </StepBody>
-
-      <StepNav>
-        <NextBtn />
-      </StepNav>
     </Step>
   );
 };
