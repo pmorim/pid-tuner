@@ -30,7 +30,7 @@ export const controlTypes = [
     name: 'PID',
     info: [
       {
-        pro: "It's Cool",
+        pro: 'Most popular option',
         con: 'Hard to implement',
       },
       {
