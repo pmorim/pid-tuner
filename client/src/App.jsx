@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { KInfo, tauInfo, tauDInfo } from './components/Steps/data/system';
 
 // Custom components
 import { SystemStep, ControlStep, TuningStep } from './components/Steps';
@@ -16,14 +17,23 @@ const theme = extendTheme({
 });
 
 function App() {
+  // Control Type
   const [control, setControl] = useState('PID');
+
+  // System Parameters
+  const [system, setSystem] = useState({
+    K: KInfo.defaultValue,
+    tau: tauInfo.defaultValue,
+    tauD: tauDInfo.defaultValue,
+  });
+  const updateSystem = param => setSystem({ ...system, ...param });
 
   return (
     <ChakraProvider theme={theme}>
       <Flex direction="column" alignItems="center">
         <Nav />
 
-        <SystemStep />
+        <SystemStep state={{ system, updateSystem }} />
         <ControlStep state={{ control, setControl }} bgColor="gray.900" />
         <TuningStep />
 
