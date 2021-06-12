@@ -17,15 +17,6 @@ export const SystemStep = ({ socket, ...rest }) => {
   const [tau, setTau] = useState(tauInfo.defaultValue);
   const [tauD, setTauD] = useState(tauDInfo.defaultValue);
 
-  const [graphData, setGraphData] = useState([]);
-
-  async function sendData() {
-    await socket.emit('system_model', { k, tau, tauD });
-    await socket.on('system_model_response', graphData =>
-      setGraphData(graphData)
-    );
-  }
-
   return (
     <Step {...rest}>
       <StepTitle>System's Model</StepTitle>
@@ -66,7 +57,7 @@ export const SystemStep = ({ socket, ...rest }) => {
             position="absolute"
             right={2}
             bottom={2}
-            onClick={sendData}
+            //onClick={sendData}
           >
             Visualize
           </Button>
