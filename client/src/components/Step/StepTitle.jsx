@@ -4,7 +4,7 @@ import { Heading } from '@chakra-ui/layout';
 export const StepTitle = ({ children, ...rest }) => {
   return (
     <Heading
-      bgGradient="linear(to-br, cyan.700, purple.500)"
+      bgGradient="linear(to-r, cyan.700, purple.500)"
       bgClip="text"
       as="h2"
       size="xl"

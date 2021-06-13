@@ -8,7 +8,7 @@ import { ExternalLink } from '../ExternalLink';
 export const Nav = ({ ...rest }) => {
   return (
     <Box
-      bgGradient="linear(to-br, cyan.700, purple.500)"
+      bgGradient="linear(to-r, cyan.700, purple.500)"
       direction="row"
       width="100%"
       py="20px"
