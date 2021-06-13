@@ -20,8 +20,10 @@ export const ControlTuning = ({
       <StepTitle>Control and Tuning</StepTitle>
       <StepDesc>
         <Text>
-          The control signal is calculated with the following formula. You can
-          nullify certain parts by setting their parameters to 0.
+          The control signal is calculated with the following formula. The{' '}
+          <b>Kp</b>, <b>Ti</b>, and <b>Td</b> parameters are calculated by the
+          tuning method. You should choose the method that most fits your
+          application.
         </Text>
         <Text as="div" fontSize={{ base: '15px', sm: '20px' }}>
           <MathJax
@@ -29,13 +31,13 @@ export const ControlTuning = ({
           />
         </Text>
         <Text>
-          The <b>Kp</b>, <b>Ti</b>, and <b>Td</b> parameters are calculated by
-          the tuning method. You should choose the method that most fits your
-          application.
+          Not all tuning methods work for all types of control. For example, the
+          algorithm <b>ITAE</b> only works for systems with P or PI control.
+          While <b>IMC</b> only works for PI or PID control.
         </Text>
       </StepDesc>
 
-      <StepBody spacing={20}>
+      <StepBody spacing="50px">
         <MultiSelect
           title="Type of control"
           desc="If you are unsure which one to pick, we recommend PID"
@@ -45,7 +47,7 @@ export const ControlTuning = ({
         />
         <MultiSelect
           title="Tuning method"
-          desc="Not all methods and control types are compatible with each other"
+          desc="Not all tuning methods and control types are compatible with each other"
           options={['ZN', 'CC', 'IMC', 'ITAE']}
           set={method}
           toggleSet={toggleMethod}
