@@ -1,11 +1,12 @@
+import React from 'react';
+
 import {
   FormControl,
   FormHelperText,
   FormLabel,
 } from '@chakra-ui/form-control';
 import { HStack, VStack } from '@chakra-ui/layout';
-import { Radio, RadioGroup } from '@chakra-ui/radio';
-import React from 'react';
+import { Checkbox, CheckboxGroup } from '@chakra-ui/react';
 
 export const MultiSelect = ({
   title,
@@ -20,15 +21,15 @@ export const MultiSelect = ({
       <VStack {...rest}>
         <FormLabel>{title}</FormLabel>
 
-        <RadioGroup value={value} onChange={setValue}>
+        <CheckboxGroup colorScheme="blue" defaultValue={[]}>
           <HStack spacing={5}>
             {data.map(x => (
-              <Radio key={x} colorScheme="blue" size="lg" value={x}>
+              <Checkbox key={x} size="lg" value={x} isChecked={} onChange={(e) => }>
                 {x}
-              </Radio>
+              </Checkbox>
             ))}
           </HStack>
-        </RadioGroup>
+        </CheckboxGroup>
 
         <FormHelperText align="center">{desc}</FormHelperText>
       </VStack>
