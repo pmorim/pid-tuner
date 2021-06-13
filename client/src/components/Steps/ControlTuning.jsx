@@ -8,10 +8,13 @@ import { MultiSelect } from '../MultiSelect';
 // Chakra-UI components
 import { Text } from '@chakra-ui/layout';
 
-export const ControlTuning = ({ controlState, methodState, ...rest }) => {
-  const { control, setControl } = controlState;
-  const { method, setMethod } = methodState;
-
+export const ControlTuning = ({
+  control,
+  method,
+  toggleControl,
+  toggleMethod,
+  ...rest
+}) => {
   return (
     <Step {...rest}>
       <StepTitle>Control and Tuning</StepTitle>
@@ -20,7 +23,7 @@ export const ControlTuning = ({ controlState, methodState, ...rest }) => {
           The control signal is calculated with the following formula. You can
           nullify certain parts by setting their parameters to 0.
         </Text>
-        <Text fontSize={{ base: '15px', sm: '20px' }}>
+        <Text as="div" fontSize={{ base: '15px', sm: '20px' }}>
           <MathJax
             math={String.raw`$$u(t)=K_pe(t)+K_i\int_{0}^{t}e(t)dt+K_d\frac{de(t)}{dt}$$`}
           />
@@ -36,16 +39,16 @@ export const ControlTuning = ({ controlState, methodState, ...rest }) => {
         <MultiSelect
           title="Type of control"
           desc="If you are unsure which one to pick, we recommend PID"
-          data={['P', 'PI', 'PD', 'PID']}
-          value={control}
-          setValue={setControl}
+          options={['P', 'PI', 'PD', 'PID']}
+          set={control}
+          toggleSet={toggleControl}
         />
         <MultiSelect
           title="Tuning method"
           desc="Not all methods and control types are compatible with each other"
-          data={['ZN', 'CC', 'IMC', 'ITAE']}
-          value={method}
-          setValue={setMethod}
+          options={['ZN', 'CC', 'IMC', 'ITAE']}
+          set={method}
+          toggleSet={toggleMethod}
         />
       </StepBody>
     </Step>

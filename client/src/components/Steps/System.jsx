@@ -9,9 +9,7 @@ import { SliderInput } from '../SliderInput';
 import { Center, Text } from '@chakra-ui/layout';
 import { FormControl, FormLabel } from '@chakra-ui/form-control';
 
-export const System = ({ state, ...rest }) => {
-  const { system, updateSystem } = state;
-
+export const System = ({ system, updateSystem, ...rest }) => {
   return (
     <Step {...rest}>
       <StepTitle>System's Model</StepTitle>

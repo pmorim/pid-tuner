@@ -14,45 +14,29 @@ const theme = extendTheme({
   },
 });
 
+// The initial state of the App
 const initialState = {
-  system: {
-    k: 2.5,
-    tau: 100,
-    tauD: 10,
-  },
-  control: new Set(['PID']),
-  method: new Set(['ZN']),
+  system: { k: 2.5, tau: 100, tauD: 10 },
+  control: new Set(['PI', 'PID']),
+  method: new Set(['ZN', 'IMC']),
 };
 
-function reducer(state = initialState, action) {
-  /**
-   * If the given Set already has the payload, remove it.
-   * Else, add it to the set.
-   *
-   * @param {Set} set The Set of properties.
-   * @returns The state with the updated set.
-   */
-  const toggleSet = (set, type) => {
-    if (set.has(action.payload))
-      return Object.assign(state, {
-        type: new Set(new Set([...set].filter(x => x !== action.payload))),
-      });
-    else
-      return Object.assign(state, {
-        type: new Set(set.add(action.payload)),
-      });
-  };
-
-  /**
-   * Execute the correct action depending on the given type
-   */
+// The State-Manager function
+function reducer(state, action) {
   switch (action.type) {
     case 'system':
-      return Object.assign(state.system, action.payload);
+      return { ...state, system: { ...state.system, ...action.payload } };
+
     case 'control':
-      return toggleSet(state.control, 'control');
+      if (state.control.delete(action.payload))
+        return { ...state, control: state.control };
+      else return { ...state, control: state.control.add(action.payload) };
+
     case 'method':
-      return toggleSet(state.method, 'method');
+      if (state.method.delete(action.payload))
+        return { ...state, method: state.method };
+      else return { ...state, method: state.method.add(action.payload) };
+
     default:
       throw new Error('Unknown action type');
   }
@@ -68,13 +52,13 @@ function App() {
 
         <System
           system={state.system}
-          setSystem={x => dispatch({ type: 'system', payload: x })}
+          updateSystem={x => dispatch({ type: 'system', payload: x })}
         />
         <ControlTuning
           control={state.control}
           method={state.method}
-          setControl={x => dispatch({ type: 'control', payload: x })}
-          setMethod={setMethod}
+          toggleControl={x => dispatch({ type: 'control', payload: x })}
+          toggleMethod={x => dispatch({ type: 'method', payload: x })}
           bgColor="gray.900"
         />
         <Simulation />

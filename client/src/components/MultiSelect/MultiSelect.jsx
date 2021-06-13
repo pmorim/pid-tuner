@@ -11,9 +11,9 @@ import { Checkbox, CheckboxGroup } from '@chakra-ui/react';
 export const MultiSelect = ({
   title,
   desc,
-  data,
-  value,
-  setValue,
+  options,
+  set,
+  toggleSet,
   ...rest
 }) => {
   return (
@@ -21,11 +21,17 @@ export const MultiSelect = ({
       <VStack {...rest}>
         <FormLabel>{title}</FormLabel>
 
-        <CheckboxGroup colorScheme="blue" defaultValue={[]}>
+        <CheckboxGroup colorScheme="blue" defaultValue={[...set]}>
           <HStack spacing={5}>
-            {data.map(x => (
-              <Checkbox key={x} size="lg" value={x} isChecked={} onChange={(e) => }>
-                {x}
+            {options.map(option => (
+              <Checkbox
+                key={option}
+                size="lg"
+                value={option}
+                isChecked={set.has(option)}
+                onChange={() => toggleSet(option)}
+              >
+                {option}
               </Checkbox>
             ))}
           </HStack>
