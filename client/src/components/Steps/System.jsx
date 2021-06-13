@@ -1,6 +1,5 @@
 import React from 'react';
 import MathJax from 'react-mathjax-preview';
-import { KInfo, tauInfo, tauDInfo } from './data/system';
 
 // Custom components
 import { Step, StepBody, StepDesc, StepTitle } from '../Step';
@@ -10,7 +9,7 @@ import { SliderInput } from '../SliderInput';
 import { Center, Text } from '@chakra-ui/layout';
 import { FormControl, FormLabel } from '@chakra-ui/form-control';
 
-export const SystemStep = ({ state, ...rest }) => {
+export const System = ({ state, ...rest }) => {
   const { system, updateSystem } = state;
 
   return (
@@ -36,17 +35,26 @@ export const SystemStep = ({ state, ...rest }) => {
         <FormControl w="100%">
           <FormLabel>System's Constants</FormLabel>
           <SliderInput
-            {...KInfo}
-            value={system.K}
-            setValue={x => updateSystem({ K: x })}
+            label="K"
+            min={0}
+            max={20}
+            step={0.1}
+            value={system.k}
+            setValue={x => updateSystem({ k: x })}
           />
           <SliderInput
-            {...tauInfo}
+            label="τ"
+            min={0}
+            max={200}
+            step={0.1}
             value={system.tau}
             setValue={x => updateSystem({ tau: x })}
           />
           <SliderInput
-            {...tauDInfo}
+            label="τD"
+            min={0}
+            max={60}
+            step={0.1}
             value={system.tauD}
             setValue={x => updateSystem({ tauD: x })}
           />

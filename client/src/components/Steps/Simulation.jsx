@@ -8,7 +8,7 @@ import { Center, Text } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
 import { GiGears } from 'react-icons/gi';
 
-export const TuningStep = ({ ...rest }) => {
+export const Simulation = ({ ...rest }) => {
   return (
     <Step {...rest}>
       <StepTitle>Tuning simulation</StepTitle>

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { KInfo, tauInfo, tauDInfo } from './components/Steps/data/system';
 
 // Custom components
-import { SystemStep, ControlStep, TuningStep } from './components/Steps';
+import { System, ControlTuning, Simulation } from './components/Steps';
 import { Nav } from './components/Nav';
 import { Footer } from './components/Footer';
 
@@ -17,15 +16,9 @@ const theme = extendTheme({
 });
 
 function App() {
-  // Control Type
   const [control, setControl] = useState('PID');
-
-  // System Parameters
-  const [system, setSystem] = useState({
-    K: KInfo.defaultValue,
-    tau: tauInfo.defaultValue,
-    tauD: tauDInfo.defaultValue,
-  });
+  const [method, setMethod] = useState('ZN');
+  const [system, setSystem] = useState({ k: 2.5, tau: 100, tauD: 10 });
   const updateSystem = param => setSystem({ ...system, ...param });
 
   return (
@@ -33,9 +26,13 @@ function App() {
       <Flex direction="column" alignItems="center">
         <Nav />
 
-        <SystemStep state={{ system, updateSystem }} />
-        <ControlStep state={{ control, setControl }} bgColor="gray.900" />
-        <TuningStep />
+        <System state={{ system, updateSystem }} />
+        <ControlTuning
+          controlState={{ control, setControl }}
+          methodState={{ method, setMethod }}
+          bgColor="gray.900"
+        />
+        <Simulation />
 
         <Footer />
       </Flex>
