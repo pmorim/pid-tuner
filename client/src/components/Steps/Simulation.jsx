@@ -34,7 +34,7 @@ export const Simulation = ({ ...rest }) => {
           size="lg"
           variant="outline"
           leftIcon={<GiGears />}
-          loadingText="Submitting"
+          loadingText="Simulating..."
           isLoading={false}
         >
           Simulate
