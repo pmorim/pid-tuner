@@ -1,6 +1,9 @@
 import React from 'react';
 import MathJax from 'react-mathjax-preview';
 
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Label } from 'recharts';
+import {data} from './data/GraphTest';
+
 // Custom components
 import { Step, StepBody, StepDesc, StepTitle } from '../Step';
 import { SliderInput } from '../SliderInput';
@@ -8,6 +11,8 @@ import { SliderInput } from '../SliderInput';
 // Chakra-UI components
 import { Center, Text, VStack } from '@chakra-ui/layout';
 import { FormControl, FormLabel } from '@chakra-ui/form-control';
+import { color } from '@chakra-ui/system';
+
 
 export const System = ({ system, updateSystem, ...rest }) => {
   return (
@@ -61,13 +66,14 @@ export const System = ({ system, updateSystem, ...rest }) => {
         </FormControl>
 
         <Center
-          w="100%"
-          h="300px"
-          bgGradient="linear(to-br, cyan.700, purple.500)"
-          fontSize="4xl"
-        >
-          Graph
-        </Center>
+                w="100%"
+                h="300px"
+                bgColor="#1a202c"
+                fontSize="l"
+                >
+        
+      </Center>
+        
       </StepBody>
     </Step>
   );
