@@ -9,12 +9,11 @@
     "@emotion/styled": "^11.3.0",
     "axios": "^0.21.1",
     "framer-motion": "^4.1.16",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^16",
+    "react-dom": "^16",
     "react-icons": "^3.11.0",
     "react-mathjax-preview": "^2.2.3",
-    "react-scripts": "4.0.3",
-    "socket.io-client": "^4.1.1"
+    "react-scripts": "^4.0.3"
   },
   "scripts": {
     "start": "react-scripts start",

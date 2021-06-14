@@ -1,18 +1,15 @@
 import React from 'react';
 import MathJax from 'react-mathjax-preview';
-import { KInfo, tauInfo, tauDInfo } from './data/system';
 
 // Custom components
 import { Step, StepBody, StepDesc, StepTitle } from '../Step';
 import { SliderInput } from '../SliderInput';
 
 // Chakra-UI components
-import { Center, Text } from '@chakra-ui/layout';
+import { Center, Text, VStack } from '@chakra-ui/layout';
 import { FormControl, FormLabel } from '@chakra-ui/form-control';
 
-export const SystemStep = ({ state, ...rest }) => {
-  const { system, updateSystem } = state;
-
+export const System = ({ system, updateSystem, ...rest }) => {
   return (
     <Step {...rest}>
       <StepTitle>System's Model</StepTitle>
@@ -34,22 +31,33 @@ export const SystemStep = ({ state, ...rest }) => {
 
       <StepBody>
         <FormControl w="100%">
-          <FormLabel>System's Constants</FormLabel>
-          <SliderInput
-            {...KInfo}
-            value={system.K}
-            setValue={x => updateSystem({ K: x })}
-          />
-          <SliderInput
-            {...tauInfo}
-            value={system.tau}
-            setValue={x => updateSystem({ tau: x })}
-          />
-          <SliderInput
-            {...tauDInfo}
-            value={system.tauD}
-            setValue={x => updateSystem({ tauD: x })}
-          />
+          <VStack spacing={0} w="100%">
+            <FormLabel>System's Constants</FormLabel>
+            <SliderInput
+              label="K"
+              min={0}
+              max={20}
+              step={0.1}
+              value={system.k}
+              setValue={x => updateSystem({ k: x })}
+            />
+            <SliderInput
+              label="τ"
+              min={0}
+              max={200}
+              step={0.1}
+              value={system.tau}
+              setValue={x => updateSystem({ tau: x })}
+            />
+            <SliderInput
+              label="τD"
+              min={0}
+              max={60}
+              step={0.1}
+              value={system.tauD}
+              setValue={x => updateSystem({ tauD: x })}
+            />
+          </VStack>
         </FormControl>
 
         <Center

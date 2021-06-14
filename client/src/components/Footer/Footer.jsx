@@ -6,9 +6,11 @@ import {
   Container,
   Heading,
   HStack,
-  Text,
+  Link,
   VStack,
 } from '@chakra-ui/layout';
+import { Author } from '../Author/Author';
+import { ExternalLinkIcon } from '@chakra-ui/icons';
 
 export const Footer = ({ ...rest }) => {
   return (
@@ -18,18 +20,14 @@ export const Footer = ({ ...rest }) => {
           <Heading size="md">Proudly created by</Heading>
 
           <HStack spacing="20px">
-            <Text>
-              1180798 <b>Pedro Morim</b>
-            </Text>
-            <Text>
-              1180799 <b>Rui Sargo</b>
-            </Text>
-            <Text>
-              1180872 <b>Miguel Santos</b>
-            </Text>
+            <Author number="1180798" name="Pedro Morim" />
+            <Author number="1180799" name="Rui Sargo" />
+            <Author number="1180872" name="Miguel Santos" />
           </HStack>
 
-          <Text>@CONDIG - ISEP 2021</Text>
+          <Link href="https://www.isep.ipp.pt/" isExternal>
+            @CONDIG - ISEP 2021 <ExternalLinkIcon mx="2px" />
+          </Link>
         </VStack>
       </Container>
     </Box>
