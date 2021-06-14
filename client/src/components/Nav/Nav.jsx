@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, Container, Heading, HStack } from '@chakra-ui/layout';
 import { FaGithub } from 'react-icons/fa';
 
-import { ExternalLink } from '../ExternalLink';
+import { IconLink } from '../IconLink';
 
 export const Nav = ({ ...rest }) => {
   return (
@@ -24,7 +24,7 @@ export const Nav = ({ ...rest }) => {
           <Box flexGrow="1" />
 
           <HStack>
-            <ExternalLink
+            <IconLink
               icon={<FaGithub size="3rem" />}
               href="https://github.com/pmorim/pid-tuner"
             />
