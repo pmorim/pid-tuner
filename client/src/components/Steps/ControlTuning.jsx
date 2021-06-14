@@ -9,8 +9,8 @@ import { MultiSelect } from '../MultiSelect';
 import { Text } from '@chakra-ui/layout';
 
 export const ControlTuning = ({
-  control,
-  method,
+  controls,
+  methods,
   toggleControl,
   toggleMethod,
   ...rest
@@ -42,14 +42,14 @@ export const ControlTuning = ({
           title="Type of control"
           desc="If you are unsure which one to pick, we recommend PID"
           options={['P', 'PI', 'PD', 'PID']}
-          set={control}
+          set={controls}
           toggleSet={toggleControl}
         />
         <MultiSelect
           title="Tuning method"
           desc="Not all tuning methods and control types are compatible with each other"
           options={['ZN', 'CC', 'IMC', 'ITAE']}
-          set={method}
+          set={methods}
           toggleSet={toggleMethod}
         />
       </StepBody>
