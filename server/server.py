@@ -24,7 +24,8 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['SECRET_KEY'] = os.environ.get('SECRET')
 CORS(app)
 
-@app.route('/model', methods = ["POST"])
+
+@app.route('/api/model', methods = ["POST"])
 def model():
   """Receives the data about the system's model
 
@@ -42,15 +43,29 @@ def model():
     print("model didn't work")
 
 
-@app.route('/control', methods = ["POST"])
+@app.route('/api/control', methods = ["POST"])
 def control():
   """[summary]
 
   Args:
     data (any): The constants that describe the system,
                 controller type and sintony method.
-    format: data = {"k": %f, "tau": %f, "tauD": %f,
-                    "type": %s, "method": %s}
+    Receives:
+    {
+      "method": "IMC",
+      "control": "PID",
+      "system":
+      {
+        "k": 2.5,
+        "tau": 100,
+        "tauD": 10
+      },
+      "settings":
+      {
+        "start": 20,
+        "target": 50
+      }
+    }
   """
   
   try:
