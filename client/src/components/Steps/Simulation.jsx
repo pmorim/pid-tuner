@@ -8,22 +8,17 @@ import { Center, Text } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
 import { GiGears } from 'react-icons/gi';
 
-export const TuningStep = ({ ...rest }) => {
+export const Simulation = ({ ...rest }) => {
   return (
     <Step {...rest}>
-      <StepTitle>Tuning simulation</StepTitle>
+      <StepTitle>Simulation</StepTitle>
       <StepDesc>
         <Text pb="20px">
-          There are many algorithms to calculate the parameters of your
-          controller. Each one of them has their own set of advantages and
-          disadvantages. Therefore, pick the one that fits your application the
-          best.
+          For you to best analyse, and visually compare, the different{' '}
+          <b>types of control</b> and <b>tuning methods</b>, you can simulate
+          them together.
         </Text>
-        <Text>
-          Not all algorithms work for all types of control. For example, the
-          algorithm <b>ITAE</b> only works for systems with P or PI control.
-          While <b>IMC</b> only works for PI or PID control.
-        </Text>
+        <Text></Text>
       </StepDesc>
 
       <StepBody>
@@ -39,7 +34,7 @@ export const TuningStep = ({ ...rest }) => {
           size="lg"
           variant="outline"
           leftIcon={<GiGears />}
-          loadingText="Submitting"
+          loadingText="Simulating..."
           isLoading={false}
         >
           Simulate

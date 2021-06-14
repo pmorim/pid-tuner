@@ -19,8 +19,8 @@ export const SliderInput = ({
   setValue,
   ...rest
 }) => (
-  <HStack {...rest}>
-    <InputGroup w="50%">
+  <HStack {...rest} w="100%">
+    <InputGroup w="auto" mr={5}>
       <InputLeftAddon w="12" children={label} />
       <Input
         w="5rem"
