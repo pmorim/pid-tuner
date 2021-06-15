@@ -16,7 +16,7 @@ const theme = extendTheme({
 
 // The initial state of the App
 const initialState = {
-  system: { k: 2.5, tau: 100, tauD: 10 },
+  system: { k: 2.5, tau: 100, tauD: 10, a: 50, y0: 22.5 },
   controls: new Set(['PI', 'PID']),
   methods: new Set(['ZN', 'IMC']),
 };
