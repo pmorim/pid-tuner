@@ -5,25 +5,26 @@ import { Step, StepBody, StepDesc, StepTitle } from '../Step';
 import { NumberInput, NumberInputGroup } from '../Inputs';
 
 // Chakra-UI components
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/tabs';
 import { Center, Text } from '@chakra-ui/layout';
+import { useToast } from '@chakra-ui/toast';
 import { Button } from '@chakra-ui/button';
 import { GiGears } from 'react-icons/gi';
 
 export const Simulation = ({ simulation, updateSimulation, ...rest }) => {
+  const toast = useToast();
+
   return (
     <Step {...rest}>
       <StepTitle>Simulation</StepTitle>
       <StepDesc>
-        <Text pb="20px">
+        <Text>
           For you to best analyse, and visually compare, the different{' '}
           <b>types of control</b> and <b>tuning methods</b>, you can simulate
-          them together.
+          them together. For that, you need to indicate the value at which the
+          simulation starts, <b>start</b>, and the <b>target</b> for the
+          control.
         </Text>
-        <Text></Text>
-      </StepDesc>
 
-      <StepBody>
         <NumberInputGroup title="Simulation parameters">
           <NumberInput
             label="Start"
@@ -38,6 +39,12 @@ export const Simulation = ({ simulation, updateSimulation, ...rest }) => {
             setValue={x => updateSimulation({ target: x })}
           />
         </NumberInputGroup>
+
+        <Text>
+          Besides that, you can also add some gaussian noise to better simulate
+          a real life experiment. If you do not wish to do so, just set the
+          following parameters to 0.
+        </Text>
 
         <NumberInputGroup title="Gaussian Noise">
           <NumberInput
@@ -54,32 +61,29 @@ export const Simulation = ({ simulation, updateSimulation, ...rest }) => {
           />
         </NumberInputGroup>
 
-        <Tabs width="100%" size="lg" variant="line" isFitted>
-          <TabList mb="1em">
-            <Tab>Control Variable</Tab>
-            <Tab>Control Signal</Tab>
-          </TabList>
-          <TabPanels>
-            <TabPanel>
-              <Center
-                height="300px"
-                bgGradient="linear(to-br, cyan.700, purple.500)"
-                fontSize="4xl"
-              >
-                Control Variable
-              </Center>
-            </TabPanel>
-            <TabPanel>
-              <Center
-                height="300px"
-                bgGradient="linear(to-br, cyan.700, purple.500)"
-                fontSize="4xl"
-              >
-                Control Signal
-              </Center>
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+        <Text>
+          You can then get the calculated values on the section below.
+        </Text>
+      </StepDesc>
+
+      <StepBody>
+        <Center
+          width="100%"
+          height="300px"
+          bgGradient="linear(to-br, cyan.700, purple.500)"
+          fontSize="4xl"
+        >
+          Control Variable
+        </Center>
+
+        <Center
+          width="100%"
+          height="300px"
+          bgGradient="linear(to-br, cyan.700, purple.500)"
+          fontSize="4xl"
+        >
+          Control Signal
+        </Center>
 
         <Button
           size="lg"
@@ -87,6 +91,13 @@ export const Simulation = ({ simulation, updateSimulation, ...rest }) => {
           leftIcon={<GiGears />}
           loadingText="Simulating..."
           isLoading={false}
+          onClick={() =>
+            toast({
+              title: 'Not yet implemented',
+              status: 'warning',
+              isClosable: true,
+            })
+          }
         >
           Simulate
         </Button>

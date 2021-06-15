@@ -5,7 +5,7 @@ import { Stack, VStack } from '@chakra-ui/layout';
 
 export const NumberInputGroup = ({ title, children, ...rest }) => {
   return (
-    <FormControl w="100%">
+    <FormControl w="100%" my={10}>
       <VStack>
         <FormLabel>{title}</FormLabel>
         <Stack direction={['column', 'row']} spacing={[0, 2]} {...rest}>

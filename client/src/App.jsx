@@ -1,7 +1,12 @@
 import React, { useReducer } from 'react';
 
 // Custom components
-import { System, ControlTuning, Simulation } from './components/Steps';
+import {
+  System,
+  ControlTuning,
+  Simulation,
+  SimulationData,
+} from './components/Steps';
 import { Nav } from './components/Nav';
 import { Footer } from './components/Footer';
 
@@ -17,8 +22,8 @@ const theme = extendTheme({
 // The initial state of the App
 const initialState = {
   system: { k: 2.5, tau: 100, tauD: 10, a: 50, y0: 22.5 },
-  controls: new Set(['PI', 'PID']),
-  methods: new Set(['ZN', 'IMC']),
+  controls: new Set(['PID']),
+  methods: new Set(['Ziegler-Nichols', 'IMC Aggressive']),
   antiWindup: false,
   simulation: { start: 22.5, target: 50, mean: 0, sd: 2 },
 };
@@ -61,14 +66,17 @@ function App() {
       <Nav />
       <Box>
         <System
+          bgColor="gray.900"
           system={state.system}
           updateSystem={x => dispatch({ type: 'system', payload: x })}
         />
-        <ControlTuning state={state} dispatch={dispatch} bgColor="gray.900" />
+        <ControlTuning state={state} dispatch={dispatch} />
         <Simulation
+          bgColor="gray.900"
           simulation={state.simulation}
           updateSimulation={x => dispatch({ type: 'simulation', payload: x })}
         />
+        <SimulationData />
       </Box>
       <Footer />
     </ChakraProvider>

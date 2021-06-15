@@ -21,7 +21,7 @@ export const ControlTuning = ({ state, dispatch, ...rest }) => {
         </Text>
         <Text as="div" fontSize={{ base: '15px', sm: '20px' }}>
           <MathJax
-            math={String.raw`$$u(t)=K_pe(t)+K_i\int_{0}^{t}e(t)dt+K_d\frac{de(t)}{dt}$$`}
+            math={String.raw`$$u(t)=K_Pe(t)+K_I\int_{0}^{t}e(t)dt+K_D\frac{de(t)}{dt}$$`}
           />
         </Text>
         <Text>
