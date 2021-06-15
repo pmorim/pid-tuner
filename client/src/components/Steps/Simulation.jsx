@@ -5,6 +5,7 @@ import { Step, StepBody, StepDesc, StepTitle } from '../Step';
 import { NumberInput, NumberInputGroup } from '../Inputs';
 
 // Chakra-UI components
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/tabs';
 import { Center, Text } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
 import { GiGears } from 'react-icons/gi';
@@ -53,14 +54,33 @@ export const Simulation = ({ simulation, updateSimulation, ...rest }) => {
           />
         </NumberInputGroup>
 
-        <Center
-          w="100%"
-          h="300px"
-          bgGradient="linear(to-br, cyan.700, purple.500)"
-          fontSize="4xl"
-        >
-          Graph
-        </Center>
+        <Tabs width="100%" size="lg" variant="line" isFitted>
+          <TabList mb="1em">
+            <Tab>Control Variable</Tab>
+            <Tab>Control Signal</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Center
+                height="300px"
+                bgGradient="linear(to-br, cyan.700, purple.500)"
+                fontSize="4xl"
+              >
+                Control Variable
+              </Center>
+            </TabPanel>
+            <TabPanel>
+              <Center
+                height="300px"
+                bgGradient="linear(to-br, cyan.700, purple.500)"
+                fontSize="4xl"
+              >
+                Control Signal
+              </Center>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+
         <Button
           size="lg"
           variant="outline"
