@@ -2,13 +2,14 @@ import React from 'react';
 
 // Custom components
 import { Step, StepBody, StepDesc, StepTitle } from '../Step';
+import { NumberInput, NumberInputGroup } from '../Inputs';
 
 // Chakra-UI components
 import { Center, Text } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
 import { GiGears } from 'react-icons/gi';
 
-export const Simulation = ({ ...rest }) => {
+export const Simulation = ({ simulation, updateSimulation, ...rest }) => {
   return (
     <Step {...rest}>
       <StepTitle>Simulation</StepTitle>
@@ -22,6 +23,36 @@ export const Simulation = ({ ...rest }) => {
       </StepDesc>
 
       <StepBody>
+        <NumberInputGroup title="Simulation parameters">
+          <NumberInput
+            label="Start"
+            labelWidth={20}
+            value={simulation.start}
+            setValue={x => updateSimulation({ start: x })}
+          />
+          <NumberInput
+            label="Target"
+            labelWidth={20}
+            value={simulation.target}
+            setValue={x => updateSimulation({ target: x })}
+          />
+        </NumberInputGroup>
+
+        <NumberInputGroup title="Gaussian Noise">
+          <NumberInput
+            label="µ"
+            labelWidth={10}
+            value={simulation.mean}
+            setValue={x => updateSimulation({ mean: x })}
+          />
+          <NumberInput
+            label="σ"
+            labelWidth={10}
+            value={simulation.sd}
+            setValue={x => updateSimulation({ sd: x })}
+          />
+        </NumberInputGroup>
+
         <Center
           w="100%"
           h="300px"

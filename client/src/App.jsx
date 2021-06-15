@@ -19,6 +19,7 @@ const initialState = {
   system: { k: 2.5, tau: 100, tauD: 10, a: 50, y0: 22.5 },
   controls: new Set(['PI', 'PID']),
   methods: new Set(['ZN', 'IMC']),
+  simulation: { start: 22.5, target: 50, mean: 0, sd: 2 },
 };
 
 // The State-Manager function
@@ -36,6 +37,12 @@ function reducer(state, action) {
       if (state.methods.delete(action.payload))
         return { ...state, methods: state.methods };
       else return { ...state, methods: state.methods.add(action.payload) };
+
+    case 'simulation':
+      return {
+        ...state,
+        simulation: { ...state.simulation, ...action.payload },
+      };
 
     default:
       throw new Error('Unknown action type');
@@ -60,7 +67,10 @@ function App() {
           toggleMethod={x => dispatch({ type: 'method', payload: x })}
           bgColor="gray.900"
         />
-        <Simulation />
+        <Simulation
+          simulation={state.simulation}
+          updateSimulation={x => dispatch({ type: 'simulation', payload: x })}
+        />
       </Box>
       <Footer />
     </ChakraProvider>

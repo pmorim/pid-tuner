@@ -3,11 +3,11 @@ import MathJax from 'react-mathjax-preview';
 
 // Custom components
 import { Step, StepBody, StepDesc, StepTitle } from '../Step';
-import { SliderInput } from '../SliderInput';
+import { SliderInput } from '../Inputs';
 
 // Chakra-UI components
-import { Center, Text, VStack } from '@chakra-ui/layout';
-import { FormControl, FormLabel } from '@chakra-ui/form-control';
+import { Text, VStack } from '@chakra-ui/layout';
+import { FormLabel } from '@chakra-ui/form-control';
 
 // Recharts components
 import {
@@ -19,6 +19,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { data } from './data/GraphTest';
+import { SliderInputGroup } from '../Inputs/SliderInputGroup';
 
 export const System = ({ system, updateSystem, ...rest }) => {
   return (
@@ -43,54 +44,54 @@ export const System = ({ system, updateSystem, ...rest }) => {
       </StepDesc>
 
       <StepBody>
-        <FormControl w="100%">
-          <VStack spacing={0} w="100%">
-            <FormLabel>System's Model parameters</FormLabel>
-            <SliderInput
-              label="K"
-              min={0}
-              max={20}
-              step={0.1}
-              value={system.k}
-              setValue={x => updateSystem({ k: x })}
-            />
-            <SliderInput
-              label="τ"
-              min={0}
-              max={200}
-              step={0.1}
-              value={system.tau}
-              setValue={x => updateSystem({ tau: x })}
-            />
-            <SliderInput
-              label="τD"
-              min={0}
-              max={60}
-              step={0.1}
-              value={system.tauD}
-              setValue={x => updateSystem({ tauD: x })}
-            />
-            <FormLabel>Step parameters</FormLabel>
-            <SliderInput
-              label="A"
-              min={0.1}
-              max={100}
-              step={0.1}
-              value={system.a}
-              setValue={x => updateSystem({ a: x })}
-            />
-            <SliderInput
-              label="Y₀"
-              min={0}
-              max={100}
-              step={0.1}
-              value={system.y0}
-              setValue={x => updateSystem({ y0: x })}
-            />
-          </VStack>
-        </FormControl>
+        <SliderInputGroup label="System's Model parameters">
+          <SliderInput
+            label="K"
+            min={0}
+            max={20}
+            step={0.1}
+            value={system.k}
+            setValue={x => updateSystem({ k: x })}
+          />
+          <SliderInput
+            label="τ"
+            min={0}
+            max={200}
+            step={0.1}
+            value={system.tau}
+            setValue={x => updateSystem({ tau: x })}
+          />
+          <SliderInput
+            label="τD"
+            min={0}
+            max={60}
+            step={0.1}
+            value={system.tauD}
+            setValue={x => updateSystem({ tauD: x })}
+          />
+        </SliderInputGroup>
 
-        <Center w="100%" h="300px" m={10}>
+        <SliderInputGroup label="Step parameters">
+          <SliderInput
+            label="A"
+            min={0.1}
+            max={100}
+            step={0.1}
+            value={system.a}
+            setValue={x => updateSystem({ a: x })}
+          />
+          <SliderInput
+            label="Y₀"
+            min={0}
+            max={100}
+            step={0.1}
+            value={system.y0}
+            setValue={x => updateSystem({ y0: x })}
+          />
+        </SliderInputGroup>
+
+        <VStack width="100%" height="300px">
+          <FormLabel>Analytical Model</FormLabel>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               width={500}
@@ -121,7 +122,7 @@ export const System = ({ system, updateSystem, ...rest }) => {
               />
             </LineChart>
           </ResponsiveContainer>
-        </Center>
+        </VStack>
       </StepBody>
     </Step>
   );
