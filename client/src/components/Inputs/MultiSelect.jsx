@@ -5,7 +5,7 @@ import {
   FormHelperText,
   FormLabel,
 } from '@chakra-ui/form-control';
-import { HStack, VStack } from '@chakra-ui/layout';
+import { Flex, VStack } from '@chakra-ui/layout';
 import { Checkbox, CheckboxGroup } from '@chakra-ui/react';
 
 export const MultiSelect = ({
@@ -22,7 +22,7 @@ export const MultiSelect = ({
         <FormLabel>{title}</FormLabel>
 
         <CheckboxGroup colorScheme="blue" defaultValue={[...set]}>
-          <HStack spacing={5}>
+          <Flex justifyContent="center" wrap="wrap" spacing={5}>
             {options.map(option => (
               <Checkbox
                 key={option}
@@ -30,11 +30,12 @@ export const MultiSelect = ({
                 value={option}
                 isChecked={set.has(option)}
                 onChange={() => toggleSet(option)}
+                m={2}
               >
                 {option}
               </Checkbox>
             ))}
-          </HStack>
+          </Flex>
         </CheckboxGroup>
 
         <FormHelperText align="center">{desc}</FormHelperText>

@@ -49,7 +49,15 @@ export const ControlTuning = ({ state, dispatch, ...rest }) => {
         <MultiSelect
           title="Tuning method"
           desc="Not all tuning methods and control types are compatible with each other"
-          options={['ZN', 'CC', 'IMC', 'ITAE']}
+          options={[
+            'Ziegler-Nichols',
+            'Cohen-Coon',
+            'IMC Aggressive',
+            'IMC Moderate',
+            'IMC Conservative',
+            'ITAE Reference Entry',
+            'ITAE Perturbation Rejection',
+          ]}
           set={state.methods}
           toggleSet={x => dispatch({ type: 'method', payload: x })}
         />
