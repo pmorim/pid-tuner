@@ -3,18 +3,12 @@ import MathJax from 'react-mathjax-preview';
 
 // Custom components
 import { Step, StepBody, StepDesc, StepTitle } from '../Step';
-import { MultiSelect } from '../MultiSelect';
+import { MultiSelect, SwitchInput } from '../Inputs';
 
 // Chakra-UI components
 import { Text } from '@chakra-ui/layout';
 
-export const ControlTuning = ({
-  controls,
-  methods,
-  toggleControl,
-  toggleMethod,
-  ...rest
-}) => {
+export const ControlTuning = ({ state, dispatch, ...rest }) => {
   return (
     <Step {...rest}>
       <StepTitle>Control and Tuning</StepTitle>
@@ -42,15 +36,22 @@ export const ControlTuning = ({
           title="Type of control"
           desc="If you are unsure which one to pick, we recommend PID"
           options={['P', 'PI', 'PD', 'PID']}
-          set={controls}
-          toggleSet={toggleControl}
+          set={state.controls}
+          toggleSet={x => dispatch({ type: 'control', payload: x })}
+        />
+        <SwitchInput
+          title="Integral Anti-Windup"
+          labels={{ on: 'Yes', off: 'No' }}
+          desc="Anti-Windup is only applicable to controls that contain an Integrative component"
+          value={state.antiWindup}
+          toggleValue={x => dispatch({ type: 'anti-windup' })}
         />
         <MultiSelect
           title="Tuning method"
           desc="Not all tuning methods and control types are compatible with each other"
           options={['ZN', 'CC', 'IMC', 'ITAE']}
-          set={methods}
-          toggleSet={toggleMethod}
+          set={state.methods}
+          toggleSet={x => dispatch({ type: 'method', payload: x })}
         />
       </StepBody>
     </Step>

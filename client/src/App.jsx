@@ -19,6 +19,7 @@ const initialState = {
   system: { k: 2.5, tau: 100, tauD: 10, a: 50, y0: 22.5 },
   controls: new Set(['PI', 'PID']),
   methods: new Set(['ZN', 'IMC']),
+  antiWindup: false,
   simulation: { start: 22.5, target: 50, mean: 0, sd: 2 },
 };
 
@@ -32,6 +33,9 @@ function reducer(state, action) {
       if (state.controls.delete(action.payload))
         return { ...state, controls: state.controls };
       else return { ...state, controls: state.controls.add(action.payload) };
+
+    case 'anti-windup':
+      return { ...state, antiWindup: !state.antiWindup };
 
     case 'method':
       if (state.methods.delete(action.payload))
@@ -60,13 +64,7 @@ function App() {
           system={state.system}
           updateSystem={x => dispatch({ type: 'system', payload: x })}
         />
-        <ControlTuning
-          controls={state.controls}
-          methods={state.methods}
-          toggleControl={x => dispatch({ type: 'control', payload: x })}
-          toggleMethod={x => dispatch({ type: 'method', payload: x })}
-          bgColor="gray.900"
-        />
+        <ControlTuning state={state} dispatch={dispatch} bgColor="gray.900" />
         <Simulation
           simulation={state.simulation}
           updateSimulation={x => dispatch({ type: 'simulation', payload: x })}

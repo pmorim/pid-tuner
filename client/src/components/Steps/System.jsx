@@ -3,7 +3,7 @@ import MathJax from 'react-mathjax-preview';
 
 // Custom components
 import { Step, StepBody, StepDesc, StepTitle } from '../Step';
-import { SliderInput } from '../Inputs';
+import { SliderInput, SliderInputGroup } from '../Inputs';
 
 // Chakra-UI components
 import { Text, VStack } from '@chakra-ui/layout';
@@ -19,7 +19,6 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import { data } from './data/GraphTest';
-import { SliderInputGroup } from '../Inputs/SliderInputGroup';
 
 export const System = ({ system, updateSystem, ...rest }) => {
   return (
