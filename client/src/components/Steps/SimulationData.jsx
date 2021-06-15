@@ -38,6 +38,7 @@ export const SimulationData = ({ ...rest }) => {
               <Th isNumeric>Kp</Th>
               <Th isNumeric>Ti</Th>
               <Th isNumeric>Td</Th>
+              <Th isNumeric>Ka</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -46,6 +47,7 @@ export const SimulationData = ({ ...rest }) => {
               <Td>Ziegler-Nichols</Td>
               <Td isNumeric>5</Td>
               <Td isNumeric>20</Td>
+              <Td isNumeric>-</Td>
               <Td isNumeric>-</Td>
             </Tr>
           </Tbody>
