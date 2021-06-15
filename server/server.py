@@ -75,7 +75,7 @@ def control():
     return jsonify(control_func(data))
 
   except:
-    print("control didn't work")
+    print("\n\tControl didn't work\n")
 
 if __name__ == "__main__":
   app.run(host='localhost', port=os.environ.get('PORT'))
