@@ -1,7 +1,12 @@
 import React, { useReducer } from 'react';
 
 // Custom components
-import { System, ControlTuning, Simulation } from './components/Steps';
+import {
+  System,
+  ControlTuning,
+  Simulation,
+  SimulationData,
+} from './components/Steps';
 import { Nav } from './components/Nav';
 import { Footer } from './components/Footer';
 
@@ -16,9 +21,11 @@ const theme = extendTheme({
 
 // The initial state of the App
 const initialState = {
-  system: { k: 2.5, tau: 100, tauD: 10 },
-  controls: new Set(['PI', 'PID']),
-  methods: new Set(['ZN', 'IMC']),
+  system: { k: 2.5, tau: 100, tauD: 10, a: 50, y0: 22.5 },
+  controls: new Set(['PI']),
+  methods: new Set(['IMC Aggressive', 'IMC Moderate', 'IMC Conservative']),
+  antiWindup: true,
+  simulation: { start: 22.5, target: 50, mean: 0, sd: 2 },
 };
 
 // The State-Manager function
@@ -32,10 +39,19 @@ function reducer(state, action) {
         return { ...state, controls: state.controls };
       else return { ...state, controls: state.controls.add(action.payload) };
 
+    case 'anti-windup':
+      return { ...state, antiWindup: !state.antiWindup };
+
     case 'method':
       if (state.methods.delete(action.payload))
         return { ...state, methods: state.methods };
       else return { ...state, methods: state.methods.add(action.payload) };
+
+    case 'simulation':
+      return {
+        ...state,
+        simulation: { ...state.simulation, ...action.payload },
+      };
 
     default:
       throw new Error('Unknown action type');
@@ -50,17 +66,17 @@ function App() {
       <Nav />
       <Box>
         <System
+          bgColor="gray.900"
           system={state.system}
           updateSystem={x => dispatch({ type: 'system', payload: x })}
         />
-        <ControlTuning
-          controls={state.controls}
-          methods={state.methods}
-          toggleControl={x => dispatch({ type: 'control', payload: x })}
-          toggleMethod={x => dispatch({ type: 'method', payload: x })}
+        <ControlTuning state={state} dispatch={dispatch} />
+        <Simulation
           bgColor="gray.900"
+          simulation={state.simulation}
+          updateSimulation={x => dispatch({ type: 'simulation', payload: x })}
         />
-        <Simulation />
+        <SimulationData />
       </Box>
       <Footer />
     </ChakraProvider>
