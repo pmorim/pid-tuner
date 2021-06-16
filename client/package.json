@@ -13,7 +13,8 @@
     "react-dom": "^16",
     "react-icons": "^3.11.0",
     "react-mathjax-preview": "^2.2.3",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^4.0.3",
+    "recharts": "^2.0.9"
   },
   "scripts": {
     "start": "react-scripts start",

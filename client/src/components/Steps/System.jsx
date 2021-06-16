@@ -3,13 +3,29 @@ import MathJax from 'react-mathjax-preview';
 
 // Custom components
 import { Step, StepBody, StepDesc, StepTitle } from '../Step';
-import { SliderInput } from '../SliderInput';
+import { SliderInput, SliderInputGroup } from '../Inputs';
+
+// Recharts components
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts';
 
 // Chakra-UI components
-import { Center, Text, VStack } from '@chakra-ui/layout';
-import { FormControl, FormLabel } from '@chakra-ui/form-control';
+import { FormLabel } from '@chakra-ui/form-control';
+import { Text, VStack } from '@chakra-ui/layout';
+import { Button } from '@chakra-ui/button';
+import { useToast } from '@chakra-ui/toast';
+import { GiGears } from 'react-icons/gi';
+import { data } from './data/GraphTest';
 
 export const System = ({ system, updateSystem, ...rest }) => {
+  const toast = useToast();
+
   return (
     <Step {...rest}>
       <StepTitle>System's Model</StepTitle>
@@ -24,50 +40,111 @@ export const System = ({ system, updateSystem, ...rest }) => {
           math={String.raw`$$G(s) = \frac{K}{\tau s+1} e^{-\tau_D s}$$`}
         />
         <Text>
-          We assume that both the system's time constant, τ, and the system's
-          delay, τD, are in seconds.
+          We then apply a step with the specified amplitude, <b>A</b>, to a
+          system that is currently at a certain start value, <b>Y₀</b>. Such as
+          the following formula:
         </Text>
+        <MathJax math={String.raw`$$Y(s) = A G(s) + Y_0$$`} />
       </StepDesc>
 
       <StepBody>
-        <FormControl w="100%">
-          <VStack spacing={0} w="100%">
-            <FormLabel>System's Constants</FormLabel>
-            <SliderInput
-              label="K"
-              min={0}
-              max={20}
-              step={0.1}
-              value={system.k}
-              setValue={x => updateSystem({ k: x })}
-            />
-            <SliderInput
-              label="τ"
-              min={0}
-              max={200}
-              step={0.1}
-              value={system.tau}
-              setValue={x => updateSystem({ tau: x })}
-            />
-            <SliderInput
-              label="τD"
-              min={0}
-              max={60}
-              step={0.1}
-              value={system.tauD}
-              setValue={x => updateSystem({ tauD: x })}
-            />
-          </VStack>
-        </FormControl>
+        <SliderInputGroup label="System's Model parameters">
+          <SliderInput
+            label="K"
+            min={0}
+            max={20}
+            step={0.1}
+            value={system.k}
+            setValue={x => updateSystem({ k: x })}
+          />
+          <SliderInput
+            label="τ"
+            min={0}
+            max={200}
+            step={0.1}
+            value={system.tau}
+            setValue={x => updateSystem({ tau: x })}
+          />
+          <SliderInput
+            label="τD"
+            min={0}
+            max={60}
+            step={0.1}
+            value={system.tauD}
+            setValue={x => updateSystem({ tauD: x })}
+          />
+        </SliderInputGroup>
 
-        <Center
-          w="100%"
-          h="300px"
-          bgGradient="linear(to-br, cyan.700, purple.500)"
-          fontSize="4xl"
+        <SliderInputGroup label="Step parameters">
+          <SliderInput
+            label="A"
+            min={0.1}
+            max={100}
+            step={0.1}
+            value={system.a}
+            setValue={x => updateSystem({ a: x })}
+          />
+          <SliderInput
+            label="Y₀"
+            min={0}
+            max={100}
+            step={0.1}
+            value={system.y0}
+            setValue={x => updateSystem({ y0: x })}
+          />
+        </SliderInputGroup>
+
+        <VStack width="100%" height="300px">
+          <FormLabel>Analytical Model</FormLabel>
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart
+              width={500}
+              height={300}
+              data={data}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <defs>
+                <linearGradient id="color" x1="100%" x2="0%" y1="0%" y2="0%">
+                  <stop offset="0%" stopColor="#7b5cd3" />
+                  <stop offset="100%" stopColor="#1185a4" />
+                </linearGradient>
+              </defs>
+              <XAxis dataKey="x" stroke="white" />
+              <YAxis dataKey="y" stroke="white" />
+              <Tooltip />
+              <Line
+                type="monotone"
+                dataKey="y"
+                stroke="url(#color)"
+                strokeWidth={3}
+                dot={false}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </VStack>
+
+        <Button
+          size="lg"
+          variant="outline"
+          leftIcon={<GiGears />}
+          loadingText="Simulating..."
+          isLoading={false}
+          onClick={() =>
+            toast({
+              title: 'Not yet implemented',
+              position: 'bottom-left',
+              status: 'warning',
+              isClosable: true,
+            })
+          }
         >
-          Graph
-        </Center>
+          Preview
+        </Button>
       </StepBody>
     </Step>
   );
