@@ -52,18 +52,23 @@ def control():
                 controller type and sintony method.
     Receives:
     {
-      "method": "IMC",
-      "control": "PID",
       "system":
       {
         "k": 2.5,
         "tau": 100,
-        "tauD": 10
+        "tauD": 10,
+        "a": 50,
+        "y0": 22.5
       },
-      "settings":
+      "control": "PI",
+      "method":"ZN",
+      "antiWindup": false,
+      "simulation":
       {
-        "start": 20,
-        "target": 50
+        "start": 22.5,
+        "target": 50,
+        "mean": 0,
+        "sd": 2
       }
     }
   """
@@ -74,8 +79,9 @@ def control():
     print(data)
     return jsonify(control_func(data))
 
-  except:
-    print("\n\tControl didn't work\n")
+  except Exception as e:
+    print(f"\n\tControl didn't work \n {str(e)}\n")
+    return str(e), 406
 
 if __name__ == "__main__":
   app.run(host='localhost', port=os.environ.get('PORT'))
