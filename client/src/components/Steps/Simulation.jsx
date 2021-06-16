@@ -21,8 +21,8 @@ export const Simulation = ({ simulation, updateSimulation, ...rest }) => {
           For you to best analyse, and visually compare, the different{' '}
           <b>types of control</b> and <b>tuning methods</b>, you can simulate
           them together. For that, you need to indicate the value at which the
-          simulation starts, <b>start</b>, and the <b>target</b> for the
-          control.
+          simulation starts and the <b>target</b> value for the control to try
+          to stabilize at.
         </Text>
 
         <NumberInputGroup title="Simulation parameters">
@@ -94,6 +94,7 @@ export const Simulation = ({ simulation, updateSimulation, ...rest }) => {
           onClick={() =>
             toast({
               title: 'Not yet implemented',
+              position: 'bottom-left',
               status: 'warning',
               isClosable: true,
             })

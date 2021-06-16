@@ -5,10 +5,6 @@ import MathJax from 'react-mathjax-preview';
 import { Step, StepBody, StepDesc, StepTitle } from '../Step';
 import { SliderInput, SliderInputGroup } from '../Inputs';
 
-// Chakra-UI components
-import { Text, VStack } from '@chakra-ui/layout';
-import { FormLabel } from '@chakra-ui/form-control';
-
 // Recharts components
 import {
   LineChart,
@@ -18,9 +14,18 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+
+// Chakra-UI components
+import { FormLabel } from '@chakra-ui/form-control';
+import { Text, VStack } from '@chakra-ui/layout';
+import { Button } from '@chakra-ui/button';
+import { useToast } from '@chakra-ui/toast';
+import { GiGears } from 'react-icons/gi';
 import { data } from './data/GraphTest';
 
 export const System = ({ system, updateSystem, ...rest }) => {
+  const toast = useToast();
+
   return (
     <Step {...rest}>
       <StepTitle>System's Model</StepTitle>
@@ -122,6 +127,24 @@ export const System = ({ system, updateSystem, ...rest }) => {
             </LineChart>
           </ResponsiveContainer>
         </VStack>
+
+        <Button
+          size="lg"
+          variant="outline"
+          leftIcon={<GiGears />}
+          loadingText="Simulating..."
+          isLoading={false}
+          onClick={() =>
+            toast({
+              title: 'Not yet implemented',
+              position: 'bottom-left',
+              status: 'warning',
+              isClosable: true,
+            })
+          }
+        >
+          Preview
+        </Button>
       </StepBody>
     </Step>
   );

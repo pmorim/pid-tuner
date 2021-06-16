@@ -28,8 +28,9 @@ export const SimulationData = ({ ...rest }) => {
         You can download the values from the table so that you don't need to
         simulate it again.
       </StepDesc>
+
       <StepBody>
-        <Table variant="simple">
+        <Table variant="simple" size="sm">
           <TableCaption>Values calculated in the simulation</TableCaption>
           <Thead>
             <Tr>
@@ -38,7 +39,7 @@ export const SimulationData = ({ ...rest }) => {
               <Th isNumeric>Kp</Th>
               <Th isNumeric>Ti</Th>
               <Th isNumeric>Td</Th>
-              <Th isNumeric>Ka</Th>
+              <Th isNumeric>Tt</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -62,6 +63,7 @@ export const SimulationData = ({ ...rest }) => {
           onClick={() =>
             toast({
               title: 'Not yet implemented',
+              position: 'bottom-left',
               status: 'warning',
               isClosable: true,
             })

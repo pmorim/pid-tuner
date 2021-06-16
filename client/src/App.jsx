@@ -22,9 +22,9 @@ const theme = extendTheme({
 // The initial state of the App
 const initialState = {
   system: { k: 2.5, tau: 100, tauD: 10, a: 50, y0: 22.5 },
-  controls: new Set(['PID']),
-  methods: new Set(['Ziegler-Nichols', 'IMC Aggressive']),
-  antiWindup: false,
+  controls: new Set(['PI']),
+  methods: new Set(['IMC Aggressive', 'IMC Moderate', 'IMC Conservative']),
+  antiWindup: true,
   simulation: { start: 22.5, target: 50, mean: 0, sd: 2 },
 };
 

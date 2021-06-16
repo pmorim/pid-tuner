@@ -3,10 +3,11 @@ import MathJax from 'react-mathjax-preview';
 
 // Custom components
 import { Step, StepBody, StepDesc, StepTitle } from '../Step';
-import { MultiSelect, SwitchInput } from '../Inputs';
+import { CascadingMultiSelect, MultiSelect, SwitchInput } from '../Inputs';
 
 // Chakra-UI components
-import { Text } from '@chakra-ui/layout';
+import { Stack, Text, VStack } from '@chakra-ui/layout';
+import { FormLabel } from '@chakra-ui/form-control';
 
 export const ControlTuning = ({ state, dispatch, ...rest }) => {
   return (
@@ -32,35 +33,51 @@ export const ControlTuning = ({ state, dispatch, ...rest }) => {
       </StepDesc>
 
       <StepBody spacing="50px">
-        <MultiSelect
-          title="Type of control"
-          desc="If you are unsure which one to pick, we recommend PID"
-          options={['P', 'PI', 'PD', 'PID']}
-          set={state.controls}
-          toggleSet={x => dispatch({ type: 'control', payload: x })}
-        />
+        <VStack>
+          <FormLabel>Type of control</FormLabel>
+          <MultiSelect
+            direction="row"
+            options={['P', 'PI', 'PD', 'PID']}
+            set={state.controls}
+            toggleSet={x => dispatch({ type: 'control', payload: x })}
+          />
+        </VStack>
+
         <SwitchInput
           title="Integral Anti-Windup"
           labels={{ on: 'Yes', off: 'No' }}
-          desc="Anti-Windup is only applicable to controls that contain an Integrative component"
           value={state.antiWindup}
-          toggleValue={x => dispatch({ type: 'anti-windup' })}
+          toggleValue={() => dispatch({ type: 'anti-windup' })}
         />
-        <MultiSelect
-          title="Tuning method"
-          desc="Not all tuning methods and control types are compatible with each other"
-          options={[
-            'Ziegler-Nichols',
-            'Cohen-Coon',
-            'IMC Aggressive',
-            'IMC Moderate',
-            'IMC Conservative',
-            'ITAE Reference Entry',
-            'ITAE Perturbation Rejection',
-          ]}
-          set={state.methods}
-          toggleSet={x => dispatch({ type: 'method', payload: x })}
-        />
+
+        <VStack spacing={5}>
+          <FormLabel>Tuning method</FormLabel>
+          <MultiSelect
+            direction={['column', 'row']}
+            options={['Ziegler-Nichols', 'Cohen-Coon']}
+            set={state.methods}
+            toggleSet={x => dispatch({ type: 'method', payload: x })}
+          />
+          <Stack
+            direction={['column', 'row']}
+            align="flex-start"
+            justify="center"
+            spacing={5}
+          >
+            <CascadingMultiSelect
+              main="IMC"
+              types={['Aggressive', 'Moderate', 'Conservative']}
+              set={state.methods}
+              toggleSet={x => dispatch({ type: 'method', payload: x })}
+            />
+            <CascadingMultiSelect
+              main="ITAE"
+              types={['Reference Entry', 'Perturbation Rejection']}
+              set={state.methods}
+              toggleSet={x => dispatch({ type: 'method', payload: x })}
+            />
+          </Stack>
+        </VStack>
       </StepBody>
     </Step>
   );

@@ -1,45 +1,21 @@
 import React from 'react';
 
-import {
-  FormControl,
-  FormHelperText,
-  FormLabel,
-} from '@chakra-ui/form-control';
-import { Flex, VStack } from '@chakra-ui/layout';
-import { Checkbox, CheckboxGroup } from '@chakra-ui/react';
+import { Checkbox } from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/layout';
 
-export const MultiSelect = ({
-  title,
-  desc,
-  options,
-  set,
-  toggleSet,
-  ...rest
-}) => {
+export const MultiSelect = ({ options, set, toggleSet, ...rest }) => {
   return (
-    <FormControl>
-      <VStack {...rest}>
-        <FormLabel>{title}</FormLabel>
-
-        <CheckboxGroup colorScheme="blue" defaultValue={[...set]}>
-          <Flex justifyContent="center" wrap="wrap" spacing={5}>
-            {options.map(option => (
-              <Checkbox
-                key={option}
-                size="lg"
-                value={option}
-                isChecked={set.has(option)}
-                onChange={() => toggleSet(option)}
-                m={2}
-              >
-                {option}
-              </Checkbox>
-            ))}
-          </Flex>
-        </CheckboxGroup>
-
-        <FormHelperText align="center">{desc}</FormHelperText>
-      </VStack>
-    </FormControl>
+    <Stack spacing={5} {...rest}>
+      {options.map(option => (
+        <Checkbox
+          size="lg"
+          key={option}
+          isChecked={set.has(option)}
+          onChange={() => toggleSet(option)}
+        >
+          {option}
+        </Checkbox>
+      ))}
+    </Stack>
   );
 };
