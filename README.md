@@ -13,6 +13,7 @@ This is a simple Web App that simulates the different PID tuning algorithms appl
 * [Live Demo](#live-demo)
 * [Features](#features)
 * [Teck Stack](#tech-stack)
+* [Other Options](#other-options)
 * [Authors](#authors)
 * [License](#license)
 
@@ -41,7 +42,7 @@ We opted to go with a JavaScript frontend because it is, by far, the best tool i
 * **Server:** Flask, Numpy
 
 
-## Other options
+## Other Options
 
 If, instead of making the API in Python, we created some functions in JavaScript that could run directly in React, we could have then used [Electron](https://www.electronjs.org/) to turn this Web App into an executable and, therefore, access the USB Ports of the user to be able to apply the simulation to the actual system using the [Firmata.js](https://github.com/firmata/firmata.js/tree/master/packages/firmata.js) library.
 
