@@ -33,8 +33,8 @@ export const System = ({ system, updateSystem, ...rest }) => {
         <Text>
           To be able to properly control the system, we need to know how the
           system behaves. Therefore we need to know the system's analytical
-          model. We assume that it's a <b>first degree system with delay</b>, so
-          we calculate the model though the following formula:
+          model. We use the <b>First-Order Plus Dead Time</b> (FOPDT) model, so
+          we calculate it though the following formula:
         </Text>
         <MathJax
           math={String.raw`$$G(s) = \frac{K}{\tau s+1} e^{-\tau_D s}$$`}
