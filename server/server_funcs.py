@@ -20,8 +20,6 @@ def model_func(sys_model):
   res = float(sys_model.get("res") or 0.5)
   a = float(sys_model.get("a") or 1)
   y0 = float(sys_model.get("y0") or 0)
-  #a = float(sys_model["a"])
-  #y0 = float(sys_model["y0"])
   
   size = int(t_max/res)
 
@@ -29,9 +27,9 @@ def model_func(sys_model):
   for t in range(size):
     y = k*a*(1-np.e**(-(t-tauD)/tau))
     if y < 0:
-        model_graf.append({"x": t*res, "y": 0 + y0})
+        model_graf.append({"t": t*res, "y": 0 + y0})
     else:
-        model_graf.append({"x": t*res, "y": y + y0})
+        model_graf.append({"t": t*res, "y": y + y0})
 
   return model_graf
 """
@@ -39,7 +37,7 @@ def model_func(sys_model):
   {
     "graph":
     [
-      {"x": 0, "y": 0},
+      {"t": 0, "y": 0},
       // ...
     ] 
   }
@@ -73,10 +71,12 @@ Receives:
   method = control["method"]
   result = {}
 
+  if not ( ("IMC" in method) or ("ITAE" in method) or (method == "Ziegler-Nichols") or (method == "Cohen-Coon") ):
+    raise Exception("Choose a valid method!")
   if "IMC" in method:
     result.update(imc_func(control))
   if control["system"]["tauD"] == 0 :
-    raise Exception(f"{method} tuning method can only tune First-Order Plus Dead Time systems. The system must have dead time!")#τD must be different from 0!")
+    raise Exception(f"{method} tuning method can only tune First-Order Plus Dead Time systems. The system must have dead time different from zero!")
   elif method == "Ziegler-Nichols":
     result.update(ziegler_nichols_func(control))
   elif method == "Cohen-Coon":
@@ -84,7 +84,7 @@ Receives:
   elif "ITAE" in method:
     result.update(itae_func(control))
   else:
-    raise Exception("Choose a valid method!")
+    raise Exception(f"Impossible to get here! method: {method} result: {result} (just for debugging)")
 
   #get graf simulation
   result = (simulate(control, result))
@@ -131,7 +131,7 @@ def ziegler_nichols_func(data):
     Ti = float(2.0 * tauD)
     Td = float(0.5 * tauD)
   else:
-    raise Exception("Ziegler-Nichols tuning method doesn't support PD control!")
+    raise Exception("Ziegler-Nichols tuning method doesn't support PD control! Only accepts P, PI and PID.")
 
 
   ganhos = {"params": {"Kp": Kp, "Ti": Ti, "Td": Td}}
@@ -181,7 +181,7 @@ def imc_func(data):
   elif "Conservative" in data["method"]:
     tauC = max(10.0*tau, 80.0*tauD)
   else:
-    raise Exception("Choose a valid IMC method! (Agressive, Moderate or Conservative")
+    raise Exception("Choose a valid IMC method! (Agressive, Moderate or Conservative)")
 
   if data["control"] == "PI":
     Kp = float( (1/k) * tau/(tauC+tauD) )
@@ -191,7 +191,7 @@ def imc_func(data):
     Ti = float(tau + 0.5*tauD)
     Td = float(tau*tauD/(2*tau + tauD))
   else:
-    raise Exception("IMC tuning method doesn't support P or PD control!")
+    raise Exception("IMC tuning method doesn't support P or PD control! Only accepts PI and PID.")
 
   ganhos = {"params": {"Kp": Kp, "Ti": Ti, "Td": Td}}
   return ganhos
@@ -214,7 +214,7 @@ def itae_func(data):
       Kp = float( (0.586 / k) * ( (tauD/tau) ** -0.916) )
       Ti = float( tau / (1.03 - 0.165 * (tauD/tau)) )
     else:
-      raise Exception("ITAE Reference Entry tuning method doesn't support PD or PID control!")
+      raise Exception("ITAE Reference Entry tuning method doesn't support PD or PID control! Only accepts P and PI.")
 
   # Rejeição a Perturbações #
   elif "Perturbation Rejection" in data["method"]:
@@ -224,10 +224,10 @@ def itae_func(data):
       Kp = float( (0.859 / k) * ( (tauD/tau) ** -0.977) )
       Ti = float( (tau / 0.674) * ( (tauD/tau)  ** 0.68) )
     else:
-      raise Exception("ITAE Perturbation Rejection tuning method doesn't support PD or PID control!")
+      raise Exception("ITAE Perturbation Rejection tuning method doesn't support PD or PID control! Only accepts P and PI.")
       
   else:
-      raise Exception("Choose valid ITAE method! (Reference Entry or Perturbation Rejection")
+      raise Exception("Choose valid ITAE method! (Reference Entry or Perturbation Rejection)")
   
   ganhos = {"params": {"Kp": Kp, "Ti": Ti, "Td": Td}}
   return ganhos
