@@ -1,9 +1,11 @@
 import React from 'react';
 
+import { IconLink } from '../IconLink';
+import logo from '../../assets/logo.svg';
+
 import { Box, Container, Heading, HStack } from '@chakra-ui/layout';
 import { FaGithub } from 'react-icons/fa';
-
-import { IconLink } from '../IconLink';
+import { Image } from '@chakra-ui/image';
 
 export const Nav = ({ ...rest }) => {
   return (
@@ -16,7 +18,8 @@ export const Nav = ({ ...rest }) => {
       {...rest}
     >
       <Container maxW="container.xl">
-        <HStack>
+        <HStack align="center">
+          <Image height={8} src={logo} alt="Logo" mr={5} />
           <Heading color="white" as="h1" size="2xl">
             PID Tuner
           </Heading>
