@@ -56,13 +56,13 @@ def control():
       {
         "k": 2.5,
         "tau": 100,
-        "tauD": 10,
+        "τD": 10,
         "a": 50,
         "y0": 22.5
       },
       "control": "PI",
       "method":"ZN",
-      "antiWindup": false,
+      "antiWindup": No,
       "simulation":
       {
         "start": 22.5,

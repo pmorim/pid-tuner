@@ -73,16 +73,18 @@ Receives:
   method = control["method"]
   result = {}
 
-  if method == "Ziegler-Nichols":
+  if "IMC" in method:
+    result.update(imc_func(control))
+  if control["system"]["tauD"] == 0 :
+    raise Exception(f"{method} tuning method can only tune First-Order Plus Dead Time systems. The system must have dead time!")#τD must be different from 0!")
+  elif method == "Ziegler-Nichols":
     result.update(ziegler_nichols_func(control))
   elif method == "Cohen-Coon":
     result.update(cohen_coon_func(control))
-  elif "IMC" in method:
-    result.update(imc_func(control))
   elif "ITAE" in method:
     result.update(itae_func(control))
   else:
-    raise Exception("Not compatible")
+    raise Exception("Choose a valid method!")
 
   #get graf simulation
   result = (simulate(control, result))
@@ -129,7 +131,7 @@ def ziegler_nichols_func(data):
     Ti = float(2.0 * tauD)
     Td = float(0.5 * tauD)
   else:
-    raise Exception("Not compatible")
+    raise Exception("Ziegler-Nichols tuning method doesn't support PD control!")
 
 
   ganhos = {"params": {"Kp": Kp, "Ti": Ti, "Td": Td}}
@@ -157,7 +159,7 @@ def cohen_coon_func(data):
     Ti = float( 2.5*tauD * (tau + 0.185*tauD) / (tau + 0.611*tauD) )
     Td = float( 0.37*tauD * tau / (tau + 0.185*tauD) )
   else:
-    raise Exception("Not compatible")
+    raise Exception("Choose a valid control!")
   
   ganhos = {"params": {"Kp": Kp, "Ti": Ti, "Td": Td}}
   return ganhos
@@ -179,7 +181,7 @@ def imc_func(data):
   elif "Conservative" in data["method"]:
     tauC = max(10.0*tau, 80.0*tauD)
   else:
-    raise Exception("Not compatible")
+    raise Exception("Choose a valid IMC method! (Agressive, Moderate or Conservative")
 
   if data["control"] == "PI":
     Kp = float( (1/k) * tau/(tauC+tauD) )
@@ -189,7 +191,7 @@ def imc_func(data):
     Ti = float(tau + 0.5*tauD)
     Td = float(tau*tauD/(2*tau + tauD))
   else:
-    raise Exception("Not compatible")
+    raise Exception("IMC tuning method doesn't support P or PD control!")
 
   ganhos = {"params": {"Kp": Kp, "Ti": Ti, "Td": Td}}
   return ganhos
@@ -212,7 +214,7 @@ def itae_func(data):
       Kp = float( (0.586 / k) * ( (tauD/tau) ** -0.916) )
       Ti = float( tau / (1.03 - 0.165 * (tauD/tau)) )
     else:
-      raise Exception("Not compatible")
+      raise Exception("ITAE Reference Entry tuning method doesn't support PD or PID control!")
 
   # Rejeição a Perturbações #
   elif "Perturbation Rejection" in data["method"]:
@@ -222,10 +224,10 @@ def itae_func(data):
       Kp = float( (0.859 / k) * ( (tauD/tau) ** -0.977) )
       Ti = float( (tau / 0.674) * ( (tauD/tau)  ** 0.68) )
     else:
-      raise Exception("Not compatible")
+      raise Exception("ITAE Perturbation Rejection tuning method doesn't support PD or PID control!")
       
   else:
-      raise Exception("Not compatible")
+      raise Exception("Choose valid ITAE method! (Reference Entry or Perturbation Rejection")
   
   ganhos = {"params": {"Kp": Kp, "Ti": Ti, "Td": Td}}
   return ganhos
@@ -277,7 +279,7 @@ def simulate(data, params):
           Tt = float( (Ti * Td)**(0.5))
       else:
           Tt = None
-          raise Exception("Can't add anti-windup")
+          raise Exception("Can't add anti-windup to control without integral component!")
       Ka = float(1/Tt) if Tt is not None else 0
   else:
       Tt = None
@@ -318,7 +320,7 @@ def simulate(data, params):
         
         e_ant = e
 
-    graph["points"].append({"x": i*T, "u": u, "y": temp + start})
+    graph["points"].append({"t": i*T, "u": u, "u_p": P, "u_i": I, "u_d": D, "y": temp + start})
 
   gains = {"gains": {"Tt": Tt}}
   gains["gains"].update(params["params"])
