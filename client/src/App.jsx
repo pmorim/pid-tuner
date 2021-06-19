@@ -13,9 +13,23 @@ import { Footer } from './components/Footer';
 // Chakra-UI components
 import { Box, ChakraProvider, extendTheme } from '@chakra-ui/react';
 const theme = extendTheme({
+  // Force Dark-Mode
   config: {
     useSystemColorMode: false,
     initialColorMode: 'dark',
+  },
+
+  // Custom Scroll-bar
+  styles: {
+    global: {
+      '&::-webkit-scrollbar': {
+        width: '10px',
+      },
+      '&::-webkit-scrollbar-thumb': {
+        bgGradient: 'linear(to-t, cyan.700, purple.500)',
+        borderRadius: '10px',
+      },
+    },
   },
 });
 
