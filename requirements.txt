@@ -1,0 +1,6 @@
+Flask==0.8
+numpy==
+scipy==
+flask_cors==
+eventlet==
+os==

@@ -11,6 +11,13 @@ def model_func(sys_model):
 
   Returns:
     dict of float: The x and y coordinates of the points.
+    {
+      "graph":
+      [
+        {"t": 0, "y": 0},
+        // ...
+      ] 
+    }
   """
 
   k = float(sys_model["k"])
@@ -32,42 +39,31 @@ def model_func(sys_model):
         model_graf.append({"t": t*res, "y": y + y0})
 
   return model_graf
-"""
-    Returns:
-  {
-    "graph":
-    [
-      {"t": 0, "y": 0},
-      // ...
-    ] 
-  }
-""" 
+
 
 def control_func(control):
   """
-Receives:
-{
-  "system":
+  Receives:
   {
-    "k": 2.5,
-    "tau": 100,
-    "tauD": 10,
-    "a": 50,
-    "y0": 22.5
-  },
-  "control": "PI",
-  "method":"ZN",
-  "antiWindup": false,
-  "simulation":
-  {
-    "start": 22.5,
-    "target": 50,
-    "mean": 0,
-    "sd": 2
+    "system": {
+      "k": 2.5,
+      "tau": 100,
+      "tauD": 10,
+      "a": 50,
+      "y0": 22.5
+    },
+    "control": "PI",
+    "method":"ZN",
+    "antiWindup": false,
+    "simulation": {
+      "start": 22.5,
+      "target": 50,
+      "mean": 0,
+      "sd": 2
+    }
   }
-}
-"""
-# Decide method
+  """
+  # Decide method
   method = control["method"]
   result = {}
 
@@ -111,15 +107,26 @@ Receives:
   """
   return result
 
+
 # Methods Functions
 def ziegler_nichols_func(data):
+  """[summary]
+
+  Args:
+      data ([type]): [description]
+
+  Raises:
+      Exception: [description]
+
+  Returns:
+      [type]: [description]
+  """
+
   k = float(data["system"]["k"])
   tau = float(data["system"]["tau"])
   tauD = float(data["system"]["tauD"])
 
-  Kp = None
-  Ti = None
-  Td = None
+  Kp, Ti, Td = None, None, None
 
   if data["control"] == "P":
     Kp = float(tau / (k*tauD))
@@ -137,7 +144,20 @@ def ziegler_nichols_func(data):
   ganhos = {"params": {"Kp": Kp, "Ti": Ti, "Td": Td}}
   return ganhos
 
+
 def cohen_coon_func(data):
+  """[summary]
+
+  Args:
+      data ([type]): [description]
+
+  Raises:
+      Exception: [description]
+
+  Returns:
+      [type]: [description]
+  """
+
   k = float(data["system"]["k"])
   tau = float(data["system"]["tau"])
   tauD = float(data["system"]["tauD"])
@@ -164,7 +184,21 @@ def cohen_coon_func(data):
   ganhos = {"params": {"Kp": Kp, "Ti": Ti, "Td": Td}}
   return ganhos
 
+
 def imc_func(data):
+  """[summary]
+
+  Args:
+      data ([type]): [description]
+
+  Raises:
+      Exception: [description]
+      Exception: [description]
+
+  Returns:
+      [type]: [description]
+  """
+
   k = float(data["system"]["k"])
   tau = float(data["system"]["tau"])
   tauD = float(data["system"]["tauD"])
@@ -198,6 +232,20 @@ def imc_func(data):
 
 
 def itae_func(data):
+  """[summary]
+
+  Args:
+      data ([type]): [description]
+
+  Raises:
+      Exception: [description]
+      Exception: [description]
+      Exception: [description]
+
+  Returns:
+      [type]: [description]
+  """
+
   k = float(data["system"]["k"])
   tau = float(data["system"]["tau"])
   tauD = float(data["system"]["tauD"])
@@ -231,18 +279,38 @@ def itae_func(data):
   
   ganhos = {"params": {"Kp": Kp, "Ti": Ti, "Td": Td}}
   return ganhos
-  
+
+
 # Proces for Simulation
-def process(y,t,u,Kp,tau):
+def process(y, t, u, Kp, tau):
     dydt = (-y + (Kp * u))/tau
     return dydt
 
-# Simulation
+
 def simulate(data, params):
+  """Simulates the system
+
+  Args:
+      data: [description]
+      params: [description]
+
+  Raises:
+      Exception: [description]
+
+  Returns:
+      [type]: [description]
+  """
+
   control = data["control"]
   method = data["method"]
   anti_wind = data["antiWindup"]
-  meta = {"meta": {"control": control, "tuning": method,"antiwindup": anti_wind}}
+  meta = {
+    "meta": {
+      "control": control, 
+      "tuning": method,
+      "antiwindup": anti_wind
+    }
+  }
 
   k = float(data["system"]["k"])
   tau = float(data["system"]["tau"])
@@ -253,7 +321,6 @@ def simulate(data, params):
   target = float(data["simulation"]["target"])
   mean = float(data["simulation"]["mean"])
   sd = float(data["simulation"]["sd"])
-  
   
   Kp = float(params["params"]["Kp"])
   
