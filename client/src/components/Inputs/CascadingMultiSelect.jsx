@@ -18,8 +18,16 @@ export const CascadingMultiSelect = ({
     types.map(type => set.has(`${main} ${type}`)).some(Boolean) && !allChecked;
 
   const checkAll = () => {
-    types.map(type => `${main} ${type}`);
-    toggleSet(types.filter(type => !set.has(type)));
+    toggleSet(
+      types
+        .map(type => `${main} ${type}`)
+        .filter(type => {
+          // If all children are checked, don't filter
+          if (allChecked) return true;
+          // else, filter the selected ones out.
+          return !set.has(type);
+        })
+    );
   };
 
   return (

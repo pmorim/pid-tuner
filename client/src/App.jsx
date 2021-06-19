@@ -13,9 +13,23 @@ import { Footer } from './components/Footer';
 // Chakra-UI components
 import { Box, ChakraProvider, extendTheme } from '@chakra-ui/react';
 const theme = extendTheme({
+  // Force Dark-Mode
   config: {
     useSystemColorMode: false,
     initialColorMode: 'dark',
+  },
+
+  // Custom Scroll-bar
+  styles: {
+    global: {
+      '&::-webkit-scrollbar': {
+        width: '10px',
+      },
+      '&::-webkit-scrollbar-thumb': {
+        bgGradient: 'linear(to-t, cyan.700, purple.500)',
+        borderRadius: '10px',
+      },
+    },
   },
 });
 
@@ -32,22 +46,36 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case 'system':
+      // Update system parameters
       return { ...state, system: { ...state.system, ...action.payload } };
 
     case 'control':
+      // Delete from set
       if (state.controls.delete(action.payload))
         return { ...state, controls: state.controls };
-      else return { ...state, controls: state.controls.add(action.payload) };
+
+      // Add to set
+      return { ...state, controls: state.controls.add(action.payload) };
 
     case 'anti-windup':
+      // Toggle antiWindup bool
       return { ...state, antiWindup: !state.antiWindup };
 
     case 'method':
-      if (state.methods.delete(action.payload))
-        return { ...state, methods: state.methods };
-      else return { ...state, methods: state.methods.add(action.payload) };
+      // Turn payload to array
+      if (!Array.isArray(action.payload)) action.payload = [action.payload];
+
+      // Apply to each of array
+      action.payload.forEach(payload => {
+        // Delete from set
+        if (!state.methods.delete(payload)) state.methods.add(payload);
+      });
+
+      // Update state
+      return { ...state, methods: state.methods };
 
     case 'simulation':
+      // Update simulation parameters
       return {
         ...state,
         simulation: { ...state.simulation, ...action.payload },
