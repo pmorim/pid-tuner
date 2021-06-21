@@ -12,7 +12,24 @@ import { Nav } from './components/Nav';
 import { Footer } from './components/Footer';
 
 // Chakra-UI components
-import { Box, ChakraProvider, extendTheme, StackItem } from '@chakra-ui/react';
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  Text,
+} from '@chakra-ui/react';
+import {
+  Box,
+  ChakraProvider,
+  extendTheme,
+  useDisclosure,
+} from '@chakra-ui/react';
+
 const theme = extendTheme({
   // Force Dark-Mode
   config: {
@@ -78,10 +95,16 @@ function reducer(state, action) {
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [simulation, setSimulation] = useState({});
-  const [simulationError, setSimulationError] = useState(null);
+  const [simulations, setSimulations] = useState();
+  const [simulationErrors, setSimulationErrors] = useState();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const executeSimulation = async () => {
+    // Reset
+    setSimulations([]);
+    setSimulationErrors([]);
+
+    // Execute them one by one
     for (const control of state.controls) {
       for (const method of state.methods) {
         try {
@@ -90,14 +113,15 @@ function App() {
             { ...state, control, method }
           );
 
-          setSimulation(res.data);
-          setSimulationError(null);
+          setSimulations(simulationErrors.push(res.data));
         } catch (e) {
-          setSimulation({});
-          setSimulationError(e);
+          setSimulationErrors(simulationErrors.push(e));
         }
       }
     }
+
+    // Open Error Modal
+    if (simulationErrors) onOpen();
   };
 
   return (
@@ -114,15 +138,31 @@ function App() {
           updateSimulationParams={x =>
             dispatch({ type: 'simulation', payload: x })
           }
-          simulationGraph={simulation.points}
+          simulationGraphs={simulations}
           executeSimulation={executeSimulation}
         />
-        <SimulationData
-          bgColor="gray.900"
-          data={{ ...simulation.meta, ...simulation.gains }}
-        />
+        <SimulationData bgColor="gray.900" simulations={simulations} />
       </Box>
       <Footer />
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Simulation Errors</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            {simulationErrors?.map(error => (
+              <Text>{error}</Text>
+            ))}
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              OK
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </ChakraProvider>
   );
 }

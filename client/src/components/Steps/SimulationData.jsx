@@ -16,7 +16,7 @@ import {
   Tr,
 } from '@chakra-ui/table';
 
-export const SimulationData = ({ data, ...rest }) => {
+export const SimulationData = ({ simulations, ...rest }) => {
   return (
     <Step {...rest}>
       <StepTitle>Simulation Data</StepTitle>
@@ -41,15 +41,15 @@ export const SimulationData = ({ data, ...rest }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {data?.map?.(item => (
+            {simulations?.map?.(item => (
               <Tr>
-                <Td>{item.control}</Td>
-                <Td>{item.tuning}</Td>
-                <Td>{item.antiWindup ? 'Yes' : 'No'}</Td>
-                <Td isNumeric>{item.Kp ?? '-'}</Td>
-                <Td isNumeric>{item.Ti ?? '-'}</Td>
-                <Td isNumeric>{item.Td ?? '-'}</Td>
-                <Td isNumeric>{item.Tt ?? '-'}</Td>
+                <Td>{item.meta.control}</Td>
+                <Td>{item.meta.tuning}</Td>
+                <Td>{item.meta.antiWindup ? 'Yes' : 'No'}</Td>
+                <Td isNumeric>{item.gains.Kp ?? '-'}</Td>
+                <Td isNumeric>{item.gains.Ti ?? '-'}</Td>
+                <Td isNumeric>{item.gains.Td ?? '-'}</Td>
+                <Td isNumeric>{item.gains.Tt ?? '-'}</Td>
               </Tr>
             ))}
           </Tbody>
@@ -61,7 +61,7 @@ export const SimulationData = ({ data, ...rest }) => {
           variant="outline"
           leftIcon={<DownloadIcon />}
           href={`data:text/json;charset=utf-8,${encodeURIComponent(
-            JSON.stringify(data)
+            JSON.stringify(simulations)
           )}`}
           download="pid-tuner.json"
         >
