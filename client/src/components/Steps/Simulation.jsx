@@ -12,7 +12,7 @@ import { GiGears } from 'react-icons/gi';
 export const Simulation = ({
   simulationParams,
   updateSimulationParams,
-  simulationGraph,
+  simulationGraphs,
   executeSimulation,
   ...rest
 }) => {
