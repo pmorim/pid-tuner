@@ -1,4 +1,5 @@
-import React, { useReducer } from 'react';
+import React, { useState, useReducer } from 'react';
+import axios from 'axios';
 
 // Custom components
 import {
@@ -11,7 +12,7 @@ import { Nav } from './components/Nav';
 import { Footer } from './components/Footer';
 
 // Chakra-UI components
-import { Box, ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { Box, ChakraProvider, extendTheme, StackItem } from '@chakra-ui/react';
 const theme = extendTheme({
   // Force Dark-Mode
   config: {
@@ -46,36 +47,24 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case 'system':
-      // Update system parameters
       return { ...state, system: { ...state.system, ...action.payload } };
 
     case 'control':
-      // Delete from set
       if (state.controls.delete(action.payload))
         return { ...state, controls: state.controls };
-
-      // Add to set
       return { ...state, controls: state.controls.add(action.payload) };
 
     case 'anti-windup':
-      // Toggle antiWindup bool
       return { ...state, antiWindup: !state.antiWindup };
 
     case 'method':
-      // Turn payload to array
       if (!Array.isArray(action.payload)) action.payload = [action.payload];
-
-      // Apply to each of array
       action.payload.forEach(payload => {
-        // Delete from set
         if (!state.methods.delete(payload)) state.methods.add(payload);
       });
-
-      // Update state
       return { ...state, methods: state.methods };
 
     case 'simulation':
-      // Update simulation parameters
       return {
         ...state,
         simulation: { ...state.simulation, ...action.payload },
@@ -89,22 +78,49 @@ function reducer(state, action) {
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const [simulation, setSimulation] = useState({});
+  const [simulationError, setSimulationError] = useState(null);
+
+  const executeSimulation = async () => {
+    for (const control of state.controls) {
+      for (const method of state.methods) {
+        try {
+          const res = await axios.post(
+            'https://pid-tuner-condig.herokuapp.com/api/control',
+            { ...state, control, method }
+          );
+
+          setSimulation(res.data);
+          setSimulationError(null);
+        } catch (e) {
+          setSimulation({});
+          setSimulationError(e);
+        }
+      }
+    }
+  };
+
   return (
     <ChakraProvider theme={theme}>
       <Nav />
       <Box>
         <System
-          bgColor="gray.900"
           system={state.system}
           updateSystem={x => dispatch({ type: 'system', payload: x })}
         />
-        <ControlTuning state={state} dispatch={dispatch} />
+        <ControlTuning bgColor="gray.900" state={state} dispatch={dispatch} />
         <Simulation
-          bgColor="gray.900"
-          simulation={state.simulation}
-          updateSimulation={x => dispatch({ type: 'simulation', payload: x })}
+          simulationParams={state.simulation}
+          updateSimulationParams={x =>
+            dispatch({ type: 'simulation', payload: x })
+          }
+          simulationGraph={simulation.points}
+          executeSimulation={executeSimulation}
         />
-        <SimulationData />
+        <SimulationData
+          bgColor="gray.900"
+          data={{ ...simulation.meta, ...simulation.gains }}
+        />
       </Box>
       <Footer />
     </ChakraProvider>

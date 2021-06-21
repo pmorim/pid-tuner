@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MathJax from 'react-mathjax-preview';
+import axios from 'axios';
 
 // Custom components
 import { Step, StepBody, StepDesc, StepTitle } from '../Step';
@@ -19,12 +20,26 @@ import {
 import { FormLabel } from '@chakra-ui/form-control';
 import { Text, VStack } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
-import { useToast } from '@chakra-ui/toast';
 import { GiGears } from 'react-icons/gi';
 import { data } from './data/GraphTest';
 
 export const System = ({ system, updateSystem, ...rest }) => {
-  const toast = useToast();
+  const [graphData, setGraphData] = useState([]);
+  const [graphError, setGraphError] = useState(null);
+
+  const fetchData = async () => {
+    try {
+      const res = await axios.post('http://localhost:5000/api/control', system);
+
+      setGraphData(res.data);
+      setGraphError(null);
+      console.log(res.data);
+    } catch (err) {
+      setGraphData([]);
+      setGraphError(err);
+      console.error(err);
+    }
+  };
 
   return (
     <Step {...rest}>
@@ -134,14 +149,7 @@ export const System = ({ system, updateSystem, ...rest }) => {
           leftIcon={<GiGears />}
           loadingText="Simulating..."
           isLoading={false}
-          onClick={() =>
-            toast({
-              title: 'Not yet implemented',
-              position: 'bottom-left',
-              status: 'warning',
-              isClosable: true,
-            })
-          }
+          onClick={fetchData}
         >
           Preview
         </Button>
