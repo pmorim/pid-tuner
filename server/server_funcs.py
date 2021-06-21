@@ -4,20 +4,18 @@ from scipy.integrate import odeint
 
 def model_func(sys_model):
   """Calculate the points of the system model.
-
   Args:
     sys_model (dict of floats): A dictionary containing the constants that
                                 define the system.
-
   Returns:
     dict of float: The x and y coordinates of the points.
   """
-
+  print("\ndebugg model")
   k = float(sys_model["k"])
   tau = float(sys_model["tau"])
   tauD = float(sys_model["tauD"])
   t_max = float(5*tau + tauD)
-  res = float(sys_model.get("res") or 0.5)
+  res = float(sys_model.get("res") or t_max/200)
   a = float(sys_model.get("a") or 1)
   y0 = float(sys_model.get("y0") or 0)
   
@@ -65,7 +63,7 @@ Receives:
     "mean": 0,
     "sd": 2
   }
-}
+} 
 """
 # Decide method
   method = control["method"]
@@ -73,9 +71,9 @@ Receives:
 
   if not ( ("IMC" in method) or ("ITAE" in method) or (method == "Ziegler-Nichols") or (method == "Cohen-Coon") ):
     raise Exception("Choose a valid method!")
-  if "IMC" in method:
+  elif "IMC" in method:
     result.update(imc_func(control))
-  if control["system"]["tauD"] == 0 :
+  elif control["system"]["tauD"] == 0 :
     raise Exception(f"{method} tuning method can only tune First-Order Plus Dead Time systems. The system must have dead time different from zero!")
   elif method == "Ziegler-Nichols":
     result.update(ziegler_nichols_func(control))
@@ -243,12 +241,12 @@ def simulate(data, params):
   method = data["method"]
   anti_wind = data["antiWindup"]
   meta = {"meta": {"control": control, "tuning": method,"antiwindup": anti_wind}}
-
+  
   k = float(data["system"]["k"])
   tau = float(data["system"]["tau"])
   tauD = float(data["system"]["tauD"])
   t_max = float(5*tau + tauD)
-  res = float(data["system"].get("res") or 0.5)
+  res = float(data["system"].get("res") or t_max/200)
   start = float(data["simulation"]["start"])
   target = float(data["simulation"]["target"])
   mean = float(data["simulation"]["mean"])
@@ -272,7 +270,7 @@ def simulate(data, params):
     Td = None
   
   # Check if Anti-windup is selected
-  if anti_wind == "Yes":
+  if anti_wind:
       if control == "PI":
           Tt = float(0.5 * Ti)
       elif control == "PID":
