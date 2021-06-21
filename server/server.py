@@ -62,7 +62,7 @@ def control():
       },
       "control": "PI",
       "method":"ZN",
-      "antiWindup": No,
+      "antiWindup": true,
       "simulation":
       {
         "start": 22.5,
