@@ -63,10 +63,6 @@ export const Simulation = ({
             setValue={x => updateSimulationParams({ sd: x })}
           />
         </NumberInputGroup>
-
-        <Text>
-          You can then get the calculated values on the section below.
-        </Text>
       </StepDesc>
 
       <StepBody>

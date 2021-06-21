@@ -15,19 +15,32 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/table';
+import { Text } from '@chakra-ui/layout';
 
 export const SimulationData = ({ simulations, ...rest }) => {
   return (
     <Step {...rest}>
       <StepTitle>Simulation Data</StepTitle>
       <StepDesc>
-        Here is a table with all the values calculated in the simulation above.
-        You can download the values from the table so that you don't need to
-        simulate it again.
+        <Text>
+          Here is a table with all the values calculated in the simulation
+          above. You can download the simulation results so that you don't need
+          to simulate it again.
+        </Text>
+        <Text>
+          The display table is not available for small screens. Consider using a
+          computer for a better experience. You can always download the data
+          either way.
+        </Text>
       </StepDesc>
 
       <StepBody>
-        <Table variant="simple" size="sm">
+        <Table
+          variant="simple"
+          size="sm"
+          width="100%"
+          display={['none', 'block']}
+        >
           <TableCaption>Values calculated in the simulation</TableCaption>
           <Thead>
             <Tr>

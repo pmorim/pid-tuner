@@ -1,11 +1,11 @@
 import React from 'react';
-import { Text } from '@chakra-ui/layout';
+import { VStack } from '@chakra-ui/layout';
 
 export const StepDesc = ({ children, ...rest }) => {
   return (
     // 'as="div"' removes an error with MathJax
-    <Text as="div" fontSize="xl" {...rest}>
+    <VStack fontSize="xl" spacing={5} {...rest}>
       {children}
-    </Text>
+    </VStack>
   );
 };
