@@ -5,7 +5,6 @@ import { Step, StepBody, StepDesc, StepTitle } from '../Step';
 
 // Chakra-UI components
 import { DownloadIcon } from '@chakra-ui/icons';
-import { useToast } from '@chakra-ui/toast';
 import { Button } from '@chakra-ui/button';
 import {
   Table,
@@ -17,9 +16,7 @@ import {
   Tr,
 } from '@chakra-ui/table';
 
-export const SimulationData = ({ ...rest }) => {
-  const toast = useToast();
-
+export const SimulationData = ({ data, ...rest }) => {
   return (
     <Step {...rest}>
       <StepTitle>Simulation Data</StepTitle>
@@ -36,6 +33,7 @@ export const SimulationData = ({ ...rest }) => {
             <Tr>
               <Th>Control</Th>
               <Th>Tuning</Th>
+              <Th>Anti-Windup</Th>
               <Th isNumeric>Kp</Th>
               <Th isNumeric>Ti</Th>
               <Th isNumeric>Td</Th>
@@ -43,31 +41,29 @@ export const SimulationData = ({ ...rest }) => {
             </Tr>
           </Thead>
           <Tbody>
-            <Tr>
-              <Td>PI</Td>
-              <Td>Ziegler-Nichols</Td>
-              <Td isNumeric>5</Td>
-              <Td isNumeric>20</Td>
-              <Td isNumeric>-</Td>
-              <Td isNumeric>-</Td>
-            </Tr>
+            {data?.map?.(item => (
+              <Tr>
+                <Td>{item.control}</Td>
+                <Td>{item.tuning}</Td>
+                <Td>{item.antiWindup ? 'Yes' : 'No'}</Td>
+                <Td isNumeric>{item.Kp ?? '-'}</Td>
+                <Td isNumeric>{item.Ti ?? '-'}</Td>
+                <Td isNumeric>{item.Td ?? '-'}</Td>
+                <Td isNumeric>{item.Tt ?? '-'}</Td>
+              </Tr>
+            ))}
           </Tbody>
         </Table>
 
         <Button
+          as="a"
           size="lg"
           variant="outline"
           leftIcon={<DownloadIcon />}
-          loadingText="Simulating..."
-          isLoading={false}
-          onClick={() =>
-            toast({
-              title: 'Not yet implemented',
-              position: 'bottom-left',
-              status: 'warning',
-              isClosable: true,
-            })
-          }
+          href={`data:text/json;charset=utf-8,${encodeURIComponent(
+            JSON.stringify(data)
+          )}`}
+          download="pid-tuner.json"
         >
           Download
         </Button>
