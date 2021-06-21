@@ -29,7 +29,10 @@ export const System = ({ system, updateSystem, ...rest }) => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.post('http://localhost:5000/api/control', system);
+      const res = await axios.post(
+        'https://pid-tuner-condig.herokuapp.com/api/control',
+        system
+      );
 
       setGraphData(res.data);
       setGraphError(null);
