@@ -19,6 +19,7 @@ def model_func(sys_model):
       ] 
     }
   """
+  
 
   k = float(sys_model["k"])
   tau = float(sys_model["tau"])
