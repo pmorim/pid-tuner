@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useCallback, useEffect } from 'react';
 import axios from 'axios';
 
 // Custom components
@@ -99,9 +99,9 @@ function App() {
   const [simulations, setSimulations] = useState([]);
   const [simulationErrors, setSimulationErrors] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
-    const [loading, setLoading] = useBoolean();
+  const [loading, setLoading] = useBoolean();
 
-  const executeSimulation = async () => {
+  const executeSimulation = useCallback(async () => {
     setLoading.on();
     
     // Reset
@@ -133,7 +133,13 @@ function App() {
 
     // Open Error Modal
     if (newSimulationErrors.length) onOpen();
-  };
+  }, [onOpen, setLoading, state]);
+
+  // Simulate with the starter values
+  useEffect(() => {
+    const fetchData = async () => await executeSimulation();
+    fetchData()
+  }, []);
 
   return (
     <ChakraProvider theme={theme}>

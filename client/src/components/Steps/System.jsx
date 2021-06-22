@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import MathJax from 'react-mathjax-preview';
 import axios from 'axios';
 
@@ -28,12 +28,12 @@ export const System = ({ system, updateSystem, ...rest }) => {
   const [graphError, setGraphError] = useState(null);
   const [loading, setLoading] = useBoolean();
 
-  const fetchData = async () => {
+  const simulate = useCallback(async () => {
     setLoading.on();
 
     try {
       const res = await axios.post(
-        'https://pid-tuner-condig.herokuapp.com/api/control',
+        'https://pid-tuner-condig.herokuapp.com/api/model',
         system
       );
 
@@ -45,7 +45,13 @@ export const System = ({ system, updateSystem, ...rest }) => {
     }
 
     setLoading.off();
-  };
+  }, [setLoading, system]);
+
+  // Fetch data when the app starts
+  useEffect(() => {
+    const fetchData = async () => await simulate()
+    fetchData()
+  }, []);
 
   return (
     <Step {...rest}>
@@ -78,7 +84,7 @@ export const System = ({ system, updateSystem, ...rest }) => {
             value={system.k}
             setValue={x => {
               updateSystem({ k: x });
-              fetchData();
+              simulate();
             }}
           />
           <SliderInput
@@ -89,7 +95,7 @@ export const System = ({ system, updateSystem, ...rest }) => {
             value={system.tau}
             setValue={x => {
               updateSystem({ tau: x });
-              fetchData();
+              simulate();
             }}
           />
           <SliderInput
@@ -100,7 +106,7 @@ export const System = ({ system, updateSystem, ...rest }) => {
             value={system.tauD}
             setValue={x => {
               updateSystem({ tauD: x });
-              fetchData();
+              simulate();
             }}
           />
         </SliderInputGroup>
@@ -114,7 +120,7 @@ export const System = ({ system, updateSystem, ...rest }) => {
             value={system.a}
             setValue={x => {
               updateSystem({ a: x });
-              fetchData();
+              simulate();
             }}
           />
           <SliderInput
@@ -125,7 +131,7 @@ export const System = ({ system, updateSystem, ...rest }) => {
             value={system.y0}
             setValue={x => {
               updateSystem({ y0: x });
-              fetchData();
+              simulate();
             }}
           />
         </SliderInputGroup>

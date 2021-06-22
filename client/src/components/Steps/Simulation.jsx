@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // Custom components
 import { Step, StepBody, StepDesc, StepTitle } from '../Step';
