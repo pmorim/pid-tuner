@@ -58,7 +58,7 @@ export const SimulationData = ({ simulations, ...rest }) => {
               <Tr key={i}>
                 <Td>{item.meta.control}</Td>
                 <Td>{item.meta.tuning}</Td>
-                <Td>{item.meta.antiWindup ? 'Yes' : 'No'}</Td>
+                <Td>{item.meta.antiwindup ? 'Yes' : 'No'}</Td>
                 <Td isNumeric>{item.gains.Kp ?? '-'}</Td>
                 <Td isNumeric>{item.gains.Ti ?? '-'}</Td>
                 <Td isNumeric>{item.gains.Td ?? '-'}</Td>
