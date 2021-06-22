@@ -12,25 +12,26 @@ import os
 from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
+# Utilities
+import numpy as np
+
 # Custom Modules
 from server_funcs import *
 
 # Server initialization
 app = Flask(__name__)
 app.config['CORS_HEADERS'] = 'Content-Type'
-app.config['SECRET_KEY'] = os.environ.get('SECRET') or 'sheesh'
+app.config['SECRET_KEY'] = os.environ.get('SECRET')
 CORS(app)
 
 
 @app.route('/api/model', methods = ["POST"])
 def model():
-  """Receives the data about the system's model.
+  """Receives the data about the system's model
 
   Args:
     data (any): The constants that describe the system.
-  
-  Format: 
-    data = {"k": %f, "tau": %f, "tauD": %f}
+    format: data = {"k": %f, "tau": %f, "tauD": %f}
   """
   try:
     data = request.get_json()
@@ -39,20 +40,20 @@ def model():
     return jsonify(model_func(data))
 
   except:
-    print("Model didn't work")
+    print("model didn't work")
 
 
 @app.route('/api/control', methods = ["POST"])
 def control():
-  """Simulates the system's control.
+  """[summary]
 
   Args:
     data (any): The constants that describe the system,
                 controller type and sintony method.
-  
-  Format:
+    Receives:
     {
-      "system": {
+      "system":
+      {
         "k": 2.5,
         "tau": 100,
         "tauD": 10,
@@ -61,8 +62,9 @@ def control():
       },
       "control": "PI",
       "method":"ZN",
-      "antiWindup": No,
-      "simulation": {
+      "antiWindup": true,
+      "simulation":
+      {
         "start": 22.5,
         "target": 50,
         "mean": 0,
@@ -81,6 +83,5 @@ def control():
     print(f"\n\tControl didn't work \n {str(e)}\n")
     return str(e), 406
 
-
 if __name__ == "__main__":
-  app.run(host='localhost', port=os.environ.get('PORT') or 5000)
+  app.run(host='localhost', port=os.environ.get('PORT'))

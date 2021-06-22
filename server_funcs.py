@@ -4,28 +4,18 @@ from scipy.integrate import odeint
 
 def model_func(sys_model):
   """Calculate the points of the system model.
-
   Args:
     sys_model (dict of floats): A dictionary containing the constants that
                                 define the system.
-
   Returns:
     dict of float: The x and y coordinates of the points.
-    {
-      "graph":
-      [
-        {"t": 0, "y": 0},
-        // ...
-      ] 
-    }
   """
-  
-
+  print("\ndebugg model")
   k = float(sys_model["k"])
   tau = float(sys_model["tau"])
   tauD = float(sys_model["tauD"])
   t_max = float(5*tau + tauD)
-  res = float(sys_model.get("res") or 0.5)
+  res = float(sys_model.get("res") or t_max/200)
   a = float(sys_model.get("a") or 1)
   y0 = float(sys_model.get("y0") or 0)
   
@@ -40,39 +30,50 @@ def model_func(sys_model):
         model_graf.append({"t": t*res, "y": y + y0})
 
   return model_graf
-
+"""
+    Returns:
+  {
+    "graph":
+    [
+      {"t": 0, "y": 0},
+      // ...
+    ] 
+  }
+""" 
 
 def control_func(control):
   """
-  Receives:
+Receives:
+{
+  "system":
   {
-    "system": {
-      "k": 2.5,
-      "tau": 100,
-      "tauD": 10,
-      "a": 50,
-      "y0": 22.5
-    },
-    "control": "PI",
-    "method":"ZN",
-    "antiWindup": false,
-    "simulation": {
-      "start": 22.5,
-      "target": 50,
-      "mean": 0,
-      "sd": 2
-    }
+    "k": 2.5,
+    "tau": 100,
+    "tauD": 10,
+    "a": 50,
+    "y0": 22.5
+  },
+  "control": "PI",
+  "method":"ZN",
+  "antiWindup": false,
+  "simulation":
+  {
+    "start": 22.5,
+    "target": 50,
+    "mean": 0,
+    "sd": 2
   }
-  """
-  # Decide method
+} 
+"""
+# Decide method
   method = control["method"]
   result = {}
 
   if not ( ("IMC" in method) or ("ITAE" in method) or (method == "Ziegler-Nichols") or (method == "Cohen-Coon") ):
     raise Exception("Choose a valid method!")
-  if "IMC" in method:
+  elif "IMC" in method:
     result.update(imc_func(control))
-  if control["system"]["tauD"] == 0 :
+  elif control["system"]["tauD"] == 0 :
     raise Exception(f"{method} tuning method can only tune First-Order Plus Dead Time systems. The system must have dead time different from zero!")
   elif method == "Ziegler-Nichols":
     result.update(ziegler_nichols_func(control))
@@ -108,26 +109,15 @@ def control_func(control):
   """
   return result
 
-
 # Methods Functions
 def ziegler_nichols_func(data):
-  """[summary]
-
-  Args:
-      data ([type]): [description]
-
-  Raises:
-      Exception: [description]
-
-  Returns:
-      [type]: [description]
-  """
-
   k = float(data["system"]["k"])
   tau = float(data["system"]["tau"])
   tauD = float(data["system"]["tauD"])
 
-  Kp, Ti, Td = None, None, None
+  Kp = None
+  Ti = None
+  Td = None
 
   if data["control"] == "P":
     Kp = float(tau / (k*tauD))
@@ -145,20 +135,7 @@ def ziegler_nichols_func(data):
   ganhos = {"params": {"Kp": Kp, "Ti": Ti, "Td": Td}}
   return ganhos
 
-
 def cohen_coon_func(data):
-  """[summary]
-
-  Args:
-      data ([type]): [description]
-
-  Raises:
-      Exception: [description]
-
-  Returns:
-      [type]: [description]
-  """
-
   k = float(data["system"]["k"])
   tau = float(data["system"]["tau"])
   tauD = float(data["system"]["tauD"])
@@ -185,21 +162,7 @@ def cohen_coon_func(data):
   ganhos = {"params": {"Kp": Kp, "Ti": Ti, "Td": Td}}
   return ganhos
 
-
 def imc_func(data):
-  """[summary]
-
-  Args:
-      data ([type]): [description]
-
-  Raises:
-      Exception: [description]
-      Exception: [description]
-
-  Returns:
-      [type]: [description]
-  """
-
   k = float(data["system"]["k"])
   tau = float(data["system"]["tau"])
   tauD = float(data["system"]["tauD"])
@@ -233,20 +196,6 @@ def imc_func(data):
 
 
 def itae_func(data):
-  """[summary]
-
-  Args:
-      data ([type]): [description]
-
-  Raises:
-      Exception: [description]
-      Exception: [description]
-      Exception: [description]
-
-  Returns:
-      [type]: [description]
-  """
-
   k = float(data["system"]["k"])
   tau = float(data["system"]["tau"])
   tauD = float(data["system"]["tauD"])
@@ -280,48 +229,29 @@ def itae_func(data):
   
   ganhos = {"params": {"Kp": Kp, "Ti": Ti, "Td": Td}}
   return ganhos
-
-
+  
 # Proces for Simulation
-def process(y, t, u, Kp, tau):
+def process(y,t,u,Kp,tau):
     dydt = (-y + (Kp * u))/tau
     return dydt
 
-
+# Simulation
 def simulate(data, params):
-  """Simulates the system
-
-  Args:
-      data: [description]
-      params: [description]
-
-  Raises:
-      Exception: [description]
-
-  Returns:
-      [type]: [description]
-  """
-
   control = data["control"]
   method = data["method"]
   anti_wind = data["antiWindup"]
-  meta = {
-    "meta": {
-      "control": control, 
-      "tuning": method,
-      "antiwindup": anti_wind
-    }
-  }
-
+  meta = {"meta": {"control": control, "tuning": method,"antiwindup": anti_wind}}
+  
   k = float(data["system"]["k"])
   tau = float(data["system"]["tau"])
   tauD = float(data["system"]["tauD"])
   t_max = float(5*tau + tauD)
-  res = float(data["system"].get("res") or 0.5)
+  res = float(data["system"].get("res") or t_max/200)
   start = float(data["simulation"]["start"])
   target = float(data["simulation"]["target"])
   mean = float(data["simulation"]["mean"])
   sd = float(data["simulation"]["sd"])
+  
   
   Kp = float(params["params"]["Kp"])
   
@@ -340,7 +270,7 @@ def simulate(data, params):
     Td = None
   
   # Check if Anti-windup is selected
-  if anti_wind == "Yes":
+  if anti_wind:
       if control == "PI":
           Tt = float(0.5 * Ti)
       elif control == "PID":
