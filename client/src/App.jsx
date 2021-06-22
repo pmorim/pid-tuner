@@ -95,14 +95,14 @@ function reducer(state, action) {
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const [simulations, setSimulations] = useState();
-  const [simulationErrors, setSimulationErrors] = useState();
+  const [simulations, setSimulations] = useState([]);
+  const [simulationErrors, setSimulationErrors] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const executeSimulation = async () => {
     // Reset
-    setSimulations([]);
-    setSimulationErrors([]);
+    const newSimulations = [];
+    const newSimulationErrors = [];
 
     // Execute them one by one
     for (const control of state.controls) {
@@ -113,15 +113,19 @@ function App() {
             { ...state, control, method }
           );
 
-          setSimulations(simulationErrors.push(res.data));
+          newSimulations.push(res.data);
         } catch (e) {
-          setSimulationErrors(simulationErrors.push(e));
+          newSimulationErrors.push(e.message);
         }
       }
     }
 
+    // Apply changes
+    setSimulations(newSimulations);
+    setSimulationErrors(newSimulationErrors);
+
     // Open Error Modal
-    if (simulationErrors) onOpen();
+    if (newSimulationErrors.length) onOpen();
   };
 
   return (
@@ -151,8 +155,8 @@ function App() {
           <ModalHeader>Simulation Errors</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {simulationErrors?.map(error => (
-              <Text>{error}</Text>
+            {simulationErrors?.map((error, i) => (
+              <Text key={i}>{error}</Text>
             ))}
           </ModalBody>
 

@@ -54,8 +54,8 @@ export const SimulationData = ({ simulations, ...rest }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {simulations?.map?.(item => (
-              <Tr>
+            {simulations?.map?.((item, i) => (
+              <Tr key={i}>
                 <Td>{item.meta.control}</Td>
                 <Td>{item.meta.tuning}</Td>
                 <Td>{item.meta.antiWindup ? 'Yes' : 'No'}</Td>
