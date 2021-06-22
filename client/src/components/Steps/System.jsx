@@ -5,6 +5,7 @@ import axios from 'axios';
 // Custom components
 import { Step, StepBody, StepDesc, StepTitle } from '../Step';
 import { SliderInput, SliderInputGroup } from '../Inputs';
+import { Result } from '../Graph';
 
 // Recharts components
 import {
