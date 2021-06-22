@@ -137,8 +137,11 @@ function App() {
 
   // Simulate with the starter values
   useEffect(() => {
-    const fetchData = async () => await executeSimulation();
-    fetchData()
+    const fetchData = async () => {
+      await executeSimulation();
+    }
+    
+    fetchData();
   }, []);
 
   return (

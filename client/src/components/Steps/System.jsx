@@ -49,7 +49,10 @@ export const System = ({ system, updateSystem, ...rest }) => {
 
   // Fetch data when the app starts
   useEffect(() => {
-    const fetchData = async () => await simulate()
+    const fetchData = async () => {
+      await simulate();
+    }
+
     fetchData()
   }, []);
 
