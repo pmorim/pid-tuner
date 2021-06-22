@@ -16,8 +16,9 @@ import {
   Tr,
 } from '@chakra-ui/table';
 import { Text } from '@chakra-ui/layout';
+import { Skeleton } from '@chakra-ui/skeleton';
 
-export const SimulationData = ({ simulations, ...rest }) => {
+export const SimulationData = ({ simulations, loading, ...rest }) => {
   return (
     <Step {...rest}>
       <StepTitle>Simulation Data</StepTitle>
@@ -35,12 +36,13 @@ export const SimulationData = ({ simulations, ...rest }) => {
       </StepDesc>
 
       <StepBody>
+        <Skeleton isLoaded={!loading}>
         <Table
           variant="simple"
           size="sm"
           width="100%"
           display={['none', 'block']}
-        >
+          >
           <TableCaption>Values calculated in the simulation</TableCaption>
           <Thead>
             <Tr>
@@ -54,7 +56,7 @@ export const SimulationData = ({ simulations, ...rest }) => {
             </Tr>
           </Thead>
           <Tbody>
-            {simulations?.map?.((item, i) => (
+            {simulations.map((item, i) => (
               <Tr key={i}>
                 <Td>{item.meta.control}</Td>
                 <Td>{item.meta.tuning}</Td>
@@ -67,6 +69,7 @@ export const SimulationData = ({ simulations, ...rest }) => {
             ))}
           </Tbody>
         </Table>
+        </Skeleton>
 
         <Button
           as="a"

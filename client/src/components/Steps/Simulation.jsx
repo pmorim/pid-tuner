@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // Custom components
 import { Step, StepBody, StepDesc, StepTitle } from '../Step';
@@ -8,12 +8,14 @@ import { NumberInput, NumberInputGroup } from '../Inputs';
 import { Center, Text } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
 import { GiGears } from 'react-icons/gi';
+import { Skeleton } from '@chakra-ui/skeleton';
 
 export const Simulation = ({
   simulationParams,
   updateSimulationParams,
   simulationGraphs,
   executeSimulation,
+  loading,
   ...rest
 }) => {
   return (
@@ -66,30 +68,32 @@ export const Simulation = ({
       </StepDesc>
 
       <StepBody>
-        <Center
-          width="100%"
-          height="300px"
-          bgGradient="linear(to-br, cyan.700, purple.500)"
-          fontSize="4xl"
-        >
-          Control Variable
-        </Center>
+        <Skeleton width="100%"  isLoaded={!loading}>
+          <Center
+            width="100%"
+            height="300px"
+            bgColor="gray.700"
+            >
+            Control Variable
+          </Center>
+        </Skeleton>
 
-        <Center
-          width="100%"
-          height="300px"
-          bgGradient="linear(to-br, cyan.700, purple.500)"
-          fontSize="4xl"
-        >
-          Control Signal
-        </Center>
+        <Skeleton width="100%" isLoaded={!loading}>
+          <Center
+            width="100%"
+            height="300px"
+            bgColor="gray.700"
+            >
+            Control Signal
+          </Center>
+        </Skeleton>
 
         <Button
           size="lg"
           variant="outline"
           leftIcon={<GiGears />}
           loadingText="Simulating..."
-          isLoading={false}
+          isLoading={loading}
           onClick={executeSimulation}
         >
           Simulate

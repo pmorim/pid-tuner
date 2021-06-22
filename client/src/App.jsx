@@ -28,6 +28,7 @@ import {
   ChakraProvider,
   extendTheme,
   useDisclosure,
+  useBoolean,
 } from '@chakra-ui/react';
 
 const theme = extendTheme({
@@ -98,8 +99,11 @@ function App() {
   const [simulations, setSimulations] = useState([]);
   const [simulationErrors, setSimulationErrors] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
+    const [loading, setLoading] = useBoolean();
 
   const executeSimulation = async () => {
+    setLoading.on();
+    
     // Reset
     const newSimulations = [];
     const newSimulationErrors = [];
@@ -124,6 +128,9 @@ function App() {
     setSimulations(newSimulations);
     setSimulationErrors(newSimulationErrors);
 
+    // Stop loading animation
+    setLoading.off();
+
     // Open Error Modal
     if (newSimulationErrors.length) onOpen();
   };
@@ -144,8 +151,13 @@ function App() {
           }
           simulationGraphs={simulations}
           executeSimulation={executeSimulation}
+          loading={loading}
         />
-        <SimulationData bgColor="gray.900" simulations={simulations} />
+        <SimulationData
+          bgColor="gray.900"
+          simulations={simulations}
+          loading={loading}
+        />
       </Box>
       <Footer />
 
@@ -155,7 +167,7 @@ function App() {
           <ModalHeader>Simulation Errors</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {simulationErrors?.map((error, i) => (
+            {simulationErrors.map((error, i) => (
               <Text key={i}>{error}</Text>
             ))}
           </ModalBody>
