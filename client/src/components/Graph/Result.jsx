@@ -28,7 +28,7 @@ export const Result = ({data}) => {
             let temp = {};
             for(let j = 0; j < data.length; j++) {
                 if (j == 0) {
-                    temp.t = i.points[k].t;
+                    temp.t = data.points[k].t;
                 }
                 temp['u_' + j] = data.points[k].u;
                 temp['u_d_' + j] = data.points[k].u_d;
