@@ -37,38 +37,38 @@ export const SimulationData = ({ simulations, loading, ...rest }) => {
 
       <StepBody>
         <Skeleton isLoaded={!loading}>
-        <Table
-          variant="simple"
-          size="sm"
-          width="100%"
-          display={['none', 'block']}
+          <Table
+            variant="simple"
+            size="sm"
+            width="100%"
+            display={['none', 'block']}
           >
-          <TableCaption>Values calculated in the simulation</TableCaption>
-          <Thead>
-            <Tr>
-              <Th>Control</Th>
-              <Th>Tuning</Th>
-              <Th>Anti-Windup</Th>
-              <Th isNumeric>Kp</Th>
-              <Th isNumeric>Ti</Th>
-              <Th isNumeric>Td</Th>
-              <Th isNumeric>Tt</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {simulations.map((item, i) => (
-              <Tr key={i}>
-                <Td>{item.meta.control}</Td>
-                <Td>{item.meta.tuning}</Td>
-                <Td>{item.meta.antiwindup ? 'Yes' : 'No'}</Td>
-                <Td isNumeric>{item.gains.Kp ?? '-'}</Td>
-                <Td isNumeric>{item.gains.Ti ?? '-'}</Td>
-                <Td isNumeric>{item.gains.Td ?? '-'}</Td>
-                <Td isNumeric>{item.gains.Tt ?? '-'}</Td>
+            <TableCaption>Values calculated in the simulation</TableCaption>
+            <Thead>
+              <Tr>
+                <Th>Control</Th>
+                <Th>Tuning</Th>
+                <Th>Anti-Windup</Th>
+                <Th isNumeric>Kp</Th>
+                <Th isNumeric>Ti</Th>
+                <Th isNumeric>Td</Th>
+                <Th isNumeric>Tt</Th>
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
+            </Thead>
+            <Tbody>
+              {simulations.map((item, i) => (
+                <Tr key={i}>
+                  <Td>{item.meta.control}</Td>
+                  <Td>{item.meta.tuning}</Td>
+                  <Td>{item.meta.antiwindup ? 'Yes' : 'No'}</Td>
+                  <Td isNumeric>{item.gains.Kp ?? '-'}</Td>
+                  <Td isNumeric>{item.gains.Ti ?? '-'}</Td>
+                  <Td isNumeric>{item.gains.Td ?? '-'}</Td>
+                  <Td isNumeric>{item.gains.Tt ?? '-'}</Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
         </Skeleton>
 
         <Button

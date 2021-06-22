@@ -68,22 +68,14 @@ export const Simulation = ({
       </StepDesc>
 
       <StepBody>
-        <Skeleton width="100%"  isLoaded={!loading}>
-          <Center
-            width="100%"
-            height="300px"
-            bgColor="gray.700"
-            >
+        <Skeleton width="100%" isLoaded={!loading}>
+          <Center width="100%" height="300px" bgColor="gray.700">
             Control Variable
           </Center>
         </Skeleton>
 
         <Skeleton width="100%" isLoaded={!loading}>
-          <Center
-            width="100%"
-            height="300px"
-            bgColor="gray.700"
-            >
+          <Center width="100%" height="300px" bgColor="gray.700">
             Control Signal
           </Center>
         </Skeleton>

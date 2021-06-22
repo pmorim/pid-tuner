@@ -103,7 +103,7 @@ function App() {
 
   const executeSimulation = useCallback(async () => {
     setLoading.on();
-    
+
     // Reset
     const newSimulations = [];
     const newSimulationErrors = [];
@@ -139,8 +139,8 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       await executeSimulation();
-    }
-    
+    };
+
     fetchData();
   }, []);
 

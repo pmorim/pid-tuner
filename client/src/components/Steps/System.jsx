@@ -21,7 +21,7 @@ import { FormLabel } from '@chakra-ui/form-control';
 import { Box, Text } from '@chakra-ui/layout';
 import { data } from './data/GraphTest';
 import { Skeleton } from '@chakra-ui/skeleton';
-import { useBoolean } from "@chakra-ui/react"
+import { useBoolean } from '@chakra-ui/react';
 
 export const System = ({ system, updateSystem, ...rest }) => {
   const [graphData, setGraphData] = useState([]);
@@ -51,9 +51,9 @@ export const System = ({ system, updateSystem, ...rest }) => {
   useEffect(() => {
     const fetchData = async () => {
       await simulate();
-    }
+    };
 
-    fetchData()
+    fetchData();
   }, []);
 
   return (
@@ -153,7 +153,7 @@ export const System = ({ system, updateSystem, ...rest }) => {
                   left: 20,
                   bottom: 5,
                 }}
-                >
+              >
                 <defs>
                   <linearGradient id="color" x1="100%" x2="0%" y1="0%" y2="0%">
                     <stop offset="0%" stopColor="#7b5cd3" />
@@ -169,7 +169,7 @@ export const System = ({ system, updateSystem, ...rest }) => {
                   stroke="url(#color)"
                   strokeWidth={3}
                   dot={false}
-                  />
+                />
               </LineChart>
             </ResponsiveContainer>
           </Box>
