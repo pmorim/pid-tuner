@@ -140,41 +140,8 @@ export const System = ({ system, updateSystem, ...rest }) => {
           />
         </SliderInputGroup>
 
-        <FormLabel>Analytical Model</FormLabel>
-        <Skeleton width="100%" isLoaded={!loading}>
-          <Box width="100%" height="300px">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart
-                width={500}
-                height={300}
-                data={data}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <defs>
-                  <linearGradient id="color" x1="100%" x2="0%" y1="0%" y2="0%">
-                    <stop offset="0%" stopColor="#7b5cd3" />
-                    <stop offset="100%" stopColor="#1185a4" />
-                  </linearGradient>
-                </defs>
-                <XAxis dataKey="x" stroke="white" />
-                <YAxis dataKey="y" stroke="white" />
-                <Tooltip />
-                <Line
-                  type="monotone"
-                  dataKey="y"
-                  stroke="url(#color)"
-                  strokeWidth={3}
-                  dot={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </Box>
-        </Skeleton>
+        <Result data={graphData}/>
+
       </StepBody>
     </Step>
   );
