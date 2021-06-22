@@ -99,7 +99,7 @@ Receives:
       "Kp": 10,
       "Ti": 20,
       "Td": null,
-      "Ka": null
+      "Tt": null
     },
     "points": [
       {"t": 0, "u": 100, "y": 20},
@@ -172,14 +172,14 @@ def imc_func(data):
   Ti = None
   Td = None
 
-  if "Agressive" in data["method"]:
+  if "Aggressive" in data["method"]:
     tauC = max(0.1*tau, 0.8*tauD)
   elif "Moderate" in data["method"]:
     tauC = max(1.0*tau, 8.0*tauD)
   elif "Conservative" in data["method"]:
     tauC = max(10.0*tau, 80.0*tauD)
   else:
-    raise Exception("Choose a valid IMC method! (Agressive, Moderate or Conservative)")
+    raise Exception("Choose a valid IMC method! (Aggressive, Moderate or Conservative)")
 
   if data["control"] == "PI":
     Kp = float( (1/k) * tau/(tauC+tauD) )
@@ -318,10 +318,21 @@ def simulate(data, params):
         
         e_ant = e
 
-    graph["points"].append({"t": i*T, "u": u, "u_p": P, "u_i": I, "u_d": D, "y": temp + start})
+    graph["points"].append({"t": i*T,
+                            "u": u,
+                            "u_p": P,
+                            "u_i": I,
+                            "u_d": D,
+                            "y": temp + start})
 
-  gains = {"gains": {"Tt": Tt}}
-  gains["gains"].update(params["params"])
+  dp = 3 #decimal places
+  
+  gains = {"gains": {
+            "Kp": round(Kp, dp) if Kp != None else None,
+            "Ti": round(Ti, dp) if Ti != None else None,
+            "Td": round(Td, dp) if Td != None else None,
+            "Tt": round(Tt, dp) if Tt != None else None}
+          }
   graph.update(gains)
   graph.update(meta)
   
