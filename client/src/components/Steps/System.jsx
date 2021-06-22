@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import MathJax from 'react-mathjax-preview';
+import axios from 'axios';
 
 // Custom components
 import { Step, StepBody, StepDesc, StepTitle } from '../Step';
@@ -17,14 +18,43 @@ import {
 
 // Chakra-UI components
 import { FormLabel } from '@chakra-ui/form-control';
-import { Text, VStack } from '@chakra-ui/layout';
-import { Button } from '@chakra-ui/button';
-import { useToast } from '@chakra-ui/toast';
-import { GiGears } from 'react-icons/gi';
+import { Box, Text } from '@chakra-ui/layout';
 import { data } from './data/GraphTest';
+import { Skeleton } from '@chakra-ui/skeleton';
+import { useBoolean } from "@chakra-ui/react"
 
 export const System = ({ system, updateSystem, ...rest }) => {
-  const toast = useToast();
+  const [graphData, setGraphData] = useState([]);
+  const [graphError, setGraphError] = useState(null);
+  const [loading, setLoading] = useBoolean();
+
+  const simulate = useCallback(async () => {
+    setLoading.on();
+
+    try {
+      const res = await axios.post(
+        'https://pid-tuner-condig.herokuapp.com/api/model',
+        system
+      );
+
+      setGraphData(res.data);
+      setGraphError(null);
+    } catch (err) {
+      setGraphData([]);
+      setGraphError(err);
+    }
+
+    setLoading.off();
+  }, [setLoading, system]);
+
+  // Fetch data when the app starts
+  useEffect(() => {
+    const fetchData = async () => {
+      await simulate();
+    }
+
+    fetchData()
+  }, []);
 
   return (
     <Step {...rest}>
@@ -55,7 +85,10 @@ export const System = ({ system, updateSystem, ...rest }) => {
             max={20}
             step={0.1}
             value={system.k}
-            setValue={x => updateSystem({ k: x })}
+            setValue={x => {
+              updateSystem({ k: x });
+              simulate();
+            }}
           />
           <SliderInput
             label="τ"
@@ -63,7 +96,10 @@ export const System = ({ system, updateSystem, ...rest }) => {
             max={200}
             step={0.1}
             value={system.tau}
-            setValue={x => updateSystem({ tau: x })}
+            setValue={x => {
+              updateSystem({ tau: x });
+              simulate();
+            }}
           />
           <SliderInput
             label="τD"
@@ -71,7 +107,10 @@ export const System = ({ system, updateSystem, ...rest }) => {
             max={60}
             step={0.1}
             value={system.tauD}
-            setValue={x => updateSystem({ tauD: x })}
+            setValue={x => {
+              updateSystem({ tauD: x });
+              simulate();
+            }}
           />
         </SliderInputGroup>
 
@@ -82,7 +121,10 @@ export const System = ({ system, updateSystem, ...rest }) => {
             max={100}
             step={0.1}
             value={system.a}
-            setValue={x => updateSystem({ a: x })}
+            setValue={x => {
+              updateSystem({ a: x });
+              simulate();
+            }}
           />
           <SliderInput
             label="Y₀"
@@ -90,61 +132,48 @@ export const System = ({ system, updateSystem, ...rest }) => {
             max={100}
             step={0.1}
             value={system.y0}
-            setValue={x => updateSystem({ y0: x })}
+            setValue={x => {
+              updateSystem({ y0: x });
+              simulate();
+            }}
           />
         </SliderInputGroup>
 
-        <VStack width="100%" height="300px">
-          <FormLabel>Analytical Model</FormLabel>
-          <ResponsiveContainer width="100%" height="100%">
-            <LineChart
-              width={500}
-              height={300}
-              data={data}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-              }}
-            >
-              <defs>
-                <linearGradient id="color" x1="100%" x2="0%" y1="0%" y2="0%">
-                  <stop offset="0%" stopColor="#7b5cd3" />
-                  <stop offset="100%" stopColor="#1185a4" />
-                </linearGradient>
-              </defs>
-              <XAxis dataKey="x" stroke="white" />
-              <YAxis dataKey="y" stroke="white" />
-              <Tooltip />
-              <Line
-                type="monotone"
-                dataKey="y"
-                stroke="url(#color)"
-                strokeWidth={3}
-                dot={false}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </VStack>
-
-        <Button
-          size="lg"
-          variant="outline"
-          leftIcon={<GiGears />}
-          loadingText="Simulating..."
-          isLoading={false}
-          onClick={() =>
-            toast({
-              title: 'Not yet implemented',
-              position: 'bottom-left',
-              status: 'warning',
-              isClosable: true,
-            })
-          }
-        >
-          Preview
-        </Button>
+        <FormLabel>Analytical Model</FormLabel>
+        <Skeleton width="100%" isLoaded={!loading}>
+          <Box width="100%" height="300px">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart
+                width={500}
+                height={300}
+                data={data}
+                margin={{
+                  top: 5,
+                  right: 30,
+                  left: 20,
+                  bottom: 5,
+                }}
+                >
+                <defs>
+                  <linearGradient id="color" x1="100%" x2="0%" y1="0%" y2="0%">
+                    <stop offset="0%" stopColor="#7b5cd3" />
+                    <stop offset="100%" stopColor="#1185a4" />
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="x" stroke="white" />
+                <YAxis dataKey="y" stroke="white" />
+                <Tooltip />
+                <Line
+                  type="monotone"
+                  dataKey="y"
+                  stroke="url(#color)"
+                  strokeWidth={3}
+                  dot={false}
+                  />
+              </LineChart>
+            </ResponsiveContainer>
+          </Box>
+        </Skeleton>
       </StepBody>
     </Step>
   );
