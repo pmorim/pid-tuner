@@ -248,7 +248,7 @@ def itae_func(data):
   ganhos = {"params": {"Kp": Kp, "Ti": Ti, "Td": Td}}
   return ganhos
   
-# Proces for Simulation
+# Process for Simulation
 def process(y,t,u,Kp,tau):
     dydt = (-y + (Kp * u))/tau
     return dydt
