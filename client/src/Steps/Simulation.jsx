@@ -1,9 +1,9 @@
 import React from 'react';
 
 // Custom components
-import { Step, StepBody, StepDesc, StepTitle } from '../Step';
-import { NumberInput, NumberInputGroup } from '../Inputs';
-import { Graph } from '../Graph';
+import { Step, StepBody, StepDesc, StepTitle } from '../components/Step';
+import { NumberInput, NumberInputGroup } from '../components/Inputs';
+import { Graph } from '../components/Graph';
 
 // Chakra-UI components
 import { Text } from '@chakra-ui/layout';

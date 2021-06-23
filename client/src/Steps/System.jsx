@@ -3,9 +3,9 @@ import MathJax from 'react-mathjax-preview';
 import axios from 'axios';
 
 // Custom components
-import { Step, StepBody, StepDesc, StepTitle } from '../Step';
-import { SliderInput, SliderInputGroup } from '../Inputs';
-import { Graph } from '../Graph';
+import { Step, StepBody, StepDesc, StepTitle } from '../components/Step';
+import { SliderInput, SliderInputGroup } from '../components/Inputs';
+import { Graph } from '../components/Graph';
 
 // Chakra-UI components
 import { Text } from '@chakra-ui/layout';

@@ -2,12 +2,7 @@ import React, { useState, useReducer, useCallback, useEffect } from 'react';
 import axios from 'axios';
 
 // Custom components
-import {
-  System,
-  ControlTuning,
-  Simulation,
-  SimulationData,
-} from './components/Steps';
+import { System, ControlTuning, Simulation, SimulationData } from './Steps';
 import { Nav } from './components/Nav';
 import { Footer } from './components/Footer';
 

@@ -2,8 +2,12 @@ import React from 'react';
 import MathJax from 'react-mathjax-preview';
 
 // Custom components
-import { Step, StepBody, StepDesc, StepTitle } from '../Step';
-import { CascadingMultiSelect, MultiSelect, SwitchInput } from '../Inputs';
+import { Step, StepBody, StepDesc, StepTitle } from '../components/Step';
+import {
+  CascadingMultiSelect,
+  MultiSelect,
+  SwitchInput,
+} from '../components/Inputs';
 
 // Chakra-UI components
 import { Stack, Text, VStack } from '@chakra-ui/layout';

@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Custom components
-import { Step, StepBody, StepDesc, StepTitle } from '../Step';
+import { Step, StepBody, StepDesc, StepTitle } from '../components/Step';
 
 // Chakra-UI components
 import { DownloadIcon } from '@chakra-ui/icons';
