@@ -2,6 +2,8 @@ import React from 'react';
 import Gradient from 'javascript-color-gradient';
 import { merge } from 'lodash';
 
+import { CustomTooltip } from './CustomTooltip';
+
 // Chakra-UI components
 import { Skeleton } from '@chakra-ui/skeleton';
 import { Heading, VStack } from '@chakra-ui/layout';
@@ -89,7 +91,7 @@ export const Graph = ({ title, data, filter, refLine, unique, ...rest }) => {
               </defs>
             ) : (
               <>
-                <Tooltip />
+                <Tooltip content={<CustomTooltip />} />
                 <Legend />
               </>
             )}
