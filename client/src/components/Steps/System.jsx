@@ -16,12 +16,19 @@ export const System = ({ system, updateSystem, ...rest }) => {
   const [loading, setLoading] = useBoolean();
 
   const simulate = useCallback(async () => {
+    // Start loading animation
     setLoading.on();
 
-    await axios
-      .post('https://pid-tuner-condig.herokuapp.com/api/model', system)
-      .then(res => setGraphData(res.data));
+    // Fetch data
+    const res = await axios.post(
+      'https://pid-tuner-condig.herokuapp.com/api/model',
+      system
+    );
 
+    // Save data
+    setGraphData(res.data);
+
+    // Stop loading animation
     setLoading.off();
   }, [setLoading, system]);
 
@@ -121,7 +128,7 @@ export const System = ({ system, updateSystem, ...rest }) => {
           title="Analytical Model"
           data={graphData}
           unique={true}
-          loading={loading}
+          isLoaded={!loading}
         />
       </StepBody>
     </Step>

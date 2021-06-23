@@ -1,11 +1,10 @@
 import React from 'react';
-import { merge } from 'lodash';
 import Gradient from 'javascript-color-gradient';
+import { merge } from 'lodash';
 
 // Chakra-UI components
-import { FormLabel } from '@chakra-ui/form-control';
-import { Box, VStack } from '@chakra-ui/layout';
 import { Skeleton } from '@chakra-ui/skeleton';
+import { Heading, VStack } from '@chakra-ui/layout';
 
 // Recharts components
 import {
@@ -16,8 +15,8 @@ import {
   Tooltip,
   ResponsiveContainer,
   ReferenceLine,
-  Brush,
   Legend,
+  Label,
 } from 'recharts';
 
 /**
@@ -56,42 +55,36 @@ function toGraphFormat(simulations, filter) {
   return newFormat;
 }
 
-export const Graph = ({
-  title,
-  data,
-  filter,
-  refLine,
-  unique,
-  loading,
-  brush,
-  ...rest
-}) => {
-  // If there is no return an empty box
-  if (!data.length) return <Box width="100%" height="300px" />;
+const cyan700 = '#0987A0';
+const purple500 = '#805AD5';
 
-  // Format the data if needed
-  if (!unique) data = toGraphFormat(data, filter);
+export const Graph = ({ title, data, filter, refLine, unique, ...rest }) => {
+  // Return a Skeleton if there is no data
+  if (!data.length) return <Skeleton width="100%" height="300px" />;
 
   // Grab all the dataKeys from 'data'
+  if (!unique) data = toGraphFormat(data, filter);
   const dataKeys = Object.keys(data[0]).filter(key => key !== 't');
 
   // Calculate colors
   const colorGradient = new Gradient();
-  colorGradient.setGradient('#0987A0', '#805AD5');
+  colorGradient.setGradient(cyan700, purple500);
   colorGradient.setMidpoint(dataKeys.length);
   const colors = colorGradient.getArray();
 
   return (
-    <Skeleton width="100%" isLoaded={!loading}>
-      <VStack width="100%" height="300px" {...rest}>
-        <FormLabel>{title}</FormLabel>
-        <ResponsiveContainer width="100%" height="100%">
+    <Skeleton width="100%" height="300px" {...rest}>
+      <VStack width="100%" height="300px">
+        <Heading as="h4" fontSize="md">
+          {title}
+        </Heading>
+        <ResponsiveContainer width="100%">
           <LineChart data={data}>
             {unique ? (
               <defs>
                 <linearGradient id="color" x1="100%" x2="0%" y1="0%" y2="0%">
-                  <stop offset="0%" stopColor="#805AD5" />
-                  <stop offset="100%" stopColor="#0987A0" />
+                  <stop offset="0%" stopColor={purple500} />
+                  <stop offset="100%" stopColor={cyan700} />
                 </linearGradient>
               </defs>
             ) : (
@@ -101,8 +94,15 @@ export const Graph = ({
               </>
             )}
 
-            <XAxis dataKey="t" stroke="white" />
-            <YAxis stroke="white" />
+            <XAxis
+              dataKey="t"
+              type="number"
+              unit="s"
+              domain={[data[0].t, data[data.length - 1].t]}
+              stroke="white"
+            />
+            <YAxis type="number" stroke="white" />
+            <Label value={title} offset={0} position="insideTop" />
 
             {refLine && <ReferenceLine y={refLine} stroke="#4A5568" />}
 
@@ -112,6 +112,7 @@ export const Graph = ({
                 dataKey={dataKey}
                 type="monotone"
                 stroke={unique ? 'url(#color)' : colors[i]}
+                strokeOpacity={1}
                 strokeWidth={3}
                 dot={false}
               />

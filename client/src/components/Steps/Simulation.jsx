@@ -72,16 +72,14 @@ export const Simulation = ({
           title="Control Variable"
           data={simulationGraphs}
           filter="y"
-          loading={loading}
+          isLoaded={!loading}
           refLine={simulationParams.target}
-          brush={true}
         />
         <Graph
           title="Control Signal"
           data={simulationGraphs}
           filter="u"
-          loading={loading}
-          brush={true}
+          isLoaded={!loading}
         />
 
         <Button
