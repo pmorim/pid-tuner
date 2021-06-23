@@ -17,6 +17,10 @@ import {
   ModalCloseButton,
   Button,
   Text,
+  UnorderedList,
+  ListItem,
+  Heading,
+  VStack,
 } from '@chakra-ui/react';
 import {
   Box,
@@ -100,22 +104,23 @@ function App() {
     setLoading.on();
 
     // Reset
-    const newSimulations = [];
-    const newSimulationErrors = [];
+    let newSimulations = [];
+    let newSimulationErrors = [];
 
     // Execute them one by one
     for (const control of state.controls) {
       for (const method of state.methods) {
-        try {
-          const res = await axios.post(
-            'https://pid-tuner-condig.herokuapp.com/api/control',
-            { ...state, control, method }
-          );
+        // Fetch data from API
+        const res = await axios.post(
+          'https://pid-tuner-condig.herokuapp.com/api/control',
+          { ...state, control, method }
+        );
 
-          newSimulations.push(res.data);
-        } catch (e) {
-          newSimulationErrors.push(e.message);
-        }
+        // If it's an error
+        if (Object.keys(res.data).includes('errors'))
+          newSimulationErrors = newSimulationErrors.concat(res.data.errors);
+        // If it's not an error
+        else newSimulations.push(res.data);
       }
     }
 
@@ -165,15 +170,33 @@ function App() {
       </Box>
       <Footer />
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal
+        isOpen={isOpen}
+        onClose={onClose}
+        motionPreset="slideInBottom"
+        scrollBehavior="inside"
+        size="xl"
+        isCentered
+      >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Simulation Errors</ModalHeader>
+          <ModalHeader>
+            <VStack>
+              <Heading fontSize="2xl">Simulation Errors</Heading>
+              <Text fontSize="lg">
+                The bellow errors happened during the simulation. the
+                simulations that they affect were not executed.
+              </Text>
+            </VStack>
+          </ModalHeader>
           <ModalCloseButton />
+
           <ModalBody>
-            {simulationErrors.map((error, i) => (
-              <Text key={i}>{error}</Text>
-            ))}
+            <UnorderedList>
+              {simulationErrors.map((error, i) => (
+                <ListItem key={i}>{error}</ListItem>
+              ))}
+            </UnorderedList>
           </ModalBody>
 
           <ModalFooter>
