@@ -14,7 +14,7 @@ import { ExternalLinkIcon } from '@chakra-ui/icons';
 
 export const Footer = ({ ...rest }) => {
   return (
-    <Box width="100%" bgColor="gray.900" py="25px" {...rest}>
+    <Box width="100%" py="25px" {...rest}>
       <Container maxW="container.xl">
         <VStack spacing="20px">
           <Heading size="md">Proudly created by</Heading>
