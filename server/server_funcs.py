@@ -14,8 +14,25 @@ def model_func(sys_model):
   k = float(sys_model["k"])
   tau = float(sys_model["tau"])
   tauD = float(sys_model["tauD"])
-  t_max = float(5*tau + tauD)
-  res = float(sys_model.get("res") or t_max/200)
+  t_max = float(8*tau + tauD)
+  res_eq = float(sys_model.get("res") or t_max/200)
+
+  best_dif = [5, 0]
+  for i in range(-3, 3):
+    dif1 = abs(res_eq - 1*10**i), 1*10**i
+    dif2 = abs(res_eq - 2*10**i), 2*10**i 
+    dif3 = abs(res_eq - 2.5*10**i), 2.5*10**i
+    dif4 = abs(res_eq - 5*10**i), 5*10**i 
+    dif = min(dif1, dif2, dif3, dif4)
+
+    if dif[0] < best_dif[0]:
+      best_dif = dif
+      
+  res = best_dif[1]
+
+  print(f"{res = }")
+  print(f"{res_eq = }")
+
   a = float(sys_model.get("a") or 1)
   y0 = float(sys_model.get("y0") or 0)
   
@@ -25,9 +42,9 @@ def model_func(sys_model):
   for t in range(size):
     y = k*a*(1-np.e**(-(t-tauD)/tau))
     if y < 0:
-        model_graf.append({"t": t*res, "y": 0 + y0})
+      model_graf.append({"t": t*res, "y": 0 + y0})
     else:
-        model_graf.append({"t": t*res, "y": y + y0})
+      model_graf.append({"t": t*res, "y": y + y0})
 
   return model_graf
 """
@@ -245,8 +262,25 @@ def simulate(data, params):
   k = float(data["system"]["k"])
   tau = float(data["system"]["tau"])
   tauD = float(data["system"]["tauD"])
-  t_max = float(5*tau + tauD)
-  res = float(data["system"].get("res") or t_max/200)
+  t_max = float(8*tau + tauD)
+  res_eq = float(data["system"].get("res") or t_max/200)
+
+  best_dif = [5, 0]
+  for i in range(-3, 3):
+    dif1 = abs(res_eq - 1*10**i), 1*10**i
+    dif2 = abs(res_eq - 2*10**i), 2*10**i 
+    dif3 = abs(res_eq - 2.5*10**i), 2.5*10**i
+    dif4 = abs(res_eq - 5*10**i), 5*10**i 
+    dif = min(dif1, dif2, dif3, dif4)
+
+    if dif[0] < best_dif[0]:
+      best_dif = dif
+      
+  res = best_dif[1]
+
+  print(f"{res = }")
+  print(f"{res_eq = }")
+  
   start = float(data["simulation"]["start"])
   target = float(data["simulation"]["target"])
   mean = float(data["simulation"]["mean"])
@@ -295,38 +329,39 @@ def simulate(data, params):
   P, I, D = 0, 0, 0
   
   graph = {"points":[]}
+  dp = 3 #decimal places
   
   for i in range(0, size):
     
     if i*T <= tauD: # Atraso
         u = 0
         temp = 0
-    else:
-        e = setpoint[i] - temp
-            
-        P = Kp * e
-        D = float((Kd / T) * (e - e_ant))
-        v = P + I + D
+
+    e = setpoint[i] - temp
         
-        # saturate u
-        u = np.clip(v, 0.0, 100.0)
-        I += float(Ki * T * e + Ka * T * (u - v))
+    P = Kp * e
+    D = float((Kd / T) * (e - e_ant))
+    v = P + I + D
+
+    # saturate u
+    u = np.clip(v, 0.0, 100.0)
     
+    I += float(Ki * T * e + Ka * T * (u - v))
+    
+    e_ant = e
+        
+    if i*T > tauD:
         y = odeint(process, temp, [0, T], args=(u, k, tau))
         noise = float(np.random.normal(loc=mean, scale=sd))
         temp = float(y[-1]) + noise
-        
-        e_ant = e
 
-    graph["points"].append({"t": i*T,
-                            "u": u,
-                            "u_p": P,
-                            "u_i": I,
-                            "u_d": D,
-                            "y": temp + start})
+    graph["points"].append({"t": round(i*T, dp),
+                            "u": round(u,dp),
+                            "u_p": round(P,dp),
+                            "u_i": round(I,dp),
+                            "u_d": round(D,dp),
+                            "y": round(temp + start,dp) })
 
-  dp = 3 #decimal places
-  
   gains = {"gains": {
             "Kp": round(Kp, dp) if Kp != None else None,
             "Ti": round(Ti, dp) if Ti != None else None,
