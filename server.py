@@ -1,7 +1,7 @@
 # Flask
 from flask import Flask, jsonify
 from flask import request
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 # Eventlet server
 import eventlet
@@ -26,6 +26,7 @@ CORS(app)
 
 
 @app.route('/api/model', methods = ["POST"])
+@cross_origin()
 def model():
   """Receives the data about the system's model
 
@@ -44,6 +45,7 @@ def model():
 
 
 @app.route('/api/control', methods = ["POST"])
+@cross_origin()
 def control():
   """[summary]
 
