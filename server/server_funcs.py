@@ -17,6 +17,7 @@ def model_func(sys_model):
   t_max = float(8*tau + tauD)
   res_eq = float(sys_model.get("res") or t_max/200)
 
+  # Find best resolution
   best_dif = [5, 0]
   for i in range(-3, 3):
     dif1 = abs(res_eq - 1*10**i), 1*10**i
@@ -265,6 +266,7 @@ def simulate(data, params):
   t_max = float(8*tau + tauD)
   res_eq = float(data["system"].get("res") or t_max/200)
 
+  # Find best resolution
   best_dif = [5, 0]
   for i in range(-3, 3):
     dif1 = abs(res_eq - 1*10**i), 1*10**i
