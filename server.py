@@ -26,7 +26,6 @@ CORS(app)
 
 
 @app.route('/api/model', methods = ["POST"])
-@cross_origin()
 def model():
   """Receives the data about the system's model
 
@@ -45,7 +44,6 @@ def model():
 
 
 @app.route('/api/control', methods = ["POST"])
-@cross_origin()
 def control():
   """[summary]
 
@@ -83,7 +81,8 @@ def control():
 
   except Exception as e:
     print(f"\n\tControl didn't work \n {str(e)}\n")
-    return str(e), 406
+    #return str(e), 406
+    return { "errors": [(str(e))] }
 
 if __name__ == "__main__":
   app.run(host='localhost', port=os.environ.get('PORT'))
