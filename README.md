@@ -1,4 +1,4 @@
-# PID Tuner [![Netlify Status](https://api.netlify.com/api/v1/badges/5c00b705-8183-4a2a-9e15-ee96d5d26473/deploy-status)](https://pid-tuner.netlify.app/) [![Heroku](https://heroku-badge.herokuapp.com/?app=pid-tuner-condig)](https://pid-tuner-condig.herokuapp.com/)
+# PID Tuner [![Netlify Status](https://api.netlify.com/api/v1/badges/5c00b705-8183-4a2a-9e15-ee96d5d26473/deploy-status)](https://pid-tuner.netlify.app/) [![Heroku](https://pyheroku-badge.herokuapp.com/?app=pid-tuner-condig)](https://pid-tuner-condig.herokuapp.com/)
 
 > The best way to tune your PIDs.
 
