@@ -111,7 +111,7 @@ Receives:
     "meta": {
       "control": "PI",
       "tuning": "IMC Moderate",
-      "antiWindup": true
+      "antiWindup": false
     },
     "gains": {
       "Kp": 10,
