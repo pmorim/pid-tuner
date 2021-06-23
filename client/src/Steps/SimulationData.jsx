@@ -77,7 +77,12 @@ export const SimulationData = ({ simulations, loading, ...rest }) => {
           variant="outline"
           leftIcon={<DownloadIcon />}
           href={`data:text/json;charset=utf-8,${encodeURIComponent(
-            JSON.stringify(simulations)
+            JSON.stringify(
+              simulations.map(simulation => ({
+                meta: simulation.meta,
+                gains: simulation.gains,
+              }))
+            )
           )}`}
           download="pid-tuner.json"
         >
