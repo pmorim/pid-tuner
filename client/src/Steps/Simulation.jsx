@@ -1,14 +1,14 @@
 import React from 'react';
 
 // Custom components
-import { Step, StepBody, StepDesc, StepTitle } from '../Step';
-import { NumberInput, NumberInputGroup } from '../Inputs';
+import { Step, StepBody, StepDesc, StepTitle } from '../components/Step';
+import { NumberInput, NumberInputGroup } from '../components/Inputs';
+import { Graph } from '../components/Graph';
 
 // Chakra-UI components
-import { Center, Text } from '@chakra-ui/layout';
+import { Text } from '@chakra-ui/layout';
 import { Button } from '@chakra-ui/button';
 import { GiGears } from 'react-icons/gi';
-import { Skeleton } from '@chakra-ui/skeleton';
 
 export const Simulation = ({
   simulationParams,
@@ -68,17 +68,19 @@ export const Simulation = ({
       </StepDesc>
 
       <StepBody>
-        <Skeleton width="100%" isLoaded={!loading}>
-          <Center width="100%" height="300px" bgColor="gray.700">
-            Control Variable
-          </Center>
-        </Skeleton>
-
-        <Skeleton width="100%" isLoaded={!loading}>
-          <Center width="100%" height="300px" bgColor="gray.700">
-            Control Signal
-          </Center>
-        </Skeleton>
+        <Graph
+          title="Control Variable"
+          data={simulationGraphs}
+          filter="y"
+          isLoaded={!loading}
+          refLine={simulationParams.target}
+        />
+        <Graph
+          title="Control Signal"
+          data={simulationGraphs}
+          filter="u"
+          isLoaded={!loading}
+        />
 
         <Button
           size="lg"

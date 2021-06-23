@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Custom components
-import { Step, StepBody, StepDesc, StepTitle } from '../Step';
+import { Step, StepBody, StepDesc, StepTitle } from '../components/Step';
 
 // Chakra-UI components
 import { DownloadIcon } from '@chakra-ui/icons';
@@ -77,7 +77,12 @@ export const SimulationData = ({ simulations, loading, ...rest }) => {
           variant="outline"
           leftIcon={<DownloadIcon />}
           href={`data:text/json;charset=utf-8,${encodeURIComponent(
-            JSON.stringify(simulations)
+            JSON.stringify(
+              simulations.map(simulation => ({
+                meta: simulation.meta,
+                gains: simulation.gains,
+              }))
+            )
           )}`}
           download="pid-tuner.json"
         >

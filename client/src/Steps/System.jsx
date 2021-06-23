@@ -3,47 +3,32 @@ import MathJax from 'react-mathjax-preview';
 import axios from 'axios';
 
 // Custom components
-import { Step, StepBody, StepDesc, StepTitle } from '../Step';
-import { SliderInput, SliderInputGroup } from '../Inputs';
-
-// Recharts components
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from 'recharts';
+import { Step, StepBody, StepDesc, StepTitle } from '../components/Step';
+import { SliderInput, SliderInputGroup } from '../components/Inputs';
+import { Graph } from '../components/Graph';
 
 // Chakra-UI components
-import { FormLabel } from '@chakra-ui/form-control';
-import { Box, Text } from '@chakra-ui/layout';
-import { data } from './data/GraphTest';
-import { Skeleton } from '@chakra-ui/skeleton';
+import { Text } from '@chakra-ui/layout';
 import { useBoolean } from '@chakra-ui/react';
 
 export const System = ({ system, updateSystem, ...rest }) => {
   const [graphData, setGraphData] = useState([]);
-  const [graphError, setGraphError] = useState(null);
   const [loading, setLoading] = useBoolean();
 
   const simulate = useCallback(async () => {
+    // Start loading animation
     setLoading.on();
 
-    try {
-      const res = await axios.post(
-        'https://pid-tuner-condig.herokuapp.com/api/model',
-        system
-      );
+    // Fetch data
+    const res = await axios.post(
+      'https://pid-tuner-condig.herokuapp.com/api/model',
+      system
+    );
 
-      setGraphData(res.data);
-      setGraphError(null);
-    } catch (err) {
-      setGraphData([]);
-      setGraphError(err);
-    }
+    // Save data
+    setGraphData(res.data);
 
+    // Stop loading animation
     setLoading.off();
   }, [setLoading, system]);
 
@@ -139,41 +124,12 @@ export const System = ({ system, updateSystem, ...rest }) => {
           />
         </SliderInputGroup>
 
-        <FormLabel>Analytical Model</FormLabel>
-        <Skeleton width="100%" isLoaded={!loading}>
-          <Box width="100%" height="300px">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart
-                width={500}
-                height={300}
-                data={data}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <defs>
-                  <linearGradient id="color" x1="100%" x2="0%" y1="0%" y2="0%">
-                    <stop offset="0%" stopColor="#7b5cd3" />
-                    <stop offset="100%" stopColor="#1185a4" />
-                  </linearGradient>
-                </defs>
-                <XAxis dataKey="x" stroke="white" />
-                <YAxis dataKey="y" stroke="white" />
-                <Tooltip />
-                <Line
-                  type="monotone"
-                  dataKey="y"
-                  stroke="url(#color)"
-                  strokeWidth={3}
-                  dot={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </Box>
-        </Skeleton>
+        <Graph
+          title="Analytical Model"
+          data={graphData}
+          unique={true}
+          isLoaded={!loading}
+        />
       </StepBody>
     </Step>
   );
