@@ -4,7 +4,7 @@
 
 This is a simple Web App that simulates the different PID tuning algorithms applied to your system. It allows you to visually compare the algorithms and pick the one that fits your project the best.
 
-![Page Screenshot](/img/full-page)
+![Page Screenshot](/img/full-page.png)
 
 ## Table of Contents
 
