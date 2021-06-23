@@ -111,6 +111,7 @@ export const Graph = ({ title, data, filter, refLine, unique, ...rest }) => {
             {dataKeys.map((dataKey, i) => (
               <Line
                 key={i}
+                type="monotone"
                 dataKey={dataKey}
                 stroke={unique ? 'url(#color)' : colors[i]}
                 strokeOpacity={1}
