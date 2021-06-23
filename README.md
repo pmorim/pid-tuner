@@ -4,43 +4,39 @@
 
 This is a simple Web App that simulates the different PID tuning algorithms applied to your system. It allows you to visually compare the algorithms and pick the one that fits your project the best.
 
-![App Screenshot](https://via.placeholder.com/468x300?text=Desktop+Screenshot)
-![App Screenshot](https://via.placeholder.com/468x300?text=Mobile+Screenshot)
-
+<img src="/img/desktop.png" alt="Desktop Screenshot" width="50%"/>
+<img src="/img/mobile.png" alt="Mobile Screenshot" width="50%"/>
 
 ## Table of Contents
 
-* [Live Demo](#live-demo)
-* [Features](#features)
-* [Teck Stack](#tech-stack)
-* [Other Options](#other-options)
-* [Authors](#authors)
-* [License](#license)
-
+- [Live Demo](#live-demo)
+- [Features](#features)
+- [Teck Stack](#tech-stack)
+- [Other Options](#other-options)
+- [Authors](#authors)
+- [License](#license)
 
 ## Live Demo
 
 We are currently hosting the client on [Netlify](https://www.netlify.com/) and the server on [Heroku]().
 
-* **Client:** https://pid-tuner.netlify.app/
-* **Server:** https://pid-tuner-condig.herokuapp.com/
+- **Client:** https://pid-tuner.netlify.app/
+- **Server:** https://pid-tuner-condig.herokuapp.com/
 
 ## Features
 
-* Support for mobile platforms
-* Simulate with your own system's model
-* Execute various simulations in parallel to visually compare them
-* Add Gaussian Noise to better simulate the real world
-* Download the simulation results
-
+- Support for mobile platforms
+- Simulate with your own system's model
+- Execute various simulations in parallel to visually compare them
+- Add Gaussian Noise to better simulate the real world
+- Download the simulation results
 
 ## Tech Stack
 
 We opted to go with a JavaScript frontend because it is, by far, the best tool in that department. Although, we prefered to create a Python backend because it is superior to JavaScript for Math and Simulations.
 
-* **Client:** React, Chakra-UI
-* **Server:** Flask, Numpy
-
+- **Client:** React, Chakra-UI
+- **Server:** Flask, Numpy
 
 ## Other Options
 
@@ -48,13 +44,11 @@ If, instead of making the API in Python, we created some functions in JavaScript
 
 Since we opted with a Python backend we cannot acess the user's system and can only simulate it. The ability to actually control the system in real-time would be a big addition to this project.
 
-
 ## Authors
 
 - [1180798 - Pedro Morim](https://www.github.com/pmorim)
 - [1180799 - Rui Sargo](https://github.com/RuiSargo)
 - [1180872 - Miguel Santos](https://github.com/MjcSantos)
-
 
 ## License
 
