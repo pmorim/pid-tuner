@@ -5,45 +5,22 @@ import axios from 'axios';
 // Custom components
 import { Step, StepBody, StepDesc, StepTitle } from '../Step';
 import { SliderInput, SliderInputGroup } from '../Inputs';
-import { Result } from '../Graph';
-
-// Recharts components
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from 'recharts';
+import { Graph } from '../Graph';
 
 // Chakra-UI components
-import { FormLabel } from '@chakra-ui/form-control';
-import { Box, Text } from '@chakra-ui/layout';
-import { data } from './data/GraphTest';
-import { Skeleton } from '@chakra-ui/skeleton';
+import { Text } from '@chakra-ui/layout';
 import { useBoolean } from '@chakra-ui/react';
 
 export const System = ({ system, updateSystem, ...rest }) => {
   const [graphData, setGraphData] = useState([]);
-  const [graphError, setGraphError] = useState(null);
   const [loading, setLoading] = useBoolean();
 
   const simulate = useCallback(async () => {
     setLoading.on();
 
-    try {
-      const res = await axios.post(
-        'https://pid-tuner-condig.herokuapp.com/api/model',
-        system
-      );
-
-      setGraphData(res.data);
-      setGraphError(null);
-    } catch (err) {
-      setGraphData([]);
-      setGraphError(err);
-    }
+    await axios
+      .post('https://pid-tuner-condig.herokuapp.com/api/model', system)
+      .then(res => setGraphData(res.data));
 
     setLoading.off();
   }, [setLoading, system]);
@@ -140,8 +117,12 @@ export const System = ({ system, updateSystem, ...rest }) => {
           />
         </SliderInputGroup>
 
-        <Result data={graphData}/>
-
+        <Graph
+          title="Analytical Model"
+          data={graphData}
+          unique={true}
+          loading={loading}
+        />
       </StepBody>
     </Step>
   );

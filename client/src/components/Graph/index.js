@@ -1,3 +1,1 @@
-export * from './Result';
-
-export * from './Control';
+export * from './Graph';

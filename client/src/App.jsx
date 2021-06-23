@@ -58,7 +58,7 @@ const initialState = {
   controls: new Set(['PI']),
   methods: new Set(['IMC Aggressive', 'IMC Moderate', 'IMC Conservative']),
   antiWindup: true,
-  simulation: { start: 22.5, target: 50, mean: 0, sd: 2 },
+  simulation: { start: 22.5, target: 50, mean: 0, sd: 0.1 },
 };
 
 // The State-Manager function
