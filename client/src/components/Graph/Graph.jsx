@@ -74,11 +74,11 @@ export const Graph = ({ title, data, filter, refLine, unique, ...rest }) => {
 
   return (
     <Skeleton width="100%" height="300px" {...rest}>
-      <VStack width="100%" height="300px">
+      <VStack height="100%">
         <Heading as="h4" fontSize="md">
           {title}
         </Heading>
-        <ResponsiveContainer width="100%">
+        <ResponsiveContainer>
           <LineChart data={data}>
             {unique ? (
               <defs>
@@ -110,7 +110,6 @@ export const Graph = ({ title, data, filter, refLine, unique, ...rest }) => {
               <Line
                 key={i}
                 dataKey={dataKey}
-                type="monotone"
                 stroke={unique ? 'url(#color)' : colors[i]}
                 strokeOpacity={1}
                 strokeWidth={3}
