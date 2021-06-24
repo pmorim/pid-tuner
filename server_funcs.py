@@ -14,6 +14,7 @@ def model_func(sys_model):
   k = float(sys_model["k"])
   tau = float(sys_model["tau"])
   tauD = float(sys_model["tauD"])
+
   # Find best max time
   t_max_eq = float(8*tau + tauD)
   best_dif = [101, 0]
@@ -30,7 +31,7 @@ def model_func(sys_model):
   t_max = best_dif[1]
 
   # Find best resolution
-  res_eq = float(sys_model["system"].get("res") or t_max/200)
+  res_eq = float(sys_model.get("res") or t_max/200)
   best_dif = [6, 0]
   for i in range(-3, 3):
     dif1 = abs(res_eq - 1*10**i), 1*10**i
