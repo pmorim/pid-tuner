@@ -1,7 +1,7 @@
 # Flask
 from flask import Flask, jsonify
 from flask import request
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 
 # Eventlet server
 import eventlet
