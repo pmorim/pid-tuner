@@ -44,13 +44,10 @@ def model_func(sys_model):
       
   res = best_dif[1]
 
-  print(f"{res = }")
-  print(f"{res_eq = }")
-
   a = float(sys_model.get("a") or 1)
   y0 = float(sys_model.get("y0") or 0)
   
-  size = int(t_max/res)
+  size = int(t_max/res)+1
 
   model_graf = []
   for t in range(size):
