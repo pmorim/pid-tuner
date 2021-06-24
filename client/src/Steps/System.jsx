@@ -66,7 +66,7 @@ export const System = ({ system, updateSystem, ...rest }) => {
         <SliderInputGroup label="System's Model parameters">
           <SliderInput
             label="K"
-            min={0}
+            min={0.1}
             max={20}
             step={0.1}
             value={system.k}
