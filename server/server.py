@@ -1,7 +1,7 @@
 # Flask
 from flask import Flask, jsonify
 from flask import request
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 # Eventlet server
 import eventlet
@@ -81,7 +81,8 @@ def control():
 
   except Exception as e:
     print(f"\n\tControl didn't work \n {str(e)}\n")
-    return str(e), 406
+    #return str(e), 406
+    return { "errors": [(str(e))] }
 
 if __name__ == "__main__":
   app.run(host='localhost', port=os.environ.get('PORT'))

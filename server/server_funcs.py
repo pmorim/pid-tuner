@@ -14,18 +14,30 @@ def model_func(sys_model):
   k = float(sys_model["k"])
   tau = float(sys_model["tau"])
   tauD = float(sys_model["tauD"])
-  t_max = float(8*tau + tauD)
-  res_eq = float(sys_model.get("res") or t_max/200)
+  # Find best max time
+  t_max_eq = float(8*tau + tauD)
+  best_dif = [101, 0]
+  for i in range(1, 21):
+    dif1 = abs(t_max_eq - i), i
+    dif2 = abs(t_max_eq - 5*i), 5*i
+    dif3 = abs(t_max_eq - 10*i), 10*i
+    dif4 = abs(t_max_eq - 50*i), 50*i
+    dif5 = abs(t_max_eq - 100*i), 100*i
+    dif = min(dif1, dif2, dif3, dif4, dif5)
+    if dif[0] < best_dif[0]:
+      best_dif = dif
+
+  t_max = best_dif[1]
 
   # Find best resolution
-  best_dif = [5, 0]
+  res_eq = float(sys_model["system"].get("res") or t_max/200)
+  best_dif = [6, 0]
   for i in range(-3, 3):
     dif1 = abs(res_eq - 1*10**i), 1*10**i
     dif2 = abs(res_eq - 2*10**i), 2*10**i 
     dif3 = abs(res_eq - 2.5*10**i), 2.5*10**i
     dif4 = abs(res_eq - 5*10**i), 5*10**i 
     dif = min(dif1, dif2, dif3, dif4)
-
     if dif[0] < best_dif[0]:
       best_dif = dif
       
@@ -248,7 +260,7 @@ def itae_func(data):
   ganhos = {"params": {"Kp": Kp, "Ti": Ti, "Td": Td}}
   return ganhos
   
-# Proces for Simulation
+# Process for Simulation
 def process(y,t,u,Kp,tau):
     dydt = (-y + (Kp * u))/tau
     return dydt
@@ -263,25 +275,35 @@ def simulate(data, params):
   k = float(data["system"]["k"])
   tau = float(data["system"]["tau"])
   tauD = float(data["system"]["tauD"])
-  t_max = float(8*tau + tauD)
-  res_eq = float(data["system"].get("res") or t_max/200)
+
+  # Find best max time
+  t_max_eq = float(8*tau + tauD)
+  best_dif = [101, 0]
+  for i in range(1, 21):
+    dif1 = abs(t_max_eq - i), i
+    dif2 = abs(t_max_eq - 5*i), 5*i
+    dif3 = abs(t_max_eq - 10*i), 10*i
+    dif4 = abs(t_max_eq - 50*i), 50*i
+    dif5 = abs(t_max_eq - 100*i), 100*i
+    dif = min(dif1, dif2, dif3, dif4, dif5)
+    if dif[0] < best_dif[0]:
+      best_dif = dif
+
+  t_max = best_dif[1]
 
   # Find best resolution
-  best_dif = [5, 0]
+  res_eq = float(data["system"].get("res") or t_max/200)
+  best_dif = [6, 0]
   for i in range(-3, 3):
     dif1 = abs(res_eq - 1*10**i), 1*10**i
     dif2 = abs(res_eq - 2*10**i), 2*10**i 
     dif3 = abs(res_eq - 2.5*10**i), 2.5*10**i
     dif4 = abs(res_eq - 5*10**i), 5*10**i 
     dif = min(dif1, dif2, dif3, dif4)
-
     if dif[0] < best_dif[0]:
       best_dif = dif
       
   res = best_dif[1]
-
-  print(f"{res = }")
-  print(f"{res_eq = }")
   
   start = float(data["simulation"]["start"])
   target = float(data["simulation"]["target"])
@@ -319,7 +341,7 @@ def simulate(data, params):
       Tt = None
       Ka = 0 
   
-  size = int((t_max/res))
+  size = int((t_max/res)+1)
   
   setpoint = np.full(size, target - start, dtype=float)
 
