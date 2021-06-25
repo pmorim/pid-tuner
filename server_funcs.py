@@ -53,12 +53,14 @@ def model_func(sys_model):
   model_graf = []
   for t in range(size):
     y = k*a*(1-np.e**(-(t-tauD)/tau))
-    if y < 0:
+    
+    if t < tauD:
       model_graf.append({"t": t*res, "y": round(0 + y0,dp)})
     else:
       model_graf.append({"t": t*res, "y": round(y + y0,dp)})
 
   return model_graf
+
 """
     Returns:
   {
@@ -159,7 +161,6 @@ def ziegler_nichols_func(data):
     Td = float(0.5 * tauD)
   else:
     raise Exception("Ziegler-Nichols tuning method doesn't support PD control! Only accepts P, PI and PID.")
-
 
   ganhos = {"params": {"Kp": Kp, "Ti": Ti, "Td": Td}}
   return ganhos
