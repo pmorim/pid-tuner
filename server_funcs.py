@@ -49,13 +49,14 @@ def model_func(sys_model):
   
   size = int(t_max/res)+1
 
+  dp = 3 # 3 decimal places
   model_graf = []
   for t in range(size):
     y = k*a*(1-np.e**(-(t-tauD)/tau))
     if y < 0:
-      model_graf.append({"t": t*res, "y": 0 + y0})
+      model_graf.append({"t": t*res, "y": round(0 + y0,dp)})
     else:
-      model_graf.append({"t": t*res, "y": y + y0})
+      model_graf.append({"t": t*res, "y": round(y + y0,dp)})
 
   return model_graf
 """
