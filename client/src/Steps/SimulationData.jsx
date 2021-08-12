@@ -81,7 +81,7 @@ export const SimulationData = ({ simulations, loading, ...rest }) => {
               simulations.map(simulation => ({
                 meta: simulation.meta,
                 gains: simulation.gains,
-              }))
+              })), null, 2
             )
           )}`}
           download="pid-tuner.json"
